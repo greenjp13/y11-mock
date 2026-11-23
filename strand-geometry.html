@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -188,9 +189,45 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'geometry';
 
+    const DFM_INFO = {
+      "261j": "Determine the number of sides of a polygon given a ratio between its interior and exterior angles.",
+      "442a": "Know that the angle at the centre is twice the angle at the circumference.",
+      "442d": "Know that opposite angles in a cyclic quadrilateral add to 180.",
+      "442c": "Know that the angle in a semicircle is 90 degrees.",
+      "442g": "Know that tangents which meet at the same point are equal in length (possibly involving other circle theorems).",
+      "442f": "Know that the angle between the tangent and a chord is equal to the angle in the alternate segment (alternate segment theorem / tangent-chord theorem).",
+      "292b": "Determine unknown lengths given two similar triangles with one vertex in common.",
+      "324a": "Determine the scale factor of area for two similar shapes given the scale factor of length.",
+      "324f": "Determine an unknown length of a solid, given the volume of two similar solids and one of their side lengths.",
+      "324b": "Determine the area of a shape, given the area of a similar shape and a length on each.",
+      "317b": "Understand and use the relationship between a chord and its perpendicular bisector.",
+      "317c": "Determine the length of a perpendicular bisector of a chord in a circle.",
+      "264e": "Use the bearing of one object from another to calculate the bearing of the opposite.",
+      "264f": "Calculate bearings using parallel lines and isosceles triangles.",
+      "280a": "Identify the order of rotational symmetry.",
+      "78b": "Identify lines of symmetry in 2D shapes.",
+      "443a": "Use the intersecting chord theorem to determine an unknown length.",
+      "261c": "Determine interior angles of a polygon where there is a relationship given between some angles.",
+      "442m": "Use the theorems: the angle at the centre is double the angle at the circumference and the angle between a radius and a tangent is 90, using a quadrilateral outside the circle.",
+      "261h": "Determine the number of sides of a regular polygon given the size of its exterior angles.",
+      "261i": "Determine the number of sides of a regular polygon given the size of its interior angles.",
+      "324h": "Determine the volume of a similar solid when the surface areas are given."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Regular Polygons via Exterior Angles (Paper 2)',
+        dfm: '261h, 261i',
         iDo: {
           q: 'Each exterior angle of a regular polygon is $18^\\circ$. Find the number of sides and the sum of its interior angles.',
           steps: [
@@ -206,6 +243,7 @@
       },
       {
         title: 'Pair 2: Similar Solids — Bridging Area and Volume (Paper 4)',
+        dfm: '324a, 324h',
         iDo: {
           q: 'Two similar cylinders have heights $6\\text{ cm}$ and $9\\text{ cm}$. The smaller cylinder has surface area $48\\text{ cm}^2$ and volume $80\\text{ cm}^3$. Find the surface area and volume of the larger cylinder.',
           steps: [
@@ -222,6 +260,7 @@
       },
       {
         title: 'Pair 3: Alternate Segment Theorem (Paper 2)',
+        dfm: '442f',
         iDo: {
           q: '$TA$ is a tangent to a circle at $A$. Points $B$ and $C$ lie on the circle (with $C$ in the alternate segment to $\\angle TAB$) such that $\\angle TAB = 58^\\circ$ and $\\angle ABC = 74^\\circ$. Find $\\angle ACB$ and $\\angle BAC$.',
           steps: [
@@ -237,6 +276,7 @@
       },
       {
         title: 'Pair 4: Bearings & Parallel North Lines (Paper 2)',
+        dfm: '264e',
         iDo: {
           q: 'The bearing of $B$ from $A$ is $065^\\circ$. Find the bearing of $A$ from $B$.',
           steps: [
@@ -259,6 +299,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Regular Polygons',
+        dfm: '261j',
         prompt: 'Each interior angle of a regular $n$-sided polygon is $5$ times the size of each exterior angle.<br>Calculate the value of $n$.',
         hint1: 'At any vertex of a polygon, $\\text{Interior angle} + \\text{Exterior angle} = 180^\\circ$.',
         hint2: 'Let the exterior angle be $x$, solve $5x + x = 180^\\circ$, then divide $360^\\circ$ by $x$.',
@@ -271,6 +312,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Circle Theorems (Centre & Cyclic Quad)',
+        dfm: '442a, 442d',
         prompt: '$A, B, C$ and $D$ lie on a circle, centre $O$, with $B$ on the major arc $AC$ and $D$ on the minor arc $AC$.<br>The acute angle $AOC = 124^\\circ$.<br>(a) Find angle $ABC$, giving a geometrical reason.<br>(b) Find angle $ADC$, giving a geometrical reason.',
         hint1: 'Compare the angle at the centre $O$ with the angle at the circumference $B$ subtended by the same minor arc $AC$.',
         hint2: 'Notice that $ABCD$ has all four vertices on the circumference of the circle.',
@@ -283,6 +325,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Semicircle & Tangents from External Point',
+        dfm: '442c, 442g',
         prompt: '$AB$ is a diameter of a circle, centre $O$. $TA$ and $TC$ are tangents to the circle from point $T$. Point $C$ lies on the circle such that $\\angle CAB = 32^\\circ$.<br>(a) Find $\\angle CBA$.<br>(b) Find $\\angle ATC$.',
         hint1: 'Because $AB$ is a diameter, $\\angle ACB = 90^\\circ$ (angle in a semicircle).',
         hint2: 'A tangent is perpendicular to the radius ($\\angle OAT = 90^\\circ$), so $\\angle TAC = 90^\\circ - 32^\\circ$, and $TA = TC$.',
@@ -295,6 +338,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Alternate Segment Theorem',
+        dfm: '442f',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>Line $PAQ$ is a tangent to the circle at $A$. Points $B$ and $C$ lie on the circle.<br>Given that $\\angle QAB = 67^\\circ$ and $\\angle PAC = 49^\\circ$, find:<br>(a) $\\angle ACB$, giving a reason.<br>(b) $\\angle ABC$<br>(c) $\\angle BAC$</div><svg width="170" height="135" viewBox="0 0 170 135" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><circle cx="85" cy="58" r="44" fill="none" stroke="#334155" stroke-width="1.8"/><line x1="15" y1="102" x2="155" y2="102" stroke="#e11d48" stroke-width="1.8"/><polygon points="85,102 125,40 48,34" fill="none" stroke="#4f46e5" stroke-width="1.8"/><text x="12" y="114" font-size="9" font-weight="bold">P</text><text x="82" y="114" font-size="9" font-weight="bold">A</text><text x="148" y="114" font-size="9" font-weight="bold">Q</text><text x="129" y="42" font-size="9" font-weight="bold">B</text><text x="37" y="34" font-size="9" font-weight="bold">C</text><text x="99" y="98" font-size="8.5" fill="#be123c">67°</text><text x="53" y="98" font-size="8.5" fill="#be123c">49°</text></svg></div>',
         hint1: 'Use the Alternate Segment Theorem on both sides of the point of contact $A$.',
         hint2: 'Angles on a straight line $PAQ$ add up to $180^\\circ$.',
@@ -307,6 +351,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Similar Triangles & Trapezium Area',
+        dfm: '292b, 324a',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>In $\\triangle ADE$, $BC$ is parallel to $DE$. $AB = 4\\text{ cm}$, $BD = 6\\text{ cm}$, and $BC = 5\\text{ cm}$.<br>(a) Calculate the length of $DE$.<br>(b) The area of $\\triangle ABC$ is $12\\text{ cm}^2$. Calculate the area of trapezium $BCED$.</div><svg width="175" height="130" viewBox="0 0 175 130" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="85,14 25,112 145,112" fill="none" stroke="#334155" stroke-width="1.8"/><line x1="61" y1="53" x2="109" y2="53" stroke="#4f46e5" stroke-width="1.8"/><text x="82" y="11" font-size="9" font-weight="bold">A</text><text x="48" y="54" font-size="9" font-weight="bold">B</text><text x="113" y="54" font-size="9" font-weight="bold">C</text><text x="13" y="116" font-size="9" font-weight="bold">D</text><text x="148" y="116" font-size="9" font-weight="bold">E</text><text x="56" y="34" font-size="8.5" fill="#4f46e5">4 cm</text><text x="31" y="86" font-size="8.5" fill="#334155">6 cm</text><text x="75" y="49" font-size="8.5" fill="#4f46e5">5 cm</text></svg></div>',
         hint1: 'Notice that the full side $AD = 4 + 6 = 10\\text{ cm}$, so the length scale factor from $\\triangle ABC$ to $\\triangle ADE$ is $\\frac{10}{4} = 2.5$.',
         hint2: 'Square the length scale factor for $\\text{Area}(\\triangle ADE)$, then subtract $\\text{Area}(\\triangle ABC)$.',
@@ -319,6 +364,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Similarity — Volume to Area',
+        dfm: '324f, 324b',
         prompt: 'Two mathematically similar bottles have capacities $250\\text{ ml}$ and $2000\\text{ ml}$.<br>(a) The height of the smaller bottle is $14\\text{ cm}$. Calculate the height of the larger bottle.<br>(b) The label on the larger bottle has an area of $180\\text{ cm}^2$. Calculate the area of the label on the smaller bottle.',
         hint1: 'Simplify the volume ratio $250 : 2000$ first, then take the cube root to get the length ratio.',
         hint2: 'Square the length ratio to find the area ratio.',
@@ -331,6 +377,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Chord Symmetry & Pythagoras',
+        dfm: '317b, 317c',
         prompt: 'A circle has centre $O$ and radius $13\\text{ cm}$. $AB$ is a chord of length $24\\text{ cm}$, and $M$ is the midpoint of $AB$.<br>(a) Write down the size of $\\angle OMA$, giving a geometrical reason.<br>(b) Calculate the perpendicular distance $OM$ from the centre $O$ to the chord $AB$.',
         hint1: 'The line joining the centre of a circle to the midpoint of a chord is perpendicular to the chord.',
         hint2: 'Use Pythagoras in right-angled $\\triangle OMA$ with $OA = 13\\text{ cm}$ and $AM = 12\\text{ cm}$.',
@@ -343,6 +390,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Bearings & Isosceles Triangles',
+        dfm: '264e, 264f',
         prompt: 'The bearing of town $Y$ from town $X$ is $142^\\circ$. Town $Z$ is due east of town $X$, and $XY = XZ$.<br>(a) Find the bearing of $X$ from $Y$.<br>(b) Find the bearing of $Z$ from $Y$.',
         hint1: 'Due east means a bearing of $090^\\circ$, so $\\angle YXZ = 142^\\circ - 90^\\circ = 52^\\circ$.',
         hint2: 'Use $XY = XZ$ to find $\\angle XYZ$, then turn clockwise from the direction $YX$ ($322^\\circ$).',
@@ -355,6 +403,7 @@
         tier: 'Extended',
         marks: 3,
         topic: '2D & 3D Symmetry',
+        dfm: '280a, 78b',
         prompt: '(a) Write down the order of rotational symmetry of a rhombus.<br>(b) Write down the number of lines of symmetry of a regular octagon.<br>(c) A cuboid has dimensions $5\\text{ cm}$ by $5\\text{ cm}$ by $12\\text{ cm}$. Write down its number of planes of symmetry.',
         hint1: 'A square-based cuboid has the symmetries of its square cross-section PLUS one slice across its length.',
         hint2: 'A square has $4$ lines of symmetry; add $1$ horizontal plane halfway along the $12\\text{ cm}$ height.',
@@ -367,6 +416,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Similar Triangles in a Circle',
+        dfm: '443a',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>Chords $AB$ and $CD$ of a circle intersect inside the circle at $X$.<br>(a) Give two geometrical reasons why $\\triangle AXC$ is similar to $\\triangle DXB$.<br>(b) Given that $AX = 6\\text{ cm}$, $XB = 4\\text{ cm}$ and $CX = 3\\text{ cm}$, calculate the length of $XD$.</div><svg width="155" height="120" viewBox="0 0 155 120" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><circle cx="77" cy="60" r="46" fill="none" stroke="#334155" stroke-width="1.6"/><line x1="42" y1="30" x2="120" y2="76" stroke="#4f46e5" stroke-width="1.6"/><line x1="46" y1="94" x2="95" y2="18" stroke="#059669" stroke-width="1.6"/><line x1="42" y1="30" x2="46" y2="94" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/><line x1="120" y1="76" x2="95" y2="18" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/><circle cx="75" cy="49" r="2.3" fill="#0f172a"/><text x="31" y="29" font-size="9" font-weight="bold">A</text><text x="122" y="81" font-size="9" font-weight="bold">B</text><text x="35" y="99" font-size="9" font-weight="bold">C</text><text x="97" y="15" font-size="9" font-weight="bold">D</text><text x="77" y="45" font-size="8.5" font-weight="bold">X</text></svg></div>',
         hint1: 'Look at the angles at $X$ and the angles subtended by the same arc $BC$ (or $AD$).',
         hint2: 'Match corresponding sides carefully: $AX$ corresponds to $DX$, and $CX$ corresponds to $BX$.',
@@ -379,6 +429,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Algebraic Polygons',
+        dfm: '261c',
         prompt: 'Each interior angle of a regular polygon with $2n$ sides is $15^\\circ$ greater than each interior angle of a regular polygon with $n$ sides.<br>Find the value of $n$.',
         hint1: 'If the interior angle increases by $15^\\circ$, then the exterior angle must decrease by $15^\\circ$.',
         hint2: 'Set up the equation $\\dfrac{360}{n} - \\dfrac{360}{2n} = 15$ and solve for $n$.',
@@ -391,6 +442,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Algebraic Circle Theorems',
+        dfm: '442m',
         prompt: '$A, B$ and $C$ lie on a circle, centre $O$, with $B$ on the major arc $AC$.<br>$TA$ and $TC$ are tangents to the circle at $A$ and $C$.<br>Given that $\\angle ATC = x^\\circ$, find an expression in terms of $x$ for $\\angle ABC$.',
         hint1: 'Use the angle sum of quadrilateral $OATC$ ($360^\\circ$) to find $\\angle AOC$ in terms of $x$.',
         hint2: 'Then use the angle at the centre theorem to find $\\angle ABC$.',
@@ -456,7 +508,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -581,7 +633,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -614,7 +666,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

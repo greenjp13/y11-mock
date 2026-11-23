@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -222,9 +223,46 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'trigonometry';
 
+    const DFM_INFO = {
+      "412b": "Calculate the value of an expression using exact trigonometric ratios.",
+      "503a": "Solve a trigonometric equation given in the form \\sin x = k, \\cos x = k or \\tan x = k where x is in degrees.",
+      "466a": "Use the cosine rule/Law of Cosines to determine unknown sides in non right-angled triangles.",
+      "412d": "Determine a length by using an exact trigonometric ratio combined with Pythagoras or further trigonometry.",
+      "465c": "Use the sine rule/Law of Sines to determine obtuse angles in non right-angled triangles.",
+      "264e": "Use the bearing of one object from another to calculate the bearing of the opposite.",
+      "469b": "Use the cosine rule/Law of Cosines to determine a distance in a bearing problem.",
+      "469c": "Use the sine rule/Law of Sines to determine a bearing.",
+      "466c": "Use the cosine rule/Law of Cosines to determine unknown angles in non right-angled triangles.",
+      "467a": "Calculate the area of a triangle using two lengths and the included angle.",
+      "288a": "Use Pythagoras&#039; theorem to calculate the hypotenuse of a right-angled triangle.",
+      "411b": "Calculate the angle between a sloped edge and the base of a pyramid.",
+      "411l": "Determine the angle between a sloped face and the base of a pyramid.",
+      "321f": "Use trigonometry twice to determine side lengths on triangles with a shared side.",
+      "321h": "Determine lengths involving angles of depression or elevation.",
+      "465a": "Use the sine rule/Law of Sines to determine unknown sides in non right-angled triangles.",
+      "322e": "Use trigonometry to determine angles of elevation and depression.",
+      "466h": "Use the cosine rule/Law of Cosines on algebraic sides to determine the value of a variable.",
+      "466e": "Use the sine and/or cosine rule to determine a length in adjoined triangles.",
+      "466f": "Use the sine and/or cosine rule to determine an angle in adjoined triangles.",
+      "412c": "Calculate a length in a single right-angled triangle using exact trigonometric ratios.",
+      "410a": "Calculate the length of a space diagonal of a cuboid using Pythagoras&#039; theorem.",
+      "411a": "Calculate the angle between a line and a plane in a cuboid."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Exact Trigonometric Values in Surd Form (Paper 2)',
+        dfm: '412c',
         iDo: {
           q: 'In right-angled $\\triangle ABC$, $\\angle B = 90^\\circ$, $\\angle A = 60^\\circ$, and $AC = 10\\text{ cm}$. Find the exact lengths of $AB$ and $BC$ in simplest surd form.',
           steps: [
@@ -240,6 +278,7 @@
       },
       {
         title: 'Pair 2: Cosine Rule for an Unknown Side & Angle (Paper 4)',
+        dfm: '466a, 466c',
         iDo: {
           q: 'In $\\triangle ABC$, $AB = 8\\text{ cm}$, $AC = 11\\text{ cm}$ and $\\angle BAC = 64^\\circ$. Calculate the length of $BC$ to 3 s.f.',
           steps: [
@@ -256,6 +295,7 @@
       },
       {
         title: 'Pair 3: Ambiguous Case of the Sine Rule (Paper 4)',
+        dfm: '465c',
         iDo: {
           q: 'In $\\triangle PQR$, $PQ = 9\\text{ cm}$, $PR = 6\\text{ cm}$ and $\\angle PQR = 35^\\circ$. Given that $\\angle PRQ$ is <strong>obtuse</strong>, calculate $\\angle PRQ$ to 1 d.p.',
           steps: [
@@ -272,6 +312,7 @@
       },
       {
         title: 'Pair 4: 3D Trigonometry in a Cuboid (Paper 4)',
+        dfm: '410a, 411a',
         iDo: {
           q: 'A cuboid $ABCDEFGH$ has base $ABCD$ with $AB = 8\\text{ cm}$, $BC = 6\\text{ cm}$, and vertical height $CG = 5\\text{ cm}$. Calculate the angle that the space diagonal $AG$ makes with the horizontal base $ABCD$ to 1 d.p.',
           steps: [
@@ -295,6 +336,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Exact Trigonometric Values',
+        dfm: '412b',
         prompt: 'Without using a calculator, find the exact value of:<br>(a) $\\sin 30^\\circ + \\cos^2 45^\\circ$<br>(b) $\\dfrac{\\tan 60^\\circ}{\\cos 30^\\circ}$',
         hint1: 'Recall $\\sin 30^\\circ = \\frac{1}{2}$, $\\cos 45^\\circ = \\frac{\\sqrt{2}}{2}$, $\\tan 60^\\circ = \\sqrt{3}$, and $\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$.',
         hint2: 'Note that $\\cos^2 45^\\circ$ means $(\\cos 45^\\circ)^2 = \\left(\\frac{\\sqrt{2}}{2}\\right)^2 = \\frac{2}{4} = \\frac{1}{2}$.',
@@ -307,6 +349,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Solving Trigonometric Equations (E6.4)',
+        dfm: '503a',
         prompt: 'Solve the following equations for $0^\\circ \\le x \\le 360^\\circ$ without using a calculator:<br>(a) $2\\cos x + 1 = 0$<br>(b) $\\tan x = \\sqrt{3}$',
         hint1: 'In (a), rearrange to $\\cos x = -\\frac{1}{2}$. Since cosine is negative, look in the 2nd and 3rd quadrants.',
         hint2: 'In (b), $\\tan 60^\\circ = \\sqrt{3}$ and the period of $\\tan x$ is $180^\\circ$.',
@@ -319,6 +362,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Exact Cosine Rule (Non-Calc)',
+        dfm: '466a, 412d',
         prompt: 'In $\\triangle ABC$, $AB = 5\\text{ cm}$, $AC = 8\\text{ cm}$ and $\\angle BAC = 60^\\circ$.<br>Show that $BC = 7\\text{ cm}$.',
         hint1: 'Apply the Cosine Rule $BC^2 = AB^2 + AC^2 - 2(AB)(AC)\\cos 60^\\circ$.',
         hint2: 'Substitute $\\cos 60^\\circ = \\frac{1}{2}$ and evaluate $BC^2$ before taking the square root.',
@@ -331,6 +375,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Sine Rule & Obtuse Angle (Ambiguous Case)',
+        dfm: '465c',
         prompt: 'In $\\triangle ABC$, $AB = 14\\text{ cm}$, $AC = 9\\text{ cm}$ and $\\angle ABC = 36^\\circ$.<br>(a) Given that $\\angle ACB$ is obtuse, calculate $\\angle ACB$ correct to 1 decimal place.<br>(b) Hence calculate the length of $BC$ correct to 3 significant figures.',
         hint1: 'Use the Sine Rule to find $\\sin C$, then subtract the acute calculator angle from $180^\\circ$ because $\\angle ACB$ is obtuse.',
         hint2: 'Find $\\angle BAC = 180^\\circ - 36^\\circ - \\angle ACB$, then apply the Sine Rule again for $BC$.',
@@ -343,6 +388,7 @@
         tier: 'Extended',
         marks: 6,
         topic: 'Bearings with Cosine & Sine Rules',
+        dfm: '264e, 469b, 469c',
         prompt: 'A ship sails $18\\text{ km}$ from port $P$ to port $Q$ on a bearing of $055^\\circ$. It then sails $24\\text{ km}$ from port $Q$ to port $R$ on a bearing of $140^\\circ$.<br>(a) Show that $\\angle PQR = 95^\\circ$.<br>(b) Calculate the direct distance $PR$ to 3 s.f.<br>(c) Calculate the bearing of $R$ from $P$ to the nearest degree.',
         hint1: 'At $Q$, the co-interior angle from North to $QP$ is $180^\\circ - 55^\\circ = 125^\\circ$. Use angles around point $Q$ ($360^\\circ$).',
         hint2: 'Use the Cosine Rule for $PR$, then Sine Rule to find $\\angle QPR$, and add it to $055^\\circ$.',
@@ -355,6 +401,7 @@
         tier: 'Extended',
         marks: 6,
         topic: 'Cosine Rule, Area & Shortest Distance',
+        dfm: '466c, 467a',
         prompt: 'In $\\triangle XYZ$, $XY = 9\\text{ cm}$, $YZ = 12\\text{ cm}$ and $XZ = 16\\text{ cm}$.<br>(a) Calculate $\\angle XYZ$ correct to 1 decimal place.<br>(b) Calculate the area of $\\triangle XYZ$ correct to 3 significant figures.<br>(c) Calculate the shortest distance from $Y$ to the line $XZ$ correct to 3 significant figures.',
         hint1: 'Use the Cosine Rule for $\\angle XYZ$ (opposite side $16\\text{ cm}$), then $\\text{Area} = \\frac{1}{2}(9)(12)\\sin(\\angle XYZ)$.',
         hint2: 'The shortest distance from $Y$ to $XZ$ is the perpendicular height $h$, where $\\text{Area} = \\frac{1}{2} \\times 16 \\times h$.',
@@ -367,6 +414,7 @@
         tier: 'Extended',
         marks: 6,
         topic: '3D Trigonometry: Square-Based Pyramid',
+        dfm: '288a, 411b, 411l',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$VABCD$ is a right pyramid with a square base $ABCD$ of side $10\\text{ cm}$. The vertex $V$ is vertically above the centre $M$ of the base, and the vertical height $VM = 12\\text{ cm}$.<br>(a) Calculate the length of the base diagonal $AC$ to 3 s.f.<br>(b) Calculate the angle between the sloping edge $VA$ and the base $ABCD$ to 1 d.p.<br>(c) Calculate the angle between the triangular face $VBC$ and the base $ABCD$ to 1 d.p.</div><svg width="150" height="130" viewBox="0 0 150 130" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,105 95,105 130,82 55,82" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/><line x1="75" y1="18" x2="20" y2="105" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="95" y2="105" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="130" y2="82" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="55" y2="82" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/><line x1="75" y1="18" x2="75" y2="93" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="3,2"/><text x="72" y="13" font-size="9" font-weight="bold">V</text><text x="10" y="112" font-size="9" font-weight="bold">A</text><text x="97" y="113" font-size="9" font-weight="bold">B</text><text x="132" y="84" font-size="9" font-weight="bold">C</text><text x="45" y="80" font-size="9" font-weight="bold">D</text><text x="64" y="96" font-size="8.5" font-weight="bold" fill="#4f46e5">M</text></svg></div>',
         hint1: 'In (b), use right-angled $\\triangle VMA$ where $AM = \\frac{1}{2}AC$.',
         hint2: 'In (c), the angle between face $VBC$ and the base uses the midpoint $N$ of $BC$, where $MN = 5\\text{ cm}$.',
@@ -379,6 +427,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Two Connected Right-Angled Triangles',
+        dfm: '321f, 321h',
         prompt: 'From the top of a vertical cliff $80\\text{ m}$ high, the angle of depression of boat $A$ is $34^\\circ$ and the angle of depression of boat $B$ (directly behind boat $A$) is $21^\\circ$.<br>Calculate the distance $AB$ between the two boats correct to 3 significant figures.',
         hint1: 'Angle of depression from the cliff top equals the angle of elevation from each boat (alternate angles).',
         hint2: 'Find the horizontal distance of each boat from the foot of the cliff using $\\tan$, then subtract.',
@@ -391,6 +440,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Exact Sine Rule (Non-Calc)',
+        dfm: '465a, 412d',
         prompt: 'In $\\triangle ABC$, $\\angle A = 45^\\circ$, $\\angle B = 60^\\circ$ and $BC = 6\\text{ cm}$.<br>Find the exact length of $AC$ in the form $a\\sqrt{b}$, where $a$ and $b$ are integers.',
         hint1: 'Set up the Sine Rule $\\dfrac{AC}{\\sin 60^\\circ} = \\dfrac{6}{\\sin 45^\\circ}$.',
         hint2: 'Substitute $\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}$ and $\\sin 45^\\circ = \\frac{\\sqrt{2}}{2}$, then rationalise the denominator.',
@@ -403,6 +453,7 @@
         tier: 'A*',
         marks: 6,
         topic: '3D Trigonometry: Non-Right-Angled Base',
+        dfm: '466a, 467a, 322e',
         prompt: 'A vertical mast $CT$ of height $15\\text{ m}$ stands at corner $C$ of a horizontal triangular field $ABC$.<br>In the horizontal field, $AC = 22\\text{ m}$, $BC = 28\\text{ m}$ and $\\angle ACB = 110^\\circ$.<br>(a) Calculate the distance $AB$ to 3 s.f.<br>(b) Point $D$ lies on $AB$ such that $CD$ is perpendicular to $AB$. Calculate the angle of elevation of the top of the mast $T$ from $D$ to 1 d.p.',
         hint1: 'Use the Cosine Rule in horizontal $\\triangle ABC$ for $AB$, then use area $\\frac{1}{2}(22)(28)\\sin 110^\\circ = \\frac{1}{2}(AB)(CD)$ to find $CD$.',
         hint2: 'Once you have $CD$, use $\\tan(\\angle TDC) = \\dfrac{15}{CD}$ in vertical right-angled $\\triangle TCD$.',
@@ -415,6 +466,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Algebraic Cosine Rule with 120°',
+        dfm: '466h',
         prompt: 'In $\\triangle PQR$, $PQ = (x + 1)\\text{ cm}$, $PR = (x - 1)\\text{ cm}$, $QR = 7\\text{ cm}$ and $\\angle QPR = 120^\\circ$.<br>Given that $\\cos 120^\\circ = -\\dfrac{1}{2}$, form an equation in $x$ and solve it to find the value of $x$.',
         hint1: 'Substitute $a = 7$, $b = x + 1$, $c = x - 1$, and $\\cos 120^\\circ = -\\frac{1}{2}$ into $a^2 = b^2 + c^2 - 2bc\\cos A$.',
         hint2: 'Notice that $-2(x+1)(x-1)\\left(-\\frac{1}{2}\\right)$ simplifies cleanly to $+(x^2 - 1)$.',
@@ -427,6 +479,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Quadrilateral Split into Two Triangles',
+        dfm: '466e, 466f',
         prompt: 'In quadrilateral $ABCD$, $AB = 7.4\\text{ cm}$, $BC = 9.2\\text{ cm}$, $AD = 11.5\\text{ cm}$, $\\angle ABC = 104^\\circ$ and $\\angle ACD = 42^\\circ$.<br>(a) Calculate the length of the diagonal $AC$ to 3 s.f.<br>(b) Calculate the acute angle $ADC$ to 1 d.p.',
         hint1: 'Find diagonal $AC$ first in $\\triangle ABC$ using the Cosine Rule.',
         hint2: 'Carry the unrounded value of $AC$ into $\\triangle ACD$ and use the Sine Rule to find $\\angle ADC$.',
@@ -492,7 +545,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -617,7 +670,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -650,7 +703,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -180,9 +181,45 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'algebra';
 
+    const DFM_INFO = {
+      "391d": "Change the subject of a formula where the subject appears twice on a fraction.",
+      "389f": "Subtract algebraic fractions with algebraic linear denominators.",
+      "387f": "Simplify algebraic fractions where factorisation of a non-monic quadratic expression on the numerator or denominator is required.",
+      "413a": "Complete the square for quadratic expressions given in the form x^2 + bx + c where b is even.",
+      "416a": "Determine the minimum point of a quadratic graph when given in completed square form.",
+      "417b": "Solve a quadratic equation using the quadratic formula to get numeric solutions.",
+      "456g": "Determine the linear inequalities represented by a region on a graph.",
+      "419b": "Solve non-linear simultaneous equations/systems of equations where y is the subject of both equations, to give a quadratic equation to be solved.",
+      "386f": "Determine and then use the formula connecting two variables which are inversely proportional, possibly involving powers/roots.",
+      "436b": "Determine the inverse function for a linear expression.",
+      "435c": "Determine the algebraic output of a composite function where at least one function is quadratic.",
+      "564g": "Determine the range of a quadratic function by completing the square.",
+      "369f": "Determine the nth term formula of a quadratic sequence in the form an^2+c",
+      "512b": "Differentiate a collection of terms with integer exponents.",
+      "517b": "Determine the stationary points of a cubic function.",
+      "459d": "Calculate an acceleration from a speed-time graph using gradient.",
+      "459h": "Calculate the total distance from a speed-time graph.",
+      "435a": "Calculate the numeric output of a composite function.",
+      "358d": "Solve equations by transforming to the same base, leading to a linear equation.",
+      "462d": "Solve an equation of the form \\frac{a}{bx+c} \\pm \\frac{d}{ex+f} = g",
+      "369h": "Determine the nth term formula of a quadratic sequence in the form an^2+bn+c",
+      "517a": "Determine the stationary point of a quadratic function using differentiation."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Rearranging When Subject Appears Twice (Paper 2)',
+        dfm: '391d',
         iDo: {
           q: 'Make $t$ the subject of $a = \\dfrac{2t + 5}{t - 1}$.',
           steps: [
@@ -199,6 +236,7 @@
       },
       {
         title: 'Pair 2: Quadratic Sequences — Finding the nth Term (Paper 2)',
+        dfm: '369h',
         iDo: {
           q: 'Find the $n$th term of the sequence $4, 11, 22, 37, 56, \\dots$',
           steps: [
@@ -215,6 +253,7 @@
       },
       {
         title: 'Pair 3: Simultaneous Equations — Linear & Quadratic (Paper 4)',
+        dfm: '419b',
         iDo: {
           q: 'Solve $y = x + 2$ and $x^2 + y^2 = 10$.',
           steps: [
@@ -231,6 +270,7 @@
       },
       {
         title: 'Pair 4: Differentiation & Stationary Points (Paper 4)',
+        dfm: '517a, 517b',
         iDo: {
           q: 'Find the coordinates of the turning point of $y = 2x^2 - 12x + 7$ using differentiation.',
           steps: [
@@ -254,6 +294,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Rearranging Formulae',
+        dfm: '391d',
         prompt: 'Make $x$ the subject of the formula $y = \\dfrac{3x + 2}{x - 5}$.',
         hint1: 'Multiply both sides by $(x - 5)$ to remove the fraction, then expand the bracket.',
         hint2: 'Group all terms containing $x$ on one side and factorise $x$ out.',
@@ -266,6 +307,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Algebraic Fractions',
+        dfm: '389f',
         prompt: 'Write $\\dfrac{3}{x - 2} - \\dfrac{2}{x + 1}$ as a single fraction in its simplest form.',
         hint1: 'Use the common denominator $(x - 2)(x + 1)$.',
         hint2: 'Watch the negative sign when expanding $-2(x - 2)$: it becomes $-2x + 4$.',
@@ -278,6 +320,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Simplifying Algebraic Fractions',
+        dfm: '387f',
         prompt: 'Simplify fully $\\dfrac{2x^2 - 5x - 3}{x^2 - 9}$.',
         hint1: 'Factorise the numerator into two brackets and the denominator using the difference of two squares.',
         hint2: 'Look for a common bracket $(x - 3)$ that cancels from numerator and denominator.',
@@ -290,6 +333,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Completing the Square',
+        dfm: '413a, 416a',
         prompt: '(a) Write $x^2 - 6x + 13$ in the form $(x + a)^2 + b$.<br>(b) Hence write down the coordinates of the minimum point of the curve $y = x^2 - 6x + 13$.',
         hint1: 'Halve the coefficient of $x$ ($-6 \\div 2 = -3$) to get $(x - 3)^2$, then subtract $(-3)^2$.',
         hint2: 'For $(x + a)^2 + b$, the minimum occurs when the bracket is $0$, giving $(-a, b)$.',
@@ -302,6 +346,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Quadratic Formula',
+        dfm: '417b',
         prompt: 'Solve the equation $3x^2 - 7x - 5 = 0$. Show all your working and give your answers correct to 2 decimal places.',
         hint1: 'Identify $a = 3$, $b = -7$, $c = -5$ and substitute into $x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$.',
         hint2: 'Check the discriminant: $(-7)^2 - 4(3)(-5) = 49 + 60 = 109$.',
@@ -314,6 +359,7 @@
         tier: 'Extended',
         marks: 4,
         topic: '2D Linear Inequality Regions',
+        dfm: '456g',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>The shaded region $R$ on the coordinate grid is bounded by the lines $x = 1$, $y = 4$, and $y = x$.<br>Write down the <strong>three inequalities</strong> that define the shaded region $R$.</div><svg width="160" height="145" viewBox="0 0 160 145" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><line x1="20" y1="120" x2="150" y2="120" stroke="#94a3b8" stroke-width="1.2"/><line x1="30" y1="10" x2="30" y2="135" stroke="#94a3b8" stroke-width="1.2"/><polygon points="52,98 52,32 118,32" fill="#e0e7ff"/><line x1="52" y1="12" x2="52" y2="128" stroke="#334155" stroke-width="1.6"/><line x1="22" y1="32" x2="145" y2="32" stroke="#334155" stroke-width="1.6"/><line x1="30" y1="120" x2="140" y2="10" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="4,3"/><text x="66" y="54" font-size="11" font-weight="bold" fill="#3730a3">R</text><text x="48" y="138" font-size="8.5" fill="#334155">1</text><text x="115" y="138" font-size="8.5" fill="#334155">4</text><text x="18" y="35" font-size="8.5" fill="#334155">4</text><text x="128" y="24" font-size="8" font-weight="bold" fill="#4f46e5">y = x</text></svg></div>',
         hint1: 'Check whether each boundary line is solid ($\\le$ or $\\ge$) or dashed ($&lt;$ or $&gt;$).',
         hint2: 'Test a point inside $R$, such as $(2, 3)$, to confirm the direction of each inequality.',
@@ -326,6 +372,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Simultaneous Equations (Non-Linear)',
+        dfm: '419b',
         prompt: 'Solve the simultaneous equations:<br>$$y = 2x + 1$$<br>$$x^2 + y^2 = 13$$',
         hint1: 'Substitute $y = 2x + 1$ into $x^2 + y^2 = 13$ and expand $(2x + 1)^2$ carefully.',
         hint2: 'Collect terms to form $5x^2 + 4x - 12 = 0$, then factorise or use the quadratic formula.',
@@ -338,6 +385,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Inverse Proportion',
+        dfm: '386f',
         prompt: '$y$ is inversely proportional to $(x + 1)^2$. When $x = 2$, $y = 4$.<br>(a) Find $y$ in terms of $x$.<br>(b) Find the value of $y$ when $x = 5$.',
         hint1: 'Write $y = \\dfrac{k}{(x + 1)^2}$ and substitute $x = 2, y = 4$ to find $k$.',
         hint2: 'Remember to add $1$ before squaring: $(2 + 1)^2 = 9$.',
@@ -350,6 +398,7 @@
         tier: 'Extended',
         marks: 6,
         topic: 'Functions: Inverse, Composite & Range',
+        dfm: '436b, 435c, 564g',
         prompt: '$f(x) = 2x - 3$ and $g(x) = x^2 + 1$.<br>(a) Find $f^{-1}(x)$.<br>(b) Find $gf(x)$, giving your answer in its simplest expanded form.<br>(c) For the domain $-2 \\le x \\le 3$, find the range of $g(x)$.',
         hint1: 'For $f^{-1}(x)$, write $y = 2x - 3$, rearrange for $x$, then replace $y$ with $x$.',
         hint2: 'For (c), check the vertex $x = 0$ of $g(x) = x^2 + 1$ as well as the endpoints $x = -2$ and $x = 3$.',
@@ -362,6 +411,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Quadratic Sequences',
+        dfm: '369f',
         prompt: 'Find an expression, in terms of $n$, for the $n$th term of the sequence:<br>$$5, \\quad 11, \\quad 21, \\quad 35, \\quad 53, \\quad \\dots$$',
         hint1: 'Find the 1st differences ($6, 10, 14, 18$) and then the constant 2nd difference.',
         hint2: 'Half the 2nd difference gives the coefficient of $n^2$. Subtract that from the original sequence.',
@@ -374,6 +424,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Differentiation & Stationary Points',
+        dfm: '512b, 517b',
         prompt: 'A curve has equation $y = x^3 - 3x^2 - 9x + 5$.<br>(a) Find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$.<br>(b) Find the coordinates of the two stationary points of the curve.',
         hint1: 'Differentiate term by term, then set $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 0$ and divide through by $3$.',
         hint2: 'Substitute each $x$-value back into the original equation $y = x^3 - 3x^2 - 9x + 5$ to get the $y$-coordinates.',
@@ -386,6 +437,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Speed-Time Graphs',
+        dfm: '459d, 459h',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>A train accelerates uniformly from rest to $24\\text{ m/s}$ in $15\\text{ s}$. It travels at a constant speed of $24\\text{ m/s}$ for $40\\text{ s}$, and then decelerates uniformly to rest in $20\\text{ s}$.<br>(a) Calculate the acceleration of the train during the first $15\\text{ s}$.<br>(b) Calculate the total distance travelled by the train.</div><svg width="180" height="105" viewBox="0 0 180 105" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><line x1="26" y1="84" x2="172" y2="84" stroke="#64748b" stroke-width="1.2"/><line x1="26" y1="12" x2="26" y2="84" stroke="#64748b" stroke-width="1.2"/><polygon points="26,84 54,26 129,26 166,84" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.6"/><line x1="54" y1="26" x2="54" y2="84" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/><line x1="129" y1="26" x2="129" y2="84" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/><text x="10" y="29" font-size="8.5" font-weight="bold">24</text><text x="23" y="96" font-size="8">0</text><text x="48" y="96" font-size="8">15</text><text x="123" y="96" font-size="8">55</text><text x="160" y="96" font-size="8">75</text><text x="5" y="13" font-size="8" fill="#64748b">v</text><text x="171" y="95" font-size="8" fill="#64748b">t</text></svg></div>',
         hint1: 'Acceleration is the gradient of the speed-time graph: $\\dfrac{\\text{change in speed}}{\\text{time}}$.',
         hint2: 'Total distance is the area under the speed-time graph (a trapezium with parallel sides $40$ and $75$, height $24$).',
@@ -398,6 +450,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Exponential Functions & Equations',
+        dfm: '435a, 358d',
         prompt: 'Given that $f(x) = 3^x$ and $g(x) = 2x - 1$, solve the equation $fg(x) = \\dfrac{1}{27}$.',
         hint1: 'First write an expression for $fg(x)$ by replacing $x$ in $3^x$ with $2x - 1$.',
         hint2: 'Write $\\dfrac{1}{27}$ as a negative power of $3$, then equate the exponents.',
@@ -410,6 +463,7 @@
         tier: 'A*',
         marks: 5,
         topic: 'Algebraic Fractions to Quadratics',
+        dfm: '462d',
         prompt: 'Solve the equation $\\dfrac{5}{x} - \\dfrac{4}{x + 2} = 1$, giving your answers correct to 2 decimal places.',
         hint1: 'Multiply every term in the equation by $x(x + 2)$ to clear both denominators.',
         hint2: 'Rearrange into $x^2 + x - 10 = 0$ and apply the quadratic formula.',
@@ -475,7 +529,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -600,7 +654,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -633,7 +687,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

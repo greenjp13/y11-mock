@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -188,9 +189,37 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'coord-geo';
 
+    const DFM_INFO = {
+      "265b": "Find the midpoint of two points given as coordinates.",
+      "270i": "Determine the gradient of a line given two pairs of coordinates, where 1 or 2 coordinates are negative.",
+      "289a": "Use Pythagoras&#039; theorem to find the distance between two points.",
+      "274e": "Find an equation of a line parallel to another given in the form ax+by=c",
+      "445e": "Find an equation of a line perpendicular to another that passes through a given point.",
+      "445l": "Determine the equation of the perpendicular bisector of two points, or the diagonal of a kite given the other.",
+      "276k": "Solve linear simultaneous equations/systems of equations to determine the point of intersection of two lines.",
+      "268b": "Determine whether a point lies on a line given its equation in the form ax + by = c",
+      "495f": "Determine the area of a triangle enclosed by an axis and two intersecting lines.",
+      "270m": "Determine whether three points are collinear.",
+      "270n": "Determine the unknown x or y coordinate given three points which lie on a straight line.",
+      "445m": "Solve problems involving the intersection of perpendicular lines with the coordinate axes.",
+      "445f": "Find an equation of a line perpendicular to another that passes through a given point (rearrangement required).",
+      "265c": "Find a coordinate given another and their midpoint."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Midpoint, Gradient & Exact Length (Paper 2)',
+        dfm: '265b, 270i, 289a',
         iDo: {
           q: 'Find the midpoint, gradient, and exact length of the line segment joining $A(-3, 4)$ and $B(5, -2)$.',
           steps: [
@@ -207,6 +236,7 @@
       },
       {
         title: 'Pair 2: Equation of a Perpendicular Line (Paper 2)',
+        dfm: '445f',
         iDo: {
           q: 'Line $L_1$ has equation $2x + 3y = 12$. Find the equation of line $L_2$ perpendicular to $L_1$ passing through $(4, -1)$ in the form $y = mx + c$.',
           steps: [
@@ -223,6 +253,7 @@
       },
       {
         title: 'Pair 3: Perpendicular Bisector of a Line Segment (Paper 2)',
+        dfm: '445l',
         iDo: {
           q: 'Find the equation of the perpendicular bisector of $A(1, 2)$ and $B(5, 10)$ in the form $y = mx + c$.',
           steps: [
@@ -239,6 +270,7 @@
       },
       {
         title: 'Pair 4: Finding an Endpoint from a Known Midpoint (Paper 2)',
+        dfm: '265c',
         iDo: {
           q: '$M(3, -2)$ is the midpoint of $AB$. Given $A(-1, 4)$, find the coordinates of $B$.',
           steps: [
@@ -262,6 +294,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Midpoint, Gradient & Exact Surd Length',
+        dfm: '265b, 270i, 289a',
         prompt: 'The points $A(-1, 3)$ and $B(5, 7)$ lie on a coordinate grid.<br>(a) Find the coordinates of the midpoint of $AB$.<br>(b) Find the gradient of $AB$.<br>(c) Find the exact length of $AB$, giving your answer in the form $k\\sqrt{13}$.',
         hint1: 'Average the $x$-coordinates and $y$-coordinates for the midpoint; use $\\frac{y_2-y_1}{x_2-x_1}$ for the gradient.',
         hint2: 'For length, compute $\\sqrt{(5 - (-1))^2 + (7 - 3)^2} = \\sqrt{52}$, then simplify $\\sqrt{4 \\times 13}$.',
@@ -274,6 +307,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Parallel Lines in Integer Form',
+        dfm: '274e',
         prompt: 'Line $L$ passes through the point $(6, -2)$ and is parallel to the line $3x + 2y = 10$.<br>Find the equation of line $L$, giving your answer in the form $ax + by = c$, where $a, b$ and $c$ are integers.',
         hint1: 'Rearrange $3x + 2y = 10$ into $y = mx + c$ to find its gradient.',
         hint2: 'Parallel lines have identical left-hand sides $3x + 2y = c$; substitute $(6, -2)$ to find $c$.',
@@ -286,6 +320,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Perpendicular Lines & Axis Intercepts',
+        dfm: '445e',
         prompt: 'Line $L_1$ passes through $A(0, 6)$ and $B(4, 0)$. Line $L_2$ is perpendicular to $L_1$ and passes through $B(4, 0)$.<br>(a) Find the equation of $L_2$ in the form $y = mx + c$.<br>(b) Write down the coordinates of the point where $L_2$ crosses the $y$-axis.',
         hint1: 'Find $m_1$ from $A(0,6)$ and $B(4,0)$, then take the negative reciprocal $m_2 = -\\frac{1}{m_1}$.',
         hint2: 'Substitute $B(4,0)$ into $y = m_2 x + c$ to solve for $c$.',
@@ -298,6 +333,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Perpendicular Bisector',
+        dfm: '445l',
         prompt: 'Find the equation of the perpendicular bisector of the line segment joining $P(-3, 2)$ and $Q(5, 6)$.<br>Give your answer in the form $ax + by = c$, where $a, b$ and $c$ are integers.',
         hint1: 'Find the midpoint $M$ of $PQ$ and the gradient $m_{PQ}$.',
         hint2: 'Use $m_{\\perp} = -\\frac{1}{m_{PQ}}$ together with the midpoint $M$, then rearrange into $ax + by = c$.',
@@ -310,6 +346,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Intersection of Two Straight Lines',
+        dfm: '276k, 268b',
         prompt: 'Line $L_1$ has equation $y = 3x - 4$ and line $L_2$ has equation $2x + 5y = 14$.<br>(a) Find the coordinates of the point of intersection $P$ of $L_1$ and $L_2$.<br>(b) Show that $P$ also lies on the line $4x - y = 6$.',
         hint1: 'Substitute $y = 3x - 4$ directly into $2x + 5y = 14$.',
         hint2: 'For (b), plug your $(x, y)$ coordinates of $P$ into $4x - y$ and show it equals $6$.',
@@ -322,6 +359,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Unknown Coordinate from Segment Length',
+        dfm: '289a, 270i',
         prompt: 'The distance between $A(2, -1)$ and $B(k, 7)$ is $10$ units, where $k &gt; 0$.<br>(a) Find the value of $k$.<br>(b) Using your value of $k$, find the gradient of $AB$.',
         hint1: 'Set up the distance formula squared: $(k - 2)^2 + (7 - (-1))^2 = 10^2$.',
         hint2: 'Solve $(k - 2)^2 = 36$ taking both $+6$ and $-6$, then select $k &gt; 0$.',
@@ -334,6 +372,7 @@
         tier: 'Extended',
         marks: 6,
         topic: 'Synoptic Lines, Intersection & Triangle Area',
+        dfm: '445e, 495f',
         prompt: 'Line $L_1$ has equation $y = 2x + 3$. Line $L_2$ is perpendicular to $L_1$ and passes through $A(6, 5)$.<br>(a) Find the equation of $L_2$.<br>(b) $L_1$ and $L_2$ intersect at point $B$. Find the coordinates of $B$.<br>(c) $L_2$ crosses the $y$-axis at point $C$. Calculate the area of $\\triangle ABC$.',
         hint1: 'Since $L_1 \\perp L_2$, angle $ABC = 90^\\circ$, so $\\triangle ABC$ is a right-angled triangle at $B$!',
         hint2: 'Find exact lengths $AB$ and $BC$ using Pythagoras, then use $\\text{Area} = \\frac{1}{2} \\times AB \\times BC$.',
@@ -346,6 +385,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Quadrilateral Properties on a Grid',
+        dfm: '265b, 289a',
         prompt: '$A(1, 2)$, $B(5, 4)$ and $C(3, 8)$ are three vertices of a parallelogram $ABCD$.<br>(a) Find the coordinates of the midpoint $M$ of the diagonal $AC$.<br>(b) Hence find the coordinates of vertex $D$.<br>(c) Show by calculation that $ABCD$ is a rhombus.',
         hint1: 'The diagonals of a parallelogram bisect each other, so $M$ is also the midpoint of $BD$.',
         hint2: 'A parallelogram with two adjacent sides of equal length ($AB = BC$) is a rhombus.',
@@ -358,6 +398,7 @@
         tier: 'A*',
         marks: 5,
         topic: 'Collinear Points & Segment Ratios',
+        dfm: '270m, 270n',
         prompt: 'The points $A(-2, 1)$, $B(1, 7)$ and $C(k, 15)$ lie on the same straight line.<br>(a) Find the gradient of $AB$.<br>(b) Find the value of $k$.<br>(c) Write down the ratio $AB : BC$ in its simplest form.',
         hint1: 'Because $A, B, C$ are collinear, the gradient of $BC$ must equal the gradient of $AB$.',
         hint2: 'For $AB : BC$, compare the horizontal steps $(x_B - x_A) : (x_C - x_B)$ (or vertical steps).',
@@ -370,6 +411,7 @@
         tier: 'A*',
         marks: 6,
         topic: 'Perpendicular Bisector & Equidistant Locus',
+        dfm: '445l, 445m',
         prompt: 'The points $P(1, 5)$ and $Q(7, -3)$ lie on a coordinate grid.<br>(a) Find the equation of the perpendicular bisector of $PQ$ in the form $y = mx + c$.<br>(b) Point $R$ lies on the $x$-axis and is equidistant from $P$ and $Q$ ($PR = QR$). Find the exact coordinates of $R$.',
         hint1: 'Every point equidistant from $P$ and $Q$ lies on the perpendicular bisector of $PQ$.',
         hint2: 'Set $y = 0$ in your perpendicular bisector equation to find where it intersects the $x$-axis.',
@@ -435,7 +477,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -560,7 +602,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -593,7 +635,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

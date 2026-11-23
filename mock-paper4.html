@@ -12,6 +12,7 @@
   <style>
     body { font-family: Inter, system-ui, -apple-system, sans-serif; }
     .mark-btn[data-selected="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; font-weight: 700; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -138,11 +139,55 @@
       'transforms-vectors': { code: 'E7', name: 'Transformations & Vectors', url: 'strand-transforms-vectors.html' }
     };
 
+
+    const DFM_INFO = {
+      "359b": "Calculate a value after a compound percentage increase.",
+      "361c": "Determine the value before a compound percentage change.",
+      "384d": "Calculate a further bound for a given formula involving a division.",
+      "331d": "Convert between m/s and km/h.",
+      "462d": "Solve an equation of the form \\frac{a}{bx+c} \\pm \\frac{d}{ex+f} = g",
+      "564g": "Determine the range of a quadratic function by completing the square.",
+      "419b": "Solve non-linear simultaneous equations/systems of equations where y is the subject of both equations, to give a quadratic equation to be solved.",
+      "361a": "Determine time before a value reaches a given value given some known compound percentage change.",
+      "517b": "Determine the stationary points of a cubic function.",
+      "272i": "Determine the equation of a straight line in the form y=mx+c given two points.",
+      "445e": "Find an equation of a line perpendicular to another that passes through a given point.",
+      "269b": "Determine the x or y intercept of a straight line given an equation by substitution of 0.",
+      "324l": "Appreciate that scale factor of mass is the same as scale factor of volume where the material is the same.",
+      "324b": "Determine the area of a shape, given the area of a similar shape and a length on each.",
+      "442f": "Know that the angle between the tangent and a chord is equal to the angle in the alternate segment (alternate segment theorem / tangent-chord theorem).",
+      "442b": "Know that angles in the same segment are equal.",
+      "443a": "Use the intersecting chord theorem to determine an unknown length.",
+      "318b": "Calculate the perimeter of a sector of a circle.",
+      "467i": "Calculate the area of a segment of a circle, given the radius of the circle and the angle.",
+      "407c": "Calculate the volume of a frustum of a cone or pyramid.",
+      "408f": "Calculate the surface area of a frustum of a cone.",
+      "264e": "Use the bearing of one object from another to calculate the bearing of the opposite.",
+      "469b": "Use the cosine rule/Law of Cosines to determine a distance in a bearing problem.",
+      "410c": "Calculate the side length of a prism using Pythagoras&#039; theorem.",
+      "410e": "Calculate the length of a space diagonal of a prism.",
+      "411e": "Determine the angle between a line and a plane in a triangular prism using its lengths.",
+      "475a": "Determine a vector by equating coefficients for two different scalars/routes.",
+      "281b": "Rotate a shape by 90^{\\circ}, 180^{\\circ} or 270^{\\circ} on axes, about the origin, using tracing paper.",
+      "374b": "Translate a shape by any vector.",
+      "324a": "Determine the scale factor of area for two similar shapes given the scale factor of length."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
     const PAPER4_QUESTIONS = [
       {
         num: 1,
         strand: 'number',
         marks: 5,
+        dfm: '359b, 361c',
         prompt: '(a) Maya invests $\\$4500$ in an account paying $3.2\\%$ per year compound interest.<br>Calculate the total value of her investment after $5$ years, giving your answer correct to the nearest dollar.<br>(b) A car decreases in value by $14\\%$ each year. After $3$ years, its value is $\\$15\\,901.40$.<br>Calculate the original value of the car.',
         solution: '(a) $4500 \\times 1.032^5$ <strong>[M1]</strong> $= 5267.58\\dots \\approx \\$5268$ <strong>[A1]</strong>.<br>(b) Let original value be $P$: $P \\times (1 - 0.14)^3 = 15\\,901.40$ <strong>[M1]</strong><br>$P \\times 0.86^3 = 15\\,901.40 \\implies P = \\dfrac{15\\,901.40}{0.636056}$ <strong>[M1]</strong> $= \\$25\\,000$ <strong>[A1]</strong>.'
       },
@@ -150,6 +195,7 @@
         num: 2,
         strand: 'number',
         marks: 5,
+        dfm: '384d, 331d',
         prompt: 'A sprinter runs a distance $d = 240\\text{ m}$, measured to the nearest $5\\text{ m}$, in a time $t = 18.4\\text{ s}$, measured to the nearest $0.1\\text{ s}$.<br>(a) Calculate the upper bound of the sprinter’s average speed in $\\text{m/s}$, correct to 3 significant figures.<br>(b) Convert your answer to part (a) into $\\text{km/h}$, correct to 3 significant figures.',
         solution: '(a) $\\text{UB}(d) = 242.5\\text{ m}$ and $\\text{LB}(t) = 18.35\\text{ s}$ <strong>[B1]</strong>.<br>$\\text{UB}(v) = \\dfrac{242.5}{18.35}$ <strong>[M1]</strong> $= 13.21526\\dots \\approx 13.2\\text{ m/s}$ (3 s.f.) <strong>[A1]</strong>.<br>(b) $13.21526 \\times \\dfrac{3600}{1000}$ <strong>[M1]</strong> $= 47.57\\dots \\approx 47.6\\text{ km/h}$ (accept $47.5\\text{ km/h}$ from $13.2 \\times 3.6$) <strong>[A1]</strong>.'
       },
@@ -157,6 +203,7 @@
         num: 3,
         strand: 'algebra',
         marks: 6,
+        dfm: '462d',
         prompt: 'Solve the equation:<br>$$\\frac{4}{x - 1} + \\frac{3}{x + 2} = 2$$<br>Show all your working and give your answers correct to 2 decimal places.',
         solution: 'Clear denominators: $4(x + 2) + 3(x - 1) = 2(x - 1)(x + 2)$ <strong>[M1]</strong><br>$4x + 8 + 3x - 3 = 2(x^2 + x - 2) \\implies 7x + 5 = 2x^2 + 2x - 4$ <strong>[M1]</strong><br>$2x^2 - 5x - 9 = 0$ <strong>[A1]</strong>.<br>Quadratic formula: $x = \\dfrac{5 \\pm \\sqrt{(-5)^2 - 4(2)(-9)}}{2(2)} = \\dfrac{5 \\pm \\sqrt{97}}{4}$ <strong>[M1]</strong><br>$x = 3.71$ <strong>[A1]</strong> or $x = -1.21$ <strong>[A1]</strong>.'
       },
@@ -164,6 +211,7 @@
         num: 4,
         strand: 'algebra',
         marks: 5,
+        dfm: '564g, 419b',
         prompt: '(a) The function $f(x) = x^2 - 4x + 1$ is defined for the domain $0 \\le x \\le 5$.<br>Find the range of $f(x)$.<br>(b) Find the coordinates of the two points of intersection of the curve $y = x^2 - 3x + 1$ and the line $y = 2x - 5$.',
         solution: '(a) Complete the square (or use symmetry): $f(x) = (x - 2)^2 - 3$, so minimum occurs at $x = 2$ (inside $[0, 5]$) giving $f(2) = -3$ <strong>[M1, A1]</strong>.<br>Check endpoints: $f(0) = 1$, $f(5) = 25 - 20 + 1 = 6$.<br>Range: $-3 \\le f(x) \\le 6$ <strong>[A1]</strong>.<br>(b) $x^2 - 3x + 1 = 2x - 5 \\implies x^2 - 5x + 6 = 0 \\implies (x - 2)(x - 3) = 0$ <strong>[M1]</strong><br>When $x = 2, y = -1$; when $x = 3, y = 1 \\implies (2, -1)$ and $(3, 1)$ <strong>[A1]</strong>.'
       },
@@ -171,6 +219,7 @@
         num: 5,
         strand: 'algebra',
         marks: 6,
+        dfm: '359b, 361a, 517b',
         prompt: '(a) The population $P$ of a town $t$ years after the start of 2020 is modelled by $P = 24\\,000 \\times 1.045^t$.<br>(i) Calculate the predicted population at the start of 2026, correct to the nearest integer.<br>(ii) Find the first year in which the population at the start of the year exceeds $40\\,000$.<br>(b) A curve has equation $y = x^3 - 6x^2 + 5$. Use differentiation to find the coordinates of its local minimum turning point.',
         solution: '(a)(i) $t = 6$: $P = 24\\,000 \\times 1.045^6 = 31\\,254.24 \\approx 31\\,254$ <strong>[M1, A1]</strong>.<br>(a)(ii) Test $t = 11$: $24\\,000 \\times 1.045^{11} = 38\\,948$; test $t = 12$: $24\\,000 \\times 1.045^{12} = 40\\,701 > 40\\,000$ <strong>[M1]</strong>.<br>Year $= 2020 + 12 = 2032$ <strong>[A1]</strong>.<br>(b) $\\dfrac{dy}{dx} = 3x^2 - 12x = 0 \\implies 3x(x - 4) = 0 \\implies x = 0$ or $x = 4$ <strong>[M1]</strong>.<br>At $x = 4$, $\\dfrac{d^2y}{dx^2} = 12 > 0$ (minimum) and $y = 4^3 - 6(4^2) + 5 = -27 \\implies (4, -27)$ <strong>[A1]</strong>.'
       },
@@ -178,6 +227,7 @@
         num: 6,
         strand: 'coord-geo',
         marks: 5,
+        dfm: '272i, 445e, 269b',
         prompt: 'Line $L_1$ passes through $A(-2, 1)$ and $B(4, 10)$.<br>(a) Find the equation of $L_1$ in the form $y = mx + c$.<br>(b) Line $L_2$ is perpendicular to $L_1$ and passes through $B(4, 10)$. Line $L_2$ crosses the $x$-axis at point $C$. Find the coordinates of $C$.',
         solution: '(a) $m_1 = \\dfrac{10 - 1}{4 - (-2)} = \\dfrac{9}{6} = 1.5$ <strong>[M1]</strong>.<br>$1 = 1.5(-2) + c \\implies c = 4 \\implies y = 1.5x + 4$ <strong>[A1]</strong>.<br>(b) Perpendicular gradient $m_2 = -\\dfrac{2}{3}$ <strong>[B1]</strong>.<br>Equation of $L_2$: $y - 10 = -\\dfrac{2}{3}(x - 4)$ <strong>[M1]</strong>.<br>Set $y = 0$: $-10 = -\\dfrac{2}{3}(x - 4) \\implies 15 = x - 4 \\implies x = 19 \\implies C(19, 0)$ <strong>[A1]</strong>.'
       },
@@ -185,6 +235,7 @@
         num: 7,
         strand: 'geometry',
         marks: 5,
+        dfm: '324l, 324b',
         prompt: 'Two mathematically similar bronze statues have heights $15\\text{ cm}$ and $40\\text{ cm}$.<br>(a) The smaller statue has a mass of $2.7\\text{ kg}$. Calculate the mass of the larger statue.<br>(b) The larger statue requires $1.28\\text{ litres}$ of protective lacquer to coat its entire surface. Calculate the volume of lacquer, in millilitres ($\\text{ml}$), needed to coat the smaller statue.',
         solution: '(a) Length ratio $= 15 : 40 = 3 : 8$ <strong>[M1]</strong>.<br>Mass (volume) ratio $= 3^3 : 8^3 = 27 : 512$ <strong>[M1]</strong>.<br>Mass $= 2.7 \\times \\dfrac{512}{27} = 51.2\\text{ kg}$ <strong>[A1]</strong>.<br>(b) Surface area ratio $= 3^2 : 8^2 = 9 : 64$ <strong>[M1]</strong>.<br>Lacquer $= 1280\\text{ ml} \\times \\dfrac{9}{64} = 180\\text{ ml}$ <strong>[A1]</strong>.'
       },
@@ -192,6 +243,7 @@
         num: 8,
         strand: 'geometry',
         marks: 5,
+        dfm: '442f, 442b, 443a',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$A, B, C$ and $D$ lie on a circle in that order. Chords $AC$ and $BD$ intersect inside the circle at $X$. Line $AT$ is a tangent to the circle at $A$.<br>Given that $\\angle TAB = 62^\\circ$ and $\\angle DAC = 34^\\circ$:<br>(a)(i) Find $\\angle ACB$, giving a geometrical reason.<br>(a)(ii) Find $\\angle DBC$, giving a geometrical reason.<br>(b) Given also that $AX = 4.5\\text{ cm}$, $XC = 6.0\\text{ cm}$ and $DX = 3.6\\text{ cm}$, calculate the length of $BX$.</div><svg width="175" height="132" viewBox="0 0 175 132" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><circle cx="88" cy="59" r="44" fill="none" stroke="#334155" stroke-width="1.6"/><line x1="25" y1="103" x2="155" y2="103" stroke="#e11d48" stroke-width="1.8"/><line x1="88" y1="103" x2="125" y2="34" stroke="#4f46e5" stroke-width="1.5"/><line x1="125" y1="34" x2="57" y2="28" stroke="#4f46e5" stroke-width="1.5"/><line x1="88" y1="103" x2="46" y2="70" stroke="#4f46e5" stroke-width="1.5"/><line x1="88" y1="103" x2="57" y2="28" stroke="#059669" stroke-width="1.5"/><line x1="125" y1="34" x2="46" y2="70" stroke="#059669" stroke-width="1.5"/><circle cx="71" cy="59" r="2.3" fill="#0f172a"/><text x="85" y="116" font-size="9" font-weight="bold">A</text><text x="150" y="116" font-size="9" font-weight="bold">T</text><text x="129" y="34" font-size="9" font-weight="bold">B</text><text x="51" y="24" font-size="9" font-weight="bold">C</text><text x="35" y="73" font-size="9" font-weight="bold">D</text><text x="74" y="55" font-size="8.5" font-weight="bold">X</text><text x="103" y="98" font-size="8.5" font-weight="bold" fill="#be123c">62°</text><text x="64" y="84" font-size="8" font-weight="bold" fill="#4f46e5">34°</text></svg></div>',
         solution: '(a)(i) $\\angle ACB = 62^\\circ$ <strong>[B1]</strong>; Alternate segment theorem <strong>[B1]</strong>.<br>(a)(ii) $\\angle DBC = 34^\\circ$ (angles in the same segment subtended by arc $DC$) <strong>[B1]</strong>.<br>(b) $\\triangle AXB \\sim \\triangle DXC \\implies \\dfrac{BX}{6.0} = \\dfrac{4.5}{3.6}$ <strong>[M1]</strong> $\\implies BX = \\dfrac{27}{3.6} = 7.5\\text{ cm}$ <strong>[A1]</strong>.'
       },
@@ -199,6 +251,7 @@
         num: 9,
         strand: 'mensuration',
         marks: 6,
+        dfm: '318b, 467i',
         prompt: 'A circle has centre $O$ and radius $12\\text{ cm}$. Points $A$ and $B$ lie on the circle such that $\\angle AOB = 105^\\circ$.<br>(a) Calculate the perimeter of the minor sector $OAB$ correct to 3 significant figures.<br>(b) Calculate the area of the minor segment shaded between chord $AB$ and minor arc $AB$ correct to 3 significant figures.',
         solution: '(a) Arc length $AB = \\dfrac{105}{360} \\times 2\\pi(12) = 7\\pi = 21.991\\text{ cm}$ <strong>[M1]</strong>.<br>Perimeter $= 21.991 + 12 + 12 = 45.991\\dots$ <strong>[M1]</strong> $= 46.0\\text{ cm}$ (3 s.f.) <strong>[A1]</strong>.<br>(b) Sector area $= \\dfrac{105}{360} \\times \\pi(12^2) = 42\\pi = 131.947\\text{ cm}^2$ <strong>[M1]</strong>.<br>Triangle $OAB$ area $= \\dfrac{1}{2}(12)(12)\\sin 105^\\circ = 69.547\\text{ cm}^2$ <strong>[M1]</strong>.<br>Segment area $= 131.947 - 69.547 = 62.400\\dots \\approx 62.4\\text{ cm}^2$ (3 s.f.) <strong>[A1]</strong>.'
       },
@@ -206,6 +259,7 @@
         num: 10,
         strand: 'mensuration',
         marks: 6,
+        dfm: '407c, 408f',
         prompt: 'A solid frustum is made by removing a small cone of base radius $4\\text{ cm}$ and perpendicular height $6\\text{ cm}$ from the top of a large cone of base radius $10\\text{ cm}$ and perpendicular height $15\\text{ cm}$.<br>(a) Calculate the volume of the frustum correct to 3 significant figures.<br>(b) Calculate the total surface area of the solid frustum correct to 3 significant figures.',
         solution: '(a) $V = \\dfrac{1}{3}\\pi(10^2)(15) - \\dfrac{1}{3}\\pi(4^2)(6)$ <strong>[M1]</strong> $= 500\\pi - 32\\pi = 468\\pi$ <strong>[M1]</strong> $= 1470.265\\dots \\approx 1470\\text{ cm}^3$ (3 s.f.) <strong>[A1]</strong>.<br>(b) Large slant height $L = \\sqrt{10^2 + 15^2} = \\sqrt{325} = 18.028\\text{ cm}$; small slant height $l = \\sqrt{4^2 + 6^2} = \\sqrt{52} = 7.211\\text{ cm}$ <strong>[M1]</strong>.<br>Total SA $= \\pi(10)(18.028) - \\pi(4)(7.211) + \\pi(10^2) + \\pi(4^2)$ <strong>[M1]</strong><br>$= 566.36 - 90.62 + 314.16 + 50.27 = 840.17\\dots \\approx 840\\text{ cm}^2$ (3 s.f.) <strong>[A1]</strong>.'
       },
@@ -213,6 +267,7 @@
         num: 11,
         strand: 'trigonometry',
         marks: 6,
+        dfm: '264e, 469b',
         prompt: 'Port $B$ is $32\\text{ km}$ from port $A$ on a bearing of $068^\\circ$. Port $C$ is $45\\text{ km}$ from port $B$ on a bearing of $152^\\circ$.<br>(a) Show that $\\angle ABC = 96^\\circ$.<br>(b) Calculate the direct distance $AC$ correct to 3 significant figures.<br>(c) Calculate the shortest distance from port $B$ to the straight path $AC$ correct to 3 significant figures.',
         solution: '(a) Co-interior angle at $B = 180^\\circ - 68^\\circ = 112^\\circ$.<br>$\\angle ABC = 360^\\circ - 112^\\circ - 152^\\circ = 96^\\circ$ <strong>[B1]</strong>.<br>(b) $AC^2 = 32^2 + 45^2 - 2(32)(45)\\cos 96^\\circ$ <strong>[M1]</strong> $= 3049 - (-301.04) = 3350.04$ <strong>[M1]</strong><br>$AC = \\sqrt{3350.04} = 57.880\\dots \\approx 57.9\\text{ km}$ (3 s.f.) <strong>[A1]</strong>.<br>(c) $\\text{Area}(\\triangle ABC) = \\dfrac{1}{2}(32)(45)\\sin 96^\\circ = 716.06\\text{ km}^2$ <strong>[M1]</strong>.<br>$\\dfrac{1}{2}(57.880)h = 716.06 \\implies h = 24.743\\dots \\approx 24.7\\text{ km}$ (3 s.f.) <strong>[A1]</strong>.'
       },
@@ -220,6 +275,7 @@
         num: 12,
         strand: 'trigonometry',
         marks: 6,
+        dfm: '410c, 410e, 411e',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>A right triangular prism $ABCDEF$ has a horizontal rectangular base $ABCD$ with $AB = 14\\text{ cm}$ and $BC = 9\\text{ cm}$. The vertical rectangular back face $CDEF$ has height $CF = 6\\text{ cm}$.<br>(a) Calculate the length of the sloping edge $BF$ correct to 3 significant figures.<br>(b) Calculate the length of the space diagonal $AF$ correct to 3 significant figures.<br>(c) Calculate the angle that $AF$ makes with the horizontal base $ABCD$ correct to 1 decimal place.</div><svg width="190" height="120" viewBox="0 0 190 120" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="22,98 122,98 162,74 62,74" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/><polyline points="22,98 122,98 162,74" fill="none" stroke="#334155" stroke-width="1.7"/><polyline points="62,22 162,22 162,74" fill="none" stroke="#334155" stroke-width="1.7"/><line x1="62" y1="22" x2="62" y2="74" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="3,2"/><line x1="22" y1="98" x2="62" y2="22" stroke="#334155" stroke-width="1.7"/><line x1="122" y1="98" x2="162" y2="22" stroke="#334155" stroke-width="1.7"/><line x1="22" y1="98" x2="162" y2="74" stroke="#4f46e5" stroke-width="1.3" stroke-dasharray="3,2"/><line x1="22" y1="98" x2="162" y2="22" stroke="#e11d48" stroke-width="1.6" stroke-dasharray="4,2"/><text x="12" y="103" font-size="9" font-weight="bold">A</text><text x="124" y="106" font-size="9" font-weight="bold">B</text><text x="166" y="77" font-size="9" font-weight="bold">C</text><text x="51" y="73" font-size="9" font-weight="bold">D</text><text x="58" y="16" font-size="9" font-weight="bold">E</text><text x="165" y="21" font-size="9" font-weight="bold">F</text><text x="66" y="110" font-size="8.5" fill="#334155">14 cm</text><text x="144" y="94" font-size="8.5" fill="#334155">9 cm</text><text x="166" y="51" font-size="8.5" fill="#334155">6 cm</text></svg></div>',
         solution: '(a) $BF = \\sqrt{9^2 + 6^2} = \\sqrt{117} = 10.817\\dots \\approx 10.8\\text{ cm}$ (3 s.f.) <strong>[M1, A1]</strong>.<br>(b) $AF = \\sqrt{14^2 + 9^2 + 6^2} = \\sqrt{313} = 17.692\\dots \\approx 17.7\\text{ cm}$ (3 s.f.) <strong>[M1, A1]</strong>.<br>(c) Base diagonal $AC = \\sqrt{14^2 + 9^2} = \\sqrt{277} = 16.643\\text{ cm}$.<br>$\\tan(\\angle FAC) = \\dfrac{6}{16.643}$ <strong>[M1]</strong> $\\implies \\angle FAC = 19.8^\\circ$ (1 d.p.) <strong>[A1]</strong>.'
       },
@@ -227,6 +283,7 @@
         num: 13,
         strand: 'transforms-vectors',
         marks: 5,
+        dfm: '475a',
         prompt: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>$P$ is the midpoint of $OA$, and $Q$ lies on $OB$ such that $OQ : QB = 2 : 3$.<br>The line segments $AQ$ and $BP$ intersect at $X$.<br>Given that $\\vec{AX} = h\\vec{AQ}$ and $\\vec{BX} = k\\vec{BP}$, find the values of $h$ and $k$, and express $\\vec{OX}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
         solution: 'Route 1: $\\vec{OX} = \\mathbf{a} + h\\left(\\dfrac{2}{5}\\mathbf{b} - \\mathbf{a}\\right) = (1 - h)\\mathbf{a} + \\dfrac{2}{5}h\\mathbf{b}$ <strong>[M1]</strong>.<br>Route 2: $\\vec{OX} = \\mathbf{b} + k\\left(\\dfrac{1}{2}\\mathbf{a} - \\mathbf{b}\\right) = \\dfrac{1}{2}k\\mathbf{a} + (1 - k)\\mathbf{b}$ <strong>[M1]</strong>.<br>Equate coefficients: $1 - h = \\dfrac{1}{2}k \\implies k = 2 - 2h$, and $\\dfrac{2}{5}h = 1 - k$ <strong>[M1]</strong>.<br>$\\dfrac{2}{5}h = 1 - (2 - 2h) = 2h - 1 \\implies 2h = 10h - 5 \\implies h = \\dfrac{5}{8}$ <strong>[A1]</strong>.<br>$k = 2 - 2\\left(\\dfrac{5}{8}\\right) = \\dfrac{3}{4}$, $\\quad \\vec{OX} = \\dfrac{3}{8}\\mathbf{a} + \\dfrac{1}{4}\\mathbf{b}$ <strong>[A1]</strong>.'
       },
@@ -234,6 +291,7 @@
         num: 14,
         strand: 'transforms-vectors',
         marks: 4,
+        dfm: '281b, 374b, 324a',
         prompt: 'Triangle $T$ has vertices $(2, 1)$, $(6, 1)$ and $(2, 3)$.<br>(a) Triangle $T$ is rotated $90^\\circ$ clockwise about $(0, 0)$ to give triangle $T_1$, and then $T_1$ is translated by $\\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix}$ to give triangle $T_2$.<br>Find the coordinates of the three vertices of triangle $T_2$.<br>(b) Triangle $T$ is enlarged by scale factor $2.5$ with centre $(0, 1)$. Calculate the area of the enlarged triangle.',
         solution: '(a) Rotation $90^\\circ$ clockwise about $(0,0)$ maps $(x, y) \\to (y, -x)$: $(1, -2)$, $(1, -6)$, $(3, -2)$ <strong>[M1]</strong>.<br>Translate by $\\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix}$: <strong>$(0, 3)$, $(0, -1)$ and $(2, 3)$</strong> <strong>[A1]</strong>.<br>(b) Area of $T = \\dfrac{1}{2} \\times 4 \\times 2 = 4\\text{ units}^2$ <strong>[M1]</strong>.<br>Enlarged area $= 2.5^2 \\times 4 = 25\\text{ units}^2$ <strong>[A1]</strong>.'
       }
@@ -428,7 +486,7 @@
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex items-center gap-2">
                 <span class="font-mono text-xs font-bold text-white bg-slate-900 px-2.5 py-1 rounded">Q${q.num}</span>
-                ${!lockSchemes ? `<span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-semibold">${meta.code}: ${meta.name}</span>` : ''}
+                ${!lockSchemes ? `<span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-semibold">${meta.code}: ${meta.name}</span>` : ''}${!lockSchemes ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

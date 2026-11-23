@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -155,9 +156,48 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'number';
 
+    const DFM_INFO = {
+      "162a": "Determine the HCF of two numbers which are already prime factorised.",
+      "162b": "Determine the LCM of two numbers which are already prime factorised.",
+      "164b": "Know the properties of the prime factorisation of a square or cube number.",
+      "277d": "Convert from a recurring decimal to a fraction where some digits do not recur.",
+      "304g": "Divide numbers in standard form/scientific notation where the second power is negative.",
+      "303e": "Add or subtract small numbers in standard form/scientific notation by use of equivalent powers of 10.",
+      "337d": "Expand two brackets with surds, where simplification of surds is required.",
+      "393f": "Rationalise the denominator of a fraction given in the form \\frac{a+\\sqrt{b}}{c+\\sqrt{d}}, where simplification of a surd is required.",
+      "358d": "Solve equations by transforming to the same base, leading to a linear equation.",
+      "359b": "Calculate a value after a compound percentage increase.",
+      "361a": "Determine time before a value reaches a given value given some known compound percentage change.",
+      "361c": "Determine the value before a compound percentage change.",
+      "310b": "Calculate bounds of a number rounded to a given number of decimal places.",
+      "310c": "Calculate bounds of a number rounded to a given number of significant figures.",
+      "384f": "Calculate a further bound for a given formula involving multiple arithmetic operations.",
+      "464d": "Determine an amount given a change in a ratio where one part is changing.",
+      "242e": "Construct a Venn diagram with 2 sets given totals where the intersection is not given.",
+      "243h": "Determine the number of elements in a set given a Venn diagram of frequencies.",
+      "358c": "Use index laws and change of base to write as a single index.",
+      "393a": "Rationalise the denominator of a fraction given in the form \\frac{a}{b + \\sqrt{c}}",
+      "393c": "Rationalise the denominator of a fraction given in the form \\frac{a}{\\sqrt{b} + \\sqrt{c}} or \\frac{a\\sqrt{b}}{\\sqrt{c} + \\sqrt{d}}",
+      "394i": "Raise a fraction to the power of a negative fraction.",
+      "310a": "Calculate bounds of a number rounded to the nearest 1, 10, 100, 1000.",
+      "384d": "Calculate a further bound for a given formula involving a division.",
+      "223c": "Calculate the original value before a percentage decrease using decimal multipliers."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Rationalising a Binomial Surd Denominator (Paper 2)',
+        dfm: '393a, 393c',
         iDo: {
           q: 'Rationalise the denominator and simplify $\\dfrac{12}{3 - \\sqrt{3}}$.',
           steps: [
@@ -174,6 +214,7 @@
       },
       {
         title: 'Pair 2: Negative Fractional Indices (Paper 2)',
+        dfm: '394i',
         iDo: {
           q: 'Evaluate $\\left(\\dfrac{16}{81}\\right)^{-\\frac{3}{4}}$ as an exact fraction.',
           steps: [
@@ -190,6 +231,7 @@
       },
       {
         title: 'Pair 3: Upper & Lower Bounds in a Quotient (Paper 4)',
+        dfm: '310a, 384d',
         iDo: {
           q: 'Speed $v = \\dfrac{d}{t}$. $d = 240\\text{ m}$ (nearest $10\\text{ m}$) and $t = 12.4\\text{ s}$ (nearest $0.1\\text{ s}$). Find the upper bound of $v$ to 3 s.f.',
           steps: [
@@ -206,6 +248,7 @@
       },
       {
         title: 'Pair 4: Reverse Percentages & Compound Growth (Paper 4)',
+        dfm: '223c, 361c',
         iDo: {
           q: 'A car depreciates by $12\\%$ each year. After 1 year its value is $\\$15\\,840$. Find its original value.',
           steps: [
@@ -229,6 +272,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Prime Factorisation, HCF & LCM',
+        dfm: '162a, 162b, 164b',
         prompt: 'Written as products of their prime factors, $A = 2^3 \\times 3^2 \\times 5$ and $B = 2^2 \\times 3 \\times 5^2$.<br>(a) Find the highest common factor (HCF) of $A$ and $B$.<br>(b) Write the lowest common multiple (LCM) of $A$ and $B$ as a product of prime factors.<br>(c) Find the smallest positive integer $k$ such that $Ak$ is a square number.',
         hint1: 'For HCF take the lowest power of each shared prime; for LCM take the highest power.',
         hint2: 'For a number to be a square number, every prime factor must have an even exponent.',
@@ -241,6 +285,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Recurring Decimals to Fractions',
+        dfm: '277d',
         prompt: 'Use algebra to show that $0.4\\dot{7}\\dot{2} = \\dfrac{26}{55}$.',
         hint1: 'Let $x = 0.4727272\\dots$ and find $10x$ so the repeating block starts immediately after the decimal point.',
         hint2: 'Also find $1000x$ (since 2 digits repeat, multiply $10x$ by $100$) and subtract $1000x - 10x$.',
@@ -253,6 +298,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Standard Form (Non-Calc)',
+        dfm: '304g, 303e',
         prompt: 'Given that $p = 3.2 \\times 10^{-4}$ and $q = 8 \\times 10^{-6}$, calculate the following, giving each answer in standard form:<br>(a) $p \\div q$<br>(b) $p + q$',
         hint1: 'For division, divide the numbers ($3.2 \\div 8$) and subtract the powers of 10.',
         hint2: 'For addition, rewrite $q$ with $10^{-4}$ so both terms have the same power of 10.',
@@ -265,6 +311,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Expanding Surds',
+        dfm: '337d',
         prompt: 'Expand and simplify $(3 - \\sqrt{5})(2 + 3\\sqrt{5})$, giving your answer in the form $a + b\\sqrt{5}$ where $a$ and $b$ are integers.',
         hint1: 'Multiply out all four pairs (FOIL) carefully, remembering that $\\sqrt{5} \\times \\sqrt{5} = 5$.',
         hint2: 'Collect the integer terms and the $\\sqrt{5}$ terms separately.',
@@ -277,6 +324,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Rationalising Surds',
+        dfm: '393f',
         prompt: 'Express $\\dfrac{4 + \\sqrt{3}}{2 - \\sqrt{3}}$ in the form $a + b\\sqrt{3}$, where $a$ and $b$ are integers.',
         hint1: 'Multiply numerator and denominator by the conjugate of the denominator, $2 + \\sqrt{3}$.',
         hint2: 'Expand $(4 + \\sqrt{3})(2 + \\sqrt{3})$ on top and $(2 - \\sqrt{3})(2 + \\sqrt{3})$ on the bottom.',
@@ -289,6 +337,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Index Equations',
+        dfm: '358d',
         prompt: 'Solve each equation:<br>(a) $9^x = 27$<br>(b) $2^{y - 1} = \\dfrac{1}{16}$',
         hint1: 'In (a), write both $9$ and $27$ as powers of $3$.',
         hint2: 'In (b), write $\\frac{1}{16}$ as a negative power of $2$.',
@@ -301,6 +350,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Compound Interest',
+        dfm: '359b, 361a',
         prompt: 'Maya invests $\\$4\\,000$ in an account paying $3.5\\%$ per year compound interest.<br>(a) Calculate the value of her investment after $5$ years, giving your answer to the nearest cent.<br>(b) Find the minimum number of complete years it takes for her investment to exceed $\\$5\\,000$.',
         hint1: 'Use $V = P\\left(1 + \\frac{r}{100}\\right)^n$ with $r = 3.5$.',
         hint2: 'For (b), test integer values of $n$ (e.g. $n = 6, 7$) on your calculator and show both values.',
@@ -313,6 +363,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Successive & Reverse Percentages',
+        dfm: '361c',
         prompt: 'The price of a jacket is increased by $20\\%$ and then reduced by $15\\%$ in a sale. The final sale price is $\\$153$. Calculate the original price of the jacket.',
         hint1: 'Find the single combined multiplier for $+20\\%$ followed by $-15\\%$.',
         hint2: 'Divide the final price $\\$153$ by your combined multiplier.',
@@ -325,6 +376,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Upper & Lower Bounds',
+        dfm: '310b, 310c, 384f',
         prompt: 'Given $x = \\dfrac{a - b}{c}$, where $a = 15.4$ (1 d.p.), $b = 6.2$ (1 d.p.), and $c = 2.5$ (2 s.f.), calculate the lower bound of $x$, giving your answer correct to 3 significant figures.',
         hint1: 'To minimise a fraction, you need the smallest possible numerator and the largest possible denominator.',
         hint2: 'Smallest numerator is $a_{\\text{LB}} - b_{\\text{UB}}$; largest denominator is $c_{\\text{UB}}$.',
@@ -337,6 +389,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Ratio & Algebraic Proportion',
+        dfm: '464d',
         prompt: 'The ratio of boys to girls in a club is $3 : 5$. When $6$ more boys join the club, the ratio of boys to girls becomes $9 : 10$. Find the number of girls in the club.',
         hint1: 'Let the original number of boys be $3x$ and girls be $5x$.',
         hint2: 'Form the equation $\\dfrac{3x + 6}{5x} = \\dfrac{9}{10}$ and cross-multiply.',
@@ -349,6 +402,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Sets & Venn Diagrams',
+        dfm: '242e, 243h',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>In a group of $40$ students, $24$ study French ($F$), $19$ study Spanish ($S$), and $5$ study neither language.<br>(a) Find $n(F \\cap S)$.<br>(b) Find $n(F\' \\cap S)$.<br>(c) Find $n(F \\cup S)$.</div><svg width="165" height="105" viewBox="0 0 165 105" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><rect x="6" y="6" width="153" height="93" fill="#fff" stroke="#334155" stroke-width="1.4"/><circle cx="62" cy="54" r="32" fill="#eef2ff" fill-opacity="0.65" stroke="#4f46e5" stroke-width="1.5"/><circle cx="102" cy="54" r="32" fill="#ecfdf5" fill-opacity="0.65" stroke="#059669" stroke-width="1.5"/><text x="12" y="19" font-size="9" font-weight="bold">ℰ (40)</text><text x="34" y="24" font-size="9" font-weight="bold" fill="#4f46e5">F</text><text x="124" y="24" font-size="9" font-weight="bold" fill="#047857">S</text><text x="79" y="57" font-size="9" font-weight="bold">x</text><text x="136" y="90" font-size="9" font-weight="bold">5</text></svg></div>',
         hint1: 'Let $x = n(F \\cap S)$. Then $F$ only is $24 - x$ and $S$ only is $19 - x$.',
         hint2: 'Sum all four regions in the Venn diagram and set equal to $40$.',
@@ -361,6 +415,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Synoptic Surds & Indices',
+        dfm: '358c',
         prompt: 'Given that $\\dfrac{8^{\\frac{1}{2}} \\times \\sqrt{18}}{2^k} = 3$, find the exact value of $k$.',
         hint1: 'Simplify both $8^{1/2} = \\sqrt{8}$ and $\\sqrt{18}$ into $a\\sqrt{2}$ form.',
         hint2: 'Multiply the numerator out to get a single integer, then solve for $2^k$.',
@@ -426,7 +481,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -551,7 +606,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -584,7 +639,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

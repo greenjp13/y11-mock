@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -201,9 +202,45 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'transforms-vectors';
 
+    const DFM_INFO = {
+      "378": "Combining transformations",
+      "373g": "Add or subtract scalar multiples of vectors.",
+      "472b": "Calculate the magnitude of a 2D column vector.",
+      "282a": "Describe a rotation centred at the origin.",
+      "279b": "Describe a reflection in a diagonal line on a set of axes.",
+      "376b": "Enlarge/dilate a shape by a negative and fractional scale factor.",
+      "473a": "Determine a vector between two points using an appropriate path.",
+      "473b": "Determine a vector involving a midpoint.",
+      "373i": "Solve linear simultaneous equations/systems of equations formed with vector notation.",
+      "473c": "Determine a vector involving a fraction of the distance between two points.",
+      "473f": "Determine a vector when one vector is extended out by a ratio.",
+      "474f": "Prove that three points are collinear using vector variables.",
+      "505c": "Determine the vector between two 2D position vectors.",
+      "505g": "Calculate the distance between two 2D position vectors.",
+      "505f": "Determine the position vector of a point that divides the vector between positions in a given ratio.",
+      "475a": "Determine a vector by equating coefficients for two different scalars/routes.",
+      "475b": "Determine a ratio by writing a vector using two different scalars/routes.",
+      "294b": "Describe an enlargement/dilation with an integer scale factor.",
+      "324a": "Determine the scale factor of area for two similar shapes given the scale factor of length.",
+      "377a": "Describe an enlargement/dilation with a negative scale factor.",
+      "505a": "Determine a 2D position vector given another position vector and the vector between them.",
+      "474c": "Determine the ratio of two vectors that are parallel to each other."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Describing Single Transformations Completely (Paper 2)',
+        dfm: '377a, 282a',
         iDo: {
           q: 'Triangle $A$ has vertices $(2, 1), (4, 1), (2, 4)$. Triangle $B$ has vertices $(-1, -2), (-5, -2), (-1, -8)$. Describe fully the single transformation that maps triangle $A$ onto triangle $B$.',
           steps: [
@@ -220,6 +257,7 @@
       },
       {
         title: 'Pair 2: Position Vectors & Exact Magnitude (Paper 2)',
+        dfm: '505a, 505c, 505g',
         iDo: {
           q: 'Point $A$ has coordinates $(2, -3)$ and $\\vec{AB} = \\begin{pmatrix} 5 \\\\ -12 \\end{pmatrix}$. Find (a) the coordinates of $B$ and (b) the exact magnitude $|\\vec{AB}|$.',
           steps: [
@@ -235,6 +273,7 @@
       },
       {
         title: 'Pair 3: Vector Paths with Ratio Divisions (Paper 2)',
+        dfm: '473b, 473c',
         iDo: {
           q: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$. Point $M$ is the midpoint of $OA$, and point $P$ lies on $AB$ such that $AP : PB = 1 : 3$. Express $\\vec{MP}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
           steps: [
@@ -251,6 +290,7 @@
       },
       {
         title: 'Pair 4: Proving Collinearity & Finding Segment Ratios (Paper 4)',
+        dfm: '474f, 474c',
         iDo: {
           q: 'Given that $\\vec{XY} = 6\\mathbf{p} - 4\\mathbf{q}$ and $\\vec{XZ} = 9\\mathbf{p} - 6\\mathbf{q}$, prove that points $X, Y$ and $Z$ are collinear.',
           steps: [
@@ -274,6 +314,7 @@
         tier: 'Extended',
         marks: 3,
         topic: 'Column Vector Arithmetic & Exact Magnitude',
+        dfm: '373g, 472b',
         prompt: '$\\mathbf{a} = \\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix}$.<br>(a) Find $2\\mathbf{a} - \\mathbf{b}$ as a column vector.<br>(b) Find $|\\mathbf{a} + \\mathbf{b}|$, giving your answer in simplest surd form.',
         hint1: 'Multiply every component of $\\mathbf{a}$ by $2$ before subtracting $\\mathbf{b}$ component-by-component.',
         hint2: 'For (b), add $\\mathbf{a} + \\mathbf{b}$ first, then apply $\\sqrt{x^2 + y^2}$ and simplify $\\sqrt{8}$.',
@@ -286,6 +327,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Describing Single Transformations',
+        dfm: '282a, 279b',
         prompt: 'Triangle $T$ has vertices $A(1, 2)$, $B(4, 2)$ and $C(4, 4)$.<br>(a) Triangle $T_1$ has vertices $A_1(-2, 1)$, $B_1(-2, 4)$ and $C_1(-4, 4)$. Describe fully the single transformation that maps triangle $T$ onto triangle $T_1$.<br>(b) Triangle $T_2$ has vertices $A_2(2, 1)$, $B_2(2, 4)$ and $C_2(4, 4)$. Describe fully the single transformation that maps triangle $T$ onto triangle $T_2$.',
         hint1: 'Compare the coordinate mapping $(x, y) \\to (-y, x)$ in (a) and $(x, y) \\to (y, x)$ in (b).',
         hint2: 'For a rotation, include angle, direction, and centre; for a reflection, state the equation of the mirror line.',
@@ -298,6 +340,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Enlargement with Negative Fractional Scale Factor',
+        dfm: '376b',
         prompt: 'Triangle $T$ has vertices $(2, 4)$, $(6, 4)$ and $(2, 8)$.<br>Triangle $T$ is enlarged by scale factor $-\\dfrac{1}{2}$ with centre $(0, 2)$ to give triangle $U$.<br>Find the coordinates of the three vertices of triangle $U$.',
         hint1: 'Find the displacement vector from the centre $(0, 2)$ to each vertex of $T$.',
         hint2: 'Multiply each displacement vector by $-\\frac{1}{2}$, then add it back to the centre $(0, 2)$.',
@@ -310,6 +353,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Combined Reflections & Equivalent Rotation',
+        dfm: '378',
         prompt: 'Point $P(3, 1)$ is reflected in the line $x = 1$ to give point $P\'$.<br>Point $P\'$ is then reflected in the line $y = -1$ to give point $P\'\'$.<br>(a) Write down the coordinates of $P\'$ and $P\'\'$.<br>(b) Describe fully the <strong>single</strong> transformation that maps $P$ directly onto $P\'\'$ for any starting point $P$.',
         hint1: 'Point $(3, 1)$ is $2$ units to the right of the vertical mirror $x = 1$, so $P\'$ is $2$ units to the left of $x = 1$.',
         hint2: 'Two reflections in perpendicular lines intersecting at $(a, b)$ are equivalent to a $180^\\circ$ rotation about $(a, b)$.',
@@ -322,6 +366,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Parallelogram & Midpoint Vector Paths',
+        dfm: '473a, 473b',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$OABC$ is a parallelogram with $\\vec{OA} = \\mathbf{a}$ and $\\vec{OC} = \\mathbf{c}$.<br>$M$ is the midpoint of $AB$ and $N$ is the midpoint of $BC$.<br>Express in terms of $\\mathbf{a}$ and $\\mathbf{c}$ in simplest form:<br>(a) $\\vec{OM}$<br>(b) $\\vec{MN}$</div><svg width="175" height="115" viewBox="0 0 175 115" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,92 110,92 150,26 60,26" fill="#eef2ff" stroke="#334155" stroke-width="1.6"/><circle cx="130" cy="59" r="2.5" fill="#4f46e5"/><circle cx="105" cy="26" r="2.5" fill="#4f46e5"/><line x1="130" y1="59" x2="105" y2="26" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/><text x="10" y="96" font-size="9" font-weight="bold">O</text><text x="114" y="96" font-size="9" font-weight="bold">A</text><text x="154" y="28" font-size="9" font-weight="bold">B</text><text x="48" y="25" font-size="9" font-weight="bold">C</text><text x="135" y="62" font-size="9" font-weight="bold" fill="#4f46e5">M</text><text x="102" y="19" font-size="9" font-weight="bold" fill="#4f46e5">N</text><text x="62" y="103" font-size="9" font-weight="bold" fill="#047857">a</text><text x="31" y="58" font-size="9" font-weight="bold" fill="#047857">c</text></svg></div>',
         hint1: 'In a parallelogram, $\\vec{AB} = \\vec{OC} = \\mathbf{c}$ and $\\vec{CB} = \\vec{OA} = \\mathbf{a}$.',
         hint2: 'To travel from $M$ to $N$, go from $M$ to $B$ ($+\\frac{1}{2}\\mathbf{c}$) and then from $B$ to $N$ ($-\\frac{1}{2}\\mathbf{a}$).',
@@ -334,6 +379,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Solving Vector Equations for Scalars',
+        dfm: '373i',
         prompt: 'Given that $\\mathbf{p} = \\begin{pmatrix} 4 \\\\ -3 \\end{pmatrix}$, $\\mathbf{q} = \\begin{pmatrix} -2 \\\\ 5 \\end{pmatrix}$, and $h\\mathbf{p} + k\\mathbf{q} = \\begin{pmatrix} 14 \\\\ -7 \\end{pmatrix}$, calculate the values of the scalars $h$ and $k$.',
         hint1: 'Equate the top components to form one linear equation in $h$ and $k$, and the bottom components to form a second equation.',
         hint2: 'Solve the simultaneous equations $4h - 2k = 14$ and $-3h + 5k = -7$.',
@@ -346,6 +392,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Ratio Division & Collinearity Proof',
+        dfm: '473c, 473f, 474f',
         prompt: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>Point $P$ lies on $OA$ such that $OP : PA = 1 : 2$.<br>Point $Q$ lies on $AB$ such that $AQ : QB = 3 : 1$.<br>Point $R$ lies on $OB$ extended such that $\\vec{OR} = 3\\mathbf{b}$.<br>(a) Express $\\vec{PQ}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$ in simplest form.<br>(b) Prove that points $P, Q$ and $R$ lie on a straight line.',
         hint1: 'Use $\\vec{PQ} = \\vec{PO} + \\vec{OA} + \\vec{AQ} = -\\frac{1}{3}\\mathbf{a} + \\mathbf{a} + \\frac{3}{4}(\\mathbf{b} - \\mathbf{a})$.',
         hint2: 'In (b), also find $\\vec{PR} = \\vec{OR} - \\vec{OP} = 3\\mathbf{b} - \\frac{1}{3}\\mathbf{a}$ and compare it with $\\vec{PQ}$.',
@@ -358,6 +405,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Coordinates Along a Vector Segment',
+        dfm: '505c, 505g, 505f',
         prompt: 'Points $A(1, 5)$ and $B(7, -3)$ lie on a coordinate grid where $1\\text{ unit} = 1\\text{ cm}$.<br>(a) Find the column vector $\\vec{AB}$ and its length $|\\vec{AB}|$.<br>(b) Point $C$ lies on the line segment $AB$ such that $AC = 3\\text{ cm}$. Find the coordinates of $C$.',
         hint1: 'Find $\\vec{AB} = \\vec{OB} - \\vec{OA}$ and use Pythagoras for $|\\vec{AB}|$.',
         hint2: 'Since $AC = 3\\text{ cm}$ out of the total length $|\\vec{AB}|$, $\\vec{AC} = \\dfrac{3}{|\\vec{AB}|}\\vec{AB}$.',
@@ -370,6 +418,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Trapezium Vector Geometry',
+        dfm: '473a',
         prompt: '$OABC$ is a trapezium in which $OC$ is parallel to $AB$ and $AB = 2\\,OC$.<br>Given that $\\vec{OA} = \\mathbf{a}$ and $\\vec{OC} = \\mathbf{c}$, find in terms of $\\mathbf{a}$ and $\\mathbf{c}$:<br>(a) $\\vec{OB}$<br>(b) $\\vec{BC}$',
         hint1: 'Because $AB$ is parallel to $OC$ in the same direction and twice as long, $\\vec{AB} = 2\\mathbf{c}$.',
         hint2: 'For $\\vec{BC}$, travel from $B$ to $O$ ($-\\vec{OB}$) and then $O$ to $C$ ($+\\mathbf{c}$).',
@@ -382,6 +431,7 @@
         tier: 'A*',
         marks: 6,
         topic: 'Intersecting Vector Lines (Equating Coefficients)',
+        dfm: '475a',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>$M$ is the midpoint of $OB$, and $N$ lies on $OA$ such that $ON : NA = 2 : 1$.<br>The line segments $AM$ and $BN$ intersect at $X$.<br>Given that $\\vec{AX} = h\\vec{AM}$ and $\\vec{BX} = k\\vec{BN}$, find the values of $h$ and $k$, and express $\\vec{OX}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.</div><svg width="165" height="125" viewBox="0 0 165 125" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,102 145,102 65,20" fill="#f8fafc" stroke="#334155" stroke-width="1.6"/><line x1="65" y1="20" x2="82.5" y2="102" stroke="#4f46e5" stroke-width="1.4"/><line x1="145" y1="102" x2="50" y2="47.3" stroke="#059669" stroke-width="1.4"/><circle cx="74" cy="61" r="2.6" fill="#e11d48"/><text x="10" y="106" font-size="9" font-weight="bold">O</text><text x="61" y="15" font-size="9" font-weight="bold">A</text><text x="148" y="106" font-size="9" font-weight="bold">B</text><text x="79" y="113" font-size="8.5" font-weight="bold" fill="#4f46e5">M</text><text x="38" y="48" font-size="8.5" font-weight="bold" fill="#047857">N</text><text x="78" y="59" font-size="9" font-weight="bold" fill="#be123c">X</text></svg></div>',
         hint1: 'Write $\\vec{OX}$ in two different ways: $\\vec{OA} + h\\vec{AM}$ and $\\vec{OB} + k\\vec{BN}$.',
         hint2: 'Since $\\mathbf{a}$ and $\\mathbf{b}$ are non-parallel, equate the coefficient of $\\mathbf{a}$ from both expressions and the coefficient of $\\mathbf{b}$ from both expressions.',
@@ -394,6 +444,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Area Ratios via Vector Ratios',
+        dfm: '475b',
         prompt: 'In $\\triangle OAB$, $N$ lies on $OA$ such that $ON : NA = 1 : 2$, and $M$ is the midpoint of $OB$.<br>The lines $AM$ and $BN$ intersect at $X$, dividing $BN$ in the ratio $BX : XN = 3 : 2$.<br>Find the ratio $\\text{Area}(\\triangle OXB) : \\text{Area}(\\triangle OAB)$ in its simplest form.',
         hint1: 'Compare $\\text{Area}(\\triangle OBN)$ with $\\text{Area}(\\triangle OAB)$ using their bases $ON$ and $OA$ (they share the same perpendicular height from $B$).',
         hint2: 'Then compare $\\text{Area}(\\triangle OXB)$ with $\\text{Area}(\\triangle OBN)$ using bases $BX$ and $BN$.',
@@ -406,6 +457,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Finding Centre of Enlargement & Area Scale Factor',
+        dfm: '294b, 324a',
         prompt: 'Triangle $P$ has vertices $(1, 1)$, $(3, 1)$ and $(1, 2)$.<br>Triangle $Q$ has vertices $(5, 3)$, $(11, 3)$ and $(5, 6)$.<br>(a) Describe fully the single transformation that maps triangle $P$ onto triangle $Q$.<br>(b) Given that the area of triangle $P$ is $1\\text{ cm}^2$, write down the area of triangle $Q$.',
         hint1: 'Find the scale factor by dividing a side length of $Q$ by the corresponding side length of $P$.',
         hint2: 'Find the intersection of the lines joining $(5, 3)$ to $(1, 1)$ and $(5, 6)$ to $(1, 2)$ for the centre of enlargement.',
@@ -471,7 +523,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -596,7 +648,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -629,7 +681,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

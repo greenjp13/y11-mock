@@ -15,6 +15,7 @@
     .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .modal-backdrop { background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(2px); }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -255,6 +256,40 @@
   <script>
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
 
+    const DFM_INFO = {
+      "336b": "Add or subtract surds that require simplifying.",
+      "394h": "Raise a number to the power of a negative fraction.",
+      "223b": "Calculate the original value before a percentage increase using decimal multipliers.",
+      "364a": "Factorise quadratic expressions given in the form ax^2 +bx+c with a>1",
+      "435a": "Calculate the numeric output of a composite function.",
+      "201f": "Change the subject of a simple formula where the subject is squared.",
+      "445a": "Determine the gradient of a line perpendicular to another with a given gradient.",
+      "289a": "Use Pythagoras&#039; theorem to find the distance between two points.",
+      "272f": "Determine the equation of a straight line in y=mx+c form given its gradient and a point, where the gradient is an integer.",
+      "261i": "Determine the number of sides of a regular polygon given the size of its interior angles.",
+      "324h": "Determine the volume of a similar solid when the surface areas are given.",
+      "442d": "Know that opposite angles in a cyclic quadrilateral add to 180.",
+      "319a": "Calculate the area of the sector of a circle.",
+      "406e": "Calculate the surface area of a cone given the perpendicular height.",
+      "405g": "Determine the radius or diameter of a sphere given its volume.",
+      "412b": "Calculate the value of an expression using exact trigonometric ratios.",
+      "467a": "Calculate the area of a triangle using two lengths and the included angle.",
+      "264e": "Use the bearing of one object from another to calculate the bearing of the opposite.",
+      "472b": "Calculate the magnitude of a 2D column vector.",
+      "278b": "Reflect a shape against a diagonal line with a given equation.",
+      "473b": "Determine a vector involving a midpoint."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const STRANDS = [
       {
         id: 'number',
@@ -274,16 +309,19 @@
         diagnostics: [
           {
             q: 'Simplify $\\sqrt{75} - \\sqrt{12}$. (Non-calc)',
+            dfm: '336b',
             a: '$3\\sqrt{3}$',
             work: '$\\sqrt{75} = 5\\sqrt{3}$ and $\\sqrt{12} = 2\\sqrt{3}$, so $5\\sqrt{3} - 2\\sqrt{3} = 3\\sqrt{3}$.'
           },
           {
             q: 'Evaluate $27^{-\\frac{2}{3}}$ as an exact fraction. (Non-calc)',
+            dfm: '394h',
             a: '$\\dfrac{1}{9}$',
             work: '$27^{1/3} = 3$, then $3^2 = 9$, and the negative power gives $\\frac{1}{9}$.'
           },
           {
             q: 'In a sale, a coat is reduced by $15\\%$ to $\\$102$. Find its original price.',
+            dfm: '223b',
             a: '$\\$120$',
             work: '$0.85 \\times \\text{Original} = 102 \\implies \\text{Original} = \\frac{102}{0.85} = 120$.'
           }
@@ -309,16 +347,19 @@
         diagnostics: [
           {
             q: 'Factorise completely $2x^2 - 5x - 12$.',
+            dfm: '364a',
             a: '$(2x + 3)(x - 4)$',
             work: '$2 \\times (-12) = -24$. Split $-5x = -8x + 3x \\implies 2x(x-4) + 3(x-4) = (2x+3)(x-4)$.'
           },
           {
             q: 'Given $f(x) = 3x - 2$ and $g(x) = x^2 + 1$, find $fg(2)$.',
+            dfm: '435a',
             a: '$13$',
             work: '$g(2) = 2^2 + 1 = 5$, then $f(5) = 3(5) - 2 = 13$.'
           },
           {
             q: 'Make $r$ the subject of $V = \\dfrac{1}{3}\\pi r^2 h$ (where $r > 0$).',
+            dfm: '201f',
             a: '$r = \\sqrt{\\dfrac{3V}{\\pi h}}$',
             work: '$3V = \\pi r^2 h \\implies r^2 = \\frac{3V}{\\pi h} \\implies r = \\sqrt{\\frac{3V}{\\pi h}}$.'
           }
@@ -340,16 +381,19 @@
         diagnostics: [
           {
             q: 'Find the gradient of a line perpendicular to $2y = 6x - 5$.',
+            dfm: '445a',
             a: '$-\\dfrac{1}{3}$',
             work: 'Rewrite as $y = 3x - 2.5$, so $m_1 = 3$. Perpendicular gradient is $-\\frac{1}{3}$.'
           },
           {
             q: 'Find the exact distance between $A(-2, 5)$ and $B(4, -3)$.',
+            dfm: '289a',
             a: '$10$',
             work: '$d = \\sqrt{(4 - (-2))^2 + (-3 - 5)^2} = \\sqrt{6^2 + (-8)^2} = \\sqrt{100} = 10$.'
           },
           {
             q: 'Find the equation of the line with gradient $-2$ passing through $(3, 1)$.',
+            dfm: '272f',
             a: '$y = -2x + 7$',
             work: '$1 = -2(3) + c \\implies c = 7$, giving $y = -2x + 7$.'
           }
@@ -372,16 +416,19 @@
         diagnostics: [
           {
             q: 'Each interior angle of a regular polygon is $156^\\circ$. How many sides does it have?',
+            dfm: '261i',
             a: '$15$',
             work: 'Exterior angle $= 180^\\circ - 156^\\circ = 24^\\circ$. Number of sides $= \\frac{360}{24} = 15$.'
           },
           {
             q: 'Two similar solids have surface areas $25\\text{ cm}^2$ and $64\\text{ cm}^2$. The smaller solid has volume $50\\text{ cm}^3$. Find the volume of the larger solid.',
+            dfm: '324h',
             a: '$204.8\\text{ cm}^3$',
             work: 'Length ratio $= \\sqrt{25}:\\sqrt{64} = 5:8$. Volume ratio $= 125:512$. $V = 50 \\times \\frac{512}{125} = 204.8\\text{ cm}^3$.'
           },
           {
             q: '$A, B, C, D$ lie on a circle in order. Angle $ABC = 108^\\circ$. Find angle $ADC$ and give a reason.',
+            dfm: '442d',
             a: '$72^\\circ$',
             work: 'Opposite angles in a cyclic quadrilateral sum to $180^\\circ$: $180^\\circ - 108^\\circ = 72^\\circ$.'
           }
@@ -403,16 +450,19 @@
         diagnostics: [
           {
             q: 'A sector of radius $6\\text{ cm}$ has angle $120^\\circ$. Find its exact area in terms of $\\pi$.',
+            dfm: '319a',
             a: '$12\\pi\\text{ cm}^2$',
             work: '$A = \\frac{120}{360} \\times \\pi \\times 6^2 = \\frac{1}{3} \\times 36\\pi = 12\\pi\\text{ cm}^2$.'
           },
           {
             q: 'A solid cone has base radius $3\\text{ cm}$ and perpendicular height $4\\text{ cm}$. Find its total surface area in terms of $\\pi$.',
+            dfm: '406e',
             a: '$24\\pi\\text{ cm}^2$',
             work: 'Slant height $l = \\sqrt{3^2+4^2} = 5$. Total SA $= \\pi r^2 + \\pi r l = 9\\pi + 15\\pi = 24\\pi\\text{ cm}^2$.'
           },
           {
             q: 'A sphere has volume $36\\pi\\text{ cm}^3$. Find its radius.',
+            dfm: '405g',
             a: '$3\\text{ cm}$',
             work: '$\\frac{4}{3}\\pi r^3 = 36\\pi \\implies r^3 = 27 \\implies r = 3\\text{ cm}$.'
           }
@@ -435,16 +485,19 @@
         diagnostics: [
           {
             q: 'Find the exact value of $\\cos 30^\\circ \\times \\tan 60^\\circ$. (Non-calc)',
+            dfm: '412b',
             a: '$\\dfrac{3}{2}$ (or $1.5$)',
             work: '$\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$ and $\\tan 60^\\circ = \\sqrt{3}$, so $\\frac{\\sqrt{3}}{2} \\times \\sqrt{3} = \\frac{3}{2}$.'
           },
           {
             q: 'In $\\triangle ABC$, $a = 7\\text{ cm}$, $b = 10\\text{ cm}$ and angle $C = 30^\\circ$. Find the exact area of $\\triangle ABC$.',
+            dfm: '467a',
             a: '$17.5\\text{ cm}^2$',
             work: '$\\text{Area} = \\frac{1}{2}(7)(10)\\sin 30^\\circ = 35 \\times 0.5 = 17.5\\text{ cm}^2$.'
           },
           {
             q: 'The bearing of $B$ from $A$ is $130^\\circ$. Find the bearing of $A$ from $B$.',
+            dfm: '264e',
             a: '$310^\\circ$',
             work: 'Back-bearing $= 130^\\circ + 180^\\circ = 310^\\circ$.'
           }
@@ -466,16 +519,19 @@
         diagnostics: [
           {
             q: 'Given $\\mathbf{a} = \\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix}$, find $|\\mathbf{a}|$.',
+            dfm: '472b',
             a: '$5$',
             work: '$|\\mathbf{a}| = \\sqrt{3^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.'
           },
           {
             q: 'Point $P(2, 5)$ is reflected in the line $y = x$. Write down the coordinates of $P\'$.',
+            dfm: '278b',
             a: '$(5, 2)$',
             work: 'Reflection in $y = x$ swaps the $x$ and $y$ coordinates: $(2, 5) \\to (5, 2)$.'
           },
           {
             q: 'In $\\triangle OAB$, $\\overrightarrow{OA} = \\mathbf{a}$ and $\\overrightarrow{OB} = \\mathbf{b}$. $M$ is the midpoint of $AB$. Express $\\overrightarrow{OM}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
+            dfm: '473b',
             a: '$\\dfrac{1}{2}(\\mathbf{a} + \\mathbf{b})$',
             work: '$\\overrightarrow{AB} = \\mathbf{b} - \\mathbf{a}$, so $\\overrightarrow{OM} = \\mathbf{a} + \\frac{1}{2}(\\mathbf{b} - \\mathbf{a}) = \\frac{1}{2}\\mathbf{a} + \\frac{1}{2}\\mathbf{b}$.'
           }
@@ -758,7 +814,7 @@
       body.innerHTML = activeDiagStrand.diagnostics.map((d, idx) => `
         <div class="border border-slate-200 rounded-xl p-4 bg-white space-y-2.5">
           <div class="flex items-start justify-between gap-2">
-            <p class="text-sm font-semibold text-slate-900"><span class="text-indigo-600 mr-1.5">Q${idx + 1}.</span>${d.q}</p>
+            <p class="text-sm font-semibold text-slate-900"><span class="text-indigo-600 mr-1.5">Q${idx + 1}.</span> ${dfmPills(d.dfm)}${d.q}</p>
             <button onclick="document.getElementById('diagAns_${idx}').classList.toggle('hidden')" class="text-xs font-semibold text-indigo-600 hover:underline shrink-0">Reveal</button>
           </div>
           <div id="diagAns_${idx}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm space-y-1">

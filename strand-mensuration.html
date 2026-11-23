@@ -16,6 +16,7 @@
     .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
     .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
     .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -185,9 +186,43 @@
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
     const STRAND_ID = 'mensuration';
 
+    const DFM_INFO = {
+      "318b": "Calculate the perimeter of a sector of a circle.",
+      "319a": "Calculate the area of the sector of a circle.",
+      "467i": "Calculate the area of a segment of a circle, given the radius of the circle and the angle.",
+      "288a": "Use Pythagoras&#039; theorem to calculate the hypotenuse of a right-angled triangle.",
+      "406e": "Calculate the surface area of a cone given the perpendicular height.",
+      "407e": "Calculate the volume of a compound solid comprising of a cylinder and a hemisphere.",
+      "408g": "Calculate the surface area of a compound solid comprising of a cylinder and a hemisphere.",
+      "405n": "Equate volumes of solids, where at least one has a curved surface, with all but one length known, to determine that length.",
+      "184a": "Calculate the area of a trapezium.",
+      "231c": "Calculate the volume of a prism, where the area of the cross-section must be calculated.",
+      "323e": "Convert from units of capacity to units of volume.",
+      "405a": "Calculate the volume of a pyramid.",
+      "406c": "Calculate the surface area of a square-based pyramid given the side length of the base and the vertical height.",
+      "318a": "Calculate the arc length of a sector of a circle.",
+      "407c": "Calculate the volume of a frustum of a cone or pyramid.",
+      "323f": "Convert from units of volume to units of capacity.",
+      "318d": "Determine the radius of a sector given its arc length and angle.",
+      "319e": "Determine the area of a sector given its arc length.",
+      "406r": "Equate the surface area of solids, with all but one length known, to determine that length.",
+      "405l": "Determine the quantity of one solid that makes up the volume of another where at least one has a curved surface."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+
     const LINKED_PAIRS = [
       {
         title: 'Pair 1: Sector Perimeter & Exact Area (Paper 2)',
+        dfm: '318b, 319a',
         iDo: {
           q: 'A sector of a circle has radius $9\\text{ cm}$ and sector angle $80^\\circ$. Find, in terms of $\\pi$, (a) its perimeter and (b) its area.',
           steps: [
@@ -204,6 +239,7 @@
       },
       {
         title: 'Pair 2: Shaded Segment Area (Paper 4)',
+        dfm: '467i',
         iDo: {
           q: 'In a circle of radius $8\\text{ cm}$, chord $AB$ subtends an angle of $110^\\circ$ at the centre $O$. Calculate the area of the minor segment shaded between chord $AB$ and arc $AB$ to 3 s.f.',
           steps: [
@@ -220,6 +256,7 @@
       },
       {
         title: 'Pair 3: Melting & Recasting Solids (Paper 2)',
+        dfm: '405l',
         iDo: {
           q: 'A solid metal sphere of radius $6\\text{ cm}$ is melted down and recast into solid cones each of base radius $3\\text{ cm}$ and height $4\\text{ cm}$. How many cones can be made?',
           steps: [
@@ -236,6 +273,7 @@
       },
       {
         title: 'Pair 4: Folding a Sector into a Cone (Paper 2)',
+        dfm: '318a, 288a',
         iDo: {
           q: 'A semicircular sheet of card of radius $10\\text{ cm}$ is curled so its straight edges meet to form a hollow cone. Find the base radius $r$ and perpendicular height $h$ of the cone.',
           steps: [
@@ -259,6 +297,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Sector Perimeter & Area (Exact π)',
+        dfm: '318b, 319a',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$OAB$ is a sector of a circle, centre $O$, with radius $6\\text{ cm}$ and $\\angle AOB = 120^\\circ$.<br>(a) Find the exact perimeter of the sector in the form $a\\pi + b$.<br>(b) Find the exact area of the sector in terms of $\\pi$.</div><svg width="155" height="115" viewBox="0 0 155 115" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><path d="M 77 95 L 25 65 A 60 60 0 0 1 129 65 Z" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/><text x="74" y="107" font-size="9" font-weight="bold">O</text><text x="14" y="67" font-size="9" font-weight="bold">A</text><text x="133" y="67" font-size="9" font-weight="bold">B</text><text x="68" y="75" font-size="8.5" font-weight="bold" fill="#4f46e5">120°</text><text x="36" y="90" font-size="8.5" fill="#334155">6 cm</text></svg></div>',
         hint1: 'Arc length $= \\dfrac{120}{360} \\times 2\\pi r$; do not forget to add the two straight radii $OA$ and $OB$ for the perimeter.',
         hint2: 'Sector area $= \\dfrac{120}{360} \\times \\pi r^2$.',
@@ -271,6 +310,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Shaded Segment Area',
+        dfm: '467i',
         prompt: 'A circle has centre $O$ and radius $9.5\\text{ cm}$. Points $P$ and $Q$ lie on the circle such that $\\angle POQ = 84^\\circ$.<br>Calculate the area of the minor segment bounded by the chord $PQ$ and the minor arc $PQ$. Give your answer correct to 3 significant figures.',
         hint1: 'Subtract the area of isosceles $\\triangle POQ$ from the area of sector $POQ$.',
         hint2: 'Use $\\text{Area}(\\triangle POQ) = \\frac{1}{2} r^2 \\sin 84^\\circ$.',
@@ -283,6 +323,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Cone Slant Height & Total Surface Area',
+        dfm: '288a, 406e',
         prompt: 'A solid right circular cone has base radius $5\\text{ cm}$ and perpendicular height $12\\text{ cm}$.<br>(a) Find the slant height $l$ of the cone.<br>(b) Calculate the total surface area of the cone, giving your answer in terms of $\\pi$.',
         hint1: 'Use Pythagoras on the right triangle formed by radius $5$, height $12$, and slant height $l$.',
         hint2: 'A <em>solid</em> cone has both a curved surface ($\\pi r l$) and a flat circular base ($\\pi r^2$).',
@@ -295,6 +336,7 @@
         tier: 'Extended',
         marks: 5,
         topic: 'Compound Solid: Hemisphere on Cylinder',
+        dfm: '407e, 408g',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>A solid trophy consists of a hemisphere of radius $4\\text{ cm}$ joined flat-face to the top of a cylinder of radius $4\\text{ cm}$ and height $11\\text{ cm}$.<br>(a) Calculate the total volume of the trophy to 3 s.f.<br>(b) Calculate the total outer surface area of the trophy to 3 s.f.</div><svg width="130" height="145" viewBox="0 0 130 145" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><path d="M 35 55 A 30 30 0 0 1 95 55" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/><rect x="35" y="55" width="60" height="68" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/><ellipse cx="65" cy="123" rx="30" ry="7" fill="#e2e8f0" stroke="#334155" stroke-width="1.5"/><text x="100" y="92" font-size="8.5" fill="#334155">11 cm</text><text x="53" y="50" font-size="8.5" fill="#4f46e5">r = 4</text></svg></div>',
         hint1: 'Volume is the cylinder plus half a sphere: $\\pi r^2 h + \\frac{2}{3}\\pi r^3$.',
         hint2: 'For outer surface area, count the curved hemisphere ($2\\pi r^2$), curved cylinder ($2\\pi r h$), and bottom base ($\\pi r^2$).',
@@ -307,6 +349,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Recasting a Sphere into a Cylinder',
+        dfm: '405n',
         prompt: 'A solid metal sphere of radius $3\\text{ cm}$ is melted down and recast into a solid cylinder of base radius $2\\text{ cm}$.<br>Calculate the height $h$ of the cylinder.',
         hint1: 'Equate the volume of the sphere $\\frac{4}{3}\\pi r^3$ to the volume of the cylinder $\\pi r^2 h$.',
         hint2: 'Cancel $\\pi$ from both sides before solving for $h$.',
@@ -319,6 +362,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Water Level Rise in a Cylinder',
+        dfm: '405n',
         prompt: 'A cylindrical tank of internal radius $15\\text{ cm}$ contains water to a depth of $20\\text{ cm}$.<br>Six solid metal spheres, each of radius $3\\text{ cm}$, are dropped into the tank and are completely submerged.<br>Calculate the rise in the water level in the tank.',
         hint1: 'The volume of displaced water (a cylinder of radius $15\\text{ cm}$ and height $\\Delta h$) equals the total volume of the $6$ spheres.',
         hint2: 'Set $\\pi (15)^2 \\Delta h = 6 \\times \\frac{4}{3}\\pi (3)^3$ and cancel $\\pi$.',
@@ -331,6 +375,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Trapezium Prism & Litres Conversion',
+        dfm: '184a, 231c, 323e',
         prompt: 'A swimming pool has the shape of a prism of length $25\\text{ m}$ and width $10\\text{ m}$. Its vertical cross-section is a trapezium with depth $1.2\\text{ m}$ at the shallow end and $2.4\\text{ m}$ at the deep end.<br>(a) Calculate the volume of water in the pool in $\\text{m}^3$ when full.<br>(b) Water is pumped into the empty pool at $450\\text{ litres}$ per minute. Calculate the time taken to fill the pool, giving your answer in hours and minutes.',
         hint1: 'Use the trapezium area formula $A = \\frac{1}{2}(a + b)h$ with parallel sides $1.2\\text{ m}$ and $2.4\\text{ m}$ and length $25\\text{ m}$.',
         hint2: 'Convert $\\text{m}^3$ to litres using $1\\text{ m}^3 = 1000\\text{ litres}$.',
@@ -343,6 +388,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Square-Based Pyramid Volume & Surface Area',
+        dfm: '405a, 406c',
         prompt: 'A solid square-based pyramid has base side length $10\\text{ cm}$ and perpendicular height $12\\text{ cm}$.<br>(a) Calculate the volume of the pyramid.<br>(b) Calculate the total surface area of the pyramid.',
         hint1: 'Volume of a pyramid is $\\frac{1}{3} \\times \\text{base area} \\times \\text{height}$.',
         hint2: 'To find the slant height of each triangular face, use Pythagoras with half the base ($5\\text{ cm}$) and height ($12\\text{ cm}$).',
@@ -355,6 +401,7 @@
         tier: 'Extended',
         marks: 4,
         topic: 'Sector Folded into a Cone',
+        dfm: '318a, 288a',
         prompt: 'A sector of a circle of radius $10\\text{ cm}$ and angle $288^\\circ$ is bent so that the two straight radii meet to form a hollow cone.<br>(a) Find the base radius $r$ of the cone.<br>(b) Find the perpendicular height $h$ of the cone.',
         hint1: 'The arc length of the $288^\\circ$ sector becomes the circumference $2\\pi r$ of the cone’s base.',
         hint2: 'The sector’s radius ($10\\text{ cm}$) becomes the cone’s slant height $l$.',
@@ -367,6 +414,7 @@
         tier: 'A*',
         marks: 5,
         topic: 'Frustum of a Cone',
+        dfm: '407c, 323f',
         prompt: 'A bucket is in the shape of a frustum of a cone. The top circular opening has radius $12\\text{ cm}$, the flat circular base has radius $8\\text{ cm}$, and the vertical height of the bucket is $15\\text{ cm}$.<br>Calculate the capacity of the bucket in litres, correct to 3 significant figures.',
         hint1: 'Extend the bucket downwards to complete the full cone; use similar triangles $\\dfrac{8}{12} = \\dfrac{h}{h + 15}$ to find the height $h$ of the removed cone.',
         hint2: 'Subtract the volume of the removed small cone from the volume of the large cone, then divide by $1000$ for litres.',
@@ -379,6 +427,7 @@
         tier: 'A*',
         marks: 4,
         topic: 'Reverse Arc Length & Exact Sector Area',
+        dfm: '318d, 319e',
         prompt: 'A sector of a circle has radius $r\\text{ cm}$ and sector angle $72^\\circ$.<br>The arc length of the sector is $3\\pi\\text{ cm}$.<br>(a) Find the value of $r$.<br>(b) Find the exact area of the sector in terms of $\\pi$.',
         hint1: 'Write $\\dfrac{72}{360} = \\dfrac{1}{5}$ and set $\\dfrac{1}{5} \\times 2\\pi r = 3\\pi$.',
         hint2: 'Substitute your value of $r$ into $\\dfrac{1}{5} \\times \\pi r^2$.',
@@ -391,6 +440,7 @@
         tier: 'A*',
         marks: 5,
         topic: 'Equating Sphere & Cylinder Surface Areas',
+        dfm: '406r',
         prompt: 'A solid sphere of radius $r\\text{ cm}$ and a solid cylinder of base radius $r\\text{ cm}$ and height $h\\text{ cm}$ have the <strong>same total surface area</strong>.<br>(a) Show that $h = r$.<br>(b) Find the ratio $\\text{Volume of sphere} : \\text{Volume of cylinder}$ in its simplest form.',
         hint1: 'Total surface area of a solid cylinder is $2\\pi r^2 + 2\\pi r h$, and surface area of a sphere is $4\\pi r^2$.',
         hint2: 'For (b), substitute $h = r$ into the cylinder volume $\\pi r^2 h$ and compare with $\\frac{4}{3}\\pi r^3$.',
@@ -456,7 +506,7 @@
       const box = document.getElementById('examplesContainer');
       box.innerHTML = LINKED_PAIRS.map((p, i) => `
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title} <span class="font-normal align-middle">${dfmPills(p.dfm)}</span></div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             <div class="p-5 space-y-2.5">
               <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
@@ -581,7 +631,7 @@
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                     <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
-                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
                   <div class="flex items-center gap-2">
@@ -614,7 +664,7 @@
                 <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
                 ${paperBadge}
                 ${!examMode ? tierBadge : ''}
-                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}${!examMode ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

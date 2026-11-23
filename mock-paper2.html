@@ -12,6 +12,7 @@
   <style>
     body { font-family: Inter, system-ui, -apple-system, sans-serif; }
     .mark-btn[data-selected="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; font-weight: 700; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
@@ -138,11 +139,63 @@
       'transforms-vectors': { code: 'E7', name: 'Transformations & Vectors', url: 'strand-transforms-vectors.html' }
     };
 
+
+    const DFM_INFO = {
+      "277d": "Convert from a recurring decimal to a fraction where some digits do not recur.",
+      "394i": "Raise a fraction to the power of a negative fraction.",
+      "392a": "Rationalise the denominator of a fraction given in the form \\frac{a}{\\sqrt{b}}",
+      "336b": "Add or subtract surds that require simplifying.",
+      "310a": "Calculate bounds of a number rounded to the nearest 1, 10, 100, 1000.",
+      "384b": "Calculate a further bound for a given formula involving an addition.",
+      "384a": "Calculate a further bound for a given formula involving a multiplication.",
+      "389f": "Subtract algebraic fractions with algebraic linear denominators.",
+      "260i": "Change the subject of a formula with roots and additional steps.",
+      "386f": "Determine and then use the formula connecting two variables which are inversely proportional, possibly involving powers/roots.",
+      "369h": "Determine the nth term formula of a quadratic sequence in the form an^2+bn+c",
+      "436b": "Determine the inverse function for a linear expression.",
+      "435c": "Determine the algebraic output of a composite function where at least one function is quadratic.",
+      "367d": "Solve quadratic equations given in the form ax^2 \\pm bx \\pm c = 0, requiring factorising.",
+      "413a": "Complete the square for quadratic expressions given in the form x^2 + bx + c where b is even.",
+      "416a": "Determine the minimum point of a quadratic graph when given in completed square form.",
+      "265b": "Find the midpoint of two points given as coordinates.",
+      "270i": "Determine the gradient of a line given two pairs of coordinates, where 1 or 2 coordinates are negative.",
+      "445l": "Determine the equation of the perpendicular bisector of two points, or the diagonal of a kite given the other.",
+      "445f": "Find an equation of a line perpendicular to another that passes through a given point (rearrangement required).",
+      "269b": "Determine the x or y intercept of a straight line given an equation by substitution of 0.",
+      "442f": "Know that the angle between the tangent and a chord is equal to the angle in the alternate segment (alternate segment theorem / tangent-chord theorem).",
+      "442d": "Know that opposite angles in a cyclic quadrilateral add to 180.",
+      "261i": "Determine the number of sides of a regular polygon given the size of its interior angles.",
+      "324h": "Determine the volume of a similar solid when the surface areas are given.",
+      "318b": "Calculate the perimeter of a sector of a circle.",
+      "319a": "Calculate the area of the sector of a circle.",
+      "406e": "Calculate the surface area of a cone given the perpendicular height.",
+      "405n": "Equate volumes of solids, where at least one has a curved surface, with all but one length known, to determine that length.",
+      "412b": "Calculate the value of an expression using exact trigonometric ratios.",
+      "466a": "Use the cosine rule/Law of Cosines to determine unknown sides in non right-angled triangles.",
+      "465a": "Use the sine rule/Law of Sines to determine unknown sides in non right-angled triangles.",
+      "412d": "Determine a length by using an exact trigonometric ratio combined with Pythagoras or further trigonometry.",
+      "279b": "Describe a reflection in a diagonal line on a set of axes.",
+      "376a": "Enlarge/dilate a shape by a negative scale factor.",
+      "473b": "Determine a vector involving a midpoint.",
+      "473c": "Determine a vector involving a fraction of the distance between two points.",
+      "474f": "Prove that three points are collinear using vector variables."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
     const PAPER2_QUESTIONS = [
       {
         num: 1,
         strand: 'number',
         marks: 3,
+        dfm: '277d',
         prompt: 'Express the recurring decimal $0.3\\dot{7}\\dot{2}$ as a fraction in its simplest form.',
         solution: 'Let $x = 0.3727272\\dots$<br>$10x = 3.727272\\dots$ and $1000x = 372.727272\\dots$ <strong>[M1]</strong><br>Subtract: $990x = 369 \\implies x = \\dfrac{369}{990}$ <strong>[M1]</strong><br>Divide numerator and denominator by $9$: $x = \\dfrac{41}{110}$ <strong>[A1]</strong>.'
       },
@@ -150,6 +203,7 @@
         num: 2,
         strand: 'number',
         marks: 4,
+        dfm: '394i, 392a, 336b',
         prompt: '(a) Evaluate $\\left(\\dfrac{27}{8}\\right)^{-\\frac{2}{3}}$.<br>(b) Simplify $\\dfrac{10}{\\sqrt{5}} + \\sqrt{45}$, giving your answer in the form $k\\sqrt{5}$ where $k$ is an integer.',
         solution: '(a) $\\left(\\dfrac{8}{27}\\right)^{\\frac{2}{3}}$ <strong>[M1]</strong> $= \\left(\\dfrac{2}{3}\\right)^2 = \\dfrac{4}{9}$ <strong>[A1]</strong>.<br>(b) $\\dfrac{10\\sqrt{5}}{5} + 3\\sqrt{5} = 2\\sqrt{5} + 3\\sqrt{5}$ <strong>[M1]</strong> $= 5\\sqrt{5}$ <strong>[A1]</strong>.'
       },
@@ -157,6 +211,7 @@
         num: 3,
         strand: 'number',
         marks: 4,
+        dfm: '310a, 384b, 384a',
         prompt: 'A rectangle has length $12\\text{ cm}$ and width $5\\text{ cm}$, both measured to the nearest centimetre.<br>(a) Write down the lower bound and upper bound of the length.<br>(b) Calculate the upper bound of the perimeter of the rectangle.<br>(c) Calculate the lower bound of the area of the rectangle.',
         solution: '(a) Lower bound $= 11.5\\text{ cm}$, upper bound $= 12.5\\text{ cm}$ <strong>[B1]</strong>.<br>(b) $\\text{UB}(P) = 2(12.5 + 5.5) = 2(18) = 36\\text{ cm}$ <strong>[B1]</strong>.<br>(c) $\\text{LB}(A) = 11.5 \\times 4.5$ <strong>[M1]</strong> $= 51.75\\text{ cm}^2$ <strong>[A1]</strong>.'
       },
@@ -164,6 +219,7 @@
         num: 4,
         strand: 'algebra',
         marks: 4,
+        dfm: '389f, 260i',
         prompt: '(a) Write as a single fraction in its simplest form: $\\dfrac{4}{x + 3} - \\dfrac{3}{x - 1}$.<br>(b) Make $t$ the subject of the formula $v = \\sqrt{\\dfrac{2t + k}{3}}$.',
         solution: '(a) $\\dfrac{4(x - 1) - 3(x + 3)}{(x + 3)(x - 1)}$ <strong>[M1]</strong> $= \\dfrac{4x - 4 - 3x - 9}{(x + 3)(x - 1)} = \\dfrac{x - 13}{(x + 3)(x - 1)}$ <strong>[A1]</strong>.<br>(b) Square both sides: $v^2 = \\dfrac{2t + k}{3} \\implies 3v^2 = 2t + k$ <strong>[M1]</strong> $\\implies t = \\dfrac{3v^2 - k}{2}$ <strong>[A1]</strong>.'
       },
@@ -171,6 +227,7 @@
         num: 5,
         strand: 'algebra',
         marks: 5,
+        dfm: '386f, 369h',
         prompt: '(a) $y$ is inversely proportional to $\\sqrt{x + 2}$. When $x = 7$, $y = 6$. Find the value of $y$ when $x = 14$.<br>(b) Find the $n$th term of the sequence: $\\quad 5, \\quad 10, \\quad 19, \\quad 32, \\quad 49, \\quad \\dots$',
         solution: '(a) $y = \\dfrac{k}{\\sqrt{x + 2}} \\implies 6 = \\dfrac{k}{\\sqrt{9}}$ <strong>[M1]</strong> $\\implies k = 18$ <strong>[A1]</strong>.<br>When $x = 14$: $y = \\dfrac{18}{\\sqrt{16}} = \\dfrac{18}{4} = 4.5$ (or $\\frac{9}{2}$) <strong>[A1]</strong>.<br>(b) Second difference $= 4 \\implies 2n^2$ <strong>[M1]</strong>; remaining linear part $= 3, 2, 1, 0 \\implies 4 - n$, so $T_n = 2n^2 - n + 4$ <strong>[A1]</strong>.'
       },
@@ -178,6 +235,7 @@
         num: 6,
         strand: 'algebra',
         marks: 6,
+        dfm: '436b, 435c, 367d, 413a, 416a',
         prompt: '$f(x) = 3x - 2$ and $g(x) = x^2 - 4x + 7$.<br>(a) Find $f^{-1}(x)$.<br>(b) Solve the equation $gf(x) = 4$.<br>(c) Write $g(x)$ in the form $(x - a)^2 + b$ and write down the coordinates of the turning point of $y = g(x)$.',
         solution: '(a) $y = 3x - 2 \\implies x = \\dfrac{y + 2}{3} \\implies f^{-1}(x) = \\dfrac{x + 2}{3}$ <strong>[M1, A1]</strong>.<br>(b) $(3x - 2)^2 - 4(3x - 2) + 7 = 4 \\implies 9x^2 - 24x + 15 = 0 \\implies 3x^2 - 8x + 5 = 0$ <strong>[M1]</strong><br>$(3x - 5)(x - 1) = 0 \\implies x = \\dfrac{5}{3}$ or $x = 1$ <strong>[A1]</strong>.<br>(c) $g(x) = (x - 2)^2 - 4 + 7 = (x - 2)^2 + 3$ <strong>[B1]</strong>; turning point $(2, 3)$ <strong>[B1]</strong>.'
       },
@@ -185,6 +243,7 @@
         num: 7,
         strand: 'coord-geo',
         marks: 5,
+        dfm: '265b, 270i, 445l',
         prompt: 'Point $A$ has coordinates $(-1, 6)$ and point $B$ has coordinates $(5, 2)$.<br>(a) Find the coordinates of the midpoint of $AB$.<br>(b) Find the gradient of $AB$.<br>(c) Find the equation of the perpendicular bisector of $AB$ in the form $ax + by = c$, where $a, b$ and $c$ are integers.',
         solution: '(a) Midpoint $= \\left(\\dfrac{-1 + 5}{2}, \\dfrac{6 + 2}{2}\\right) = (2, 4)$ <strong>[B1]</strong>.<br>(b) $m_{AB} = \\dfrac{2 - 6}{5 - (-1)} = \\dfrac{-4}{6} = -\\dfrac{2}{3}$ <strong>[B1]</strong>.<br>(c) Perpendicular gradient $m_{\\perp} = \\dfrac{3}{2}$ <strong>[M1]</strong>.<br>$y - 4 = \\dfrac{3}{2}(x - 2) \\implies 2y - 8 = 3x - 6$ <strong>[M1]</strong> $\\implies 3x - 2y = -2$ (or $-3x + 2y = 2$) <strong>[A1]</strong>.'
       },
@@ -192,6 +251,7 @@
         num: 8,
         strand: 'coord-geo',
         marks: 4,
+        dfm: '445f, 269b',
         prompt: 'Line $L_1$ has equation $3x + 2y = 12$.<br>Line $L_2$ is perpendicular to $L_1$ and passes through the point $(6, 1)$.<br>(a) Find the equation of $L_2$ in the form $y = mx + c$.<br>(b) Find the coordinates of the point where $L_2$ crosses the $x$-axis.',
         solution: '(a) $2y = -3x + 12 \\implies y = -\\dfrac{3}{2}x + 6 \\implies m_1 = -\\dfrac{3}{2}$ <strong>[M1]</strong>.<br>Perpendicular gradient $m_2 = \\dfrac{2}{3}$ <strong>[M1]</strong>.<br>Through $(6, 1)$: $1 = \\dfrac{2}{3}(6) + c \\implies 1 = 4 + c \\implies c = -3$, so $y = \\dfrac{2}{3}x - 3$ <strong>[A1]</strong>.<br>(b) Set $y = 0$: $\\dfrac{2}{3}x - 3 = 0 \\implies x = 4.5 \\implies (4.5, 0)$ (or $\\left(\\frac{9}{2}, 0\\right)$) <strong>[B1]</strong>.'
       },
@@ -199,6 +259,7 @@
         num: 9,
         strand: 'geometry',
         marks: 4,
+        dfm: '442f, 442d',
         prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$A, B, C$ and $D$ lie on a circle in that order, as shown. Line $AT$ is a tangent to the circle at $A$.<br>Given that $\\angle TAB = 54^\\circ$ and $\\angle BCD = 112^\\circ$:<br>(a) Find $\\angle ACB$, giving a geometrical reason.<br>(b) Find $\\angle BAD$, giving a geometrical reason.</div><svg width="175" height="130" viewBox="0 0 175 130" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><circle cx="88" cy="58" r="43" fill="none" stroke="#334155" stroke-width="1.6"/><line x1="25" y1="101" x2="155" y2="101" stroke="#e11d48" stroke-width="1.8"/><polygon points="88,101 129,45 60,25 47,73" fill="none" stroke="#4f46e5" stroke-width="1.6"/><line x1="88" y1="101" x2="60" y2="25" stroke="#4f46e5" stroke-width="1.3" stroke-dasharray="3,2"/><text x="85" y="114" font-size="9" font-weight="bold">A</text><text x="150" y="114" font-size="9" font-weight="bold">T</text><text x="133" y="47" font-size="9" font-weight="bold">B</text><text x="53" y="21" font-size="9" font-weight="bold">C</text><text x="36" y="76" font-size="9" font-weight="bold">D</text><text x="103" y="96" font-size="8.5" font-weight="bold" fill="#be123c">54°</text><text x="61" y="42" font-size="8.5" font-weight="bold" fill="#4f46e5">112°</text></svg></div>',
         solution: '(a) $\\angle ACB = 54^\\circ$ <strong>[B1]</strong>; Alternate segment theorem <strong>[B1]</strong>.<br>(b) $\\angle BAD = 180^\\circ - 112^\\circ = 68^\\circ$ <strong>[B1]</strong>; Opposite angles of a cyclic quadrilateral sum to $180^\\circ$ <strong>[B1]</strong>.'
       },
@@ -206,6 +267,7 @@
         num: 10,
         strand: 'geometry',
         marks: 5,
+        dfm: '261i, 324h',
         prompt: '(a) Each interior angle of a regular polygon is $156^\\circ$. Calculate the number of sides of the polygon.<br>(b) Two mathematically similar cones have curved surface areas $16\\pi\\text{ cm}^2$ and $36\\pi\\text{ cm}^2$. The volume of the smaller cone is $40\\text{ cm}^3$. Calculate the volume of the larger cone.',
         solution: '(a) Exterior angle $= 180^\\circ - 156^\\circ = 24^\\circ$ <strong>[M1]</strong> $\\implies n = \\dfrac{360^\\circ}{24^\\circ} = 15$ sides <strong>[A1]</strong>.<br>(b) Area ratio $= 16\\pi : 36\\pi = 4 : 9 \\implies$ Length ratio $= 2 : 3$ <strong>[M1]</strong>.<br>Volume ratio $= 2^3 : 3^3 = 8 : 27$ <strong>[M1]</strong> $\\implies V_{\\text{large}} = 40 \\times \\dfrac{27}{8} = 135\\text{ cm}^3$ <strong>[A1]</strong>.'
       },
@@ -213,6 +275,7 @@
         num: 11,
         strand: 'mensuration',
         marks: 5,
+        dfm: '318b, 319a',
         prompt: '$OAB$ is a sector of a circle, centre $O$, with radius $9\\text{ cm}$ and $\\angle AOB = 100^\\circ$.<br>(a) Find the exact perimeter of the sector in the form $a\\pi + b$, where $a$ and $b$ are integers.<br>(b) Find the exact area of the sector in terms of $\\pi$.',
         solution: '(a) Arc length $= \\dfrac{100}{360} \\times 2\\pi(9) = \\dfrac{5}{18} \\times 18\\pi = 5\\pi\\text{ cm}$ <strong>[M1, A1]</strong>.<br>Perimeter $= 5\\pi + 9 + 9 = (5\\pi + 18)\\text{ cm}$ <strong>[A1]</strong>.<br>(b) Area $= \\dfrac{100}{360} \\times \\pi(9^2)$ <strong>[M1]</strong> $= \\dfrac{5}{18} \\times 81\\pi = 22.5\\pi\\text{ cm}^2$ (or $\\frac{45}{2}\\pi$) <strong>[A1]</strong>.'
       },
@@ -220,6 +283,7 @@
         num: 12,
         strand: 'mensuration',
         marks: 5,
+        dfm: '406e, 405n',
         prompt: 'A solid metal cone has base radius $6\\text{ cm}$ and perpendicular height $8\\text{ cm}$.<br>(a) Find the total surface area of the solid cone in terms of $\\pi$.<br>(b) The cone is melted down and recast into a solid sphere of radius $r\\text{ cm}$. Find the exact value of $r$ in the form $a\\sqrt[3]{b}$, where $a$ and $b$ are integers.',
         solution: '(a) Slant height $l = \\sqrt{6^2 + 8^2} = 10\\text{ cm}$ <strong>[M1]</strong>.<br>Total SA $= \\pi(6)(10) + \\pi(6^2)$ <strong>[M1]</strong> $= 60\\pi + 36\\pi = 96\\pi\\text{ cm}^2$ <strong>[A1]</strong>.<br>(b) Cone volume $= \\dfrac{1}{3}\\pi(6^2)(8) = 96\\pi$.<br>$\\dfrac{4}{3}\\pi r^3 = 96\\pi \\implies r^3 = 72$ <strong>[M1]</strong> $\\implies r = \\sqrt[3]{72} = 2\\sqrt[3]{9}\\text{ cm}$ <strong>[A1]</strong>.'
       },
@@ -227,6 +291,7 @@
         num: 13,
         strand: 'trigonometry',
         marks: 5,
+        dfm: '412b, 466a',
         prompt: '(a) Without using a calculator, find the exact value of $\\dfrac{\\sin 60^\\circ \\tan 30^\\circ}{\\cos 45^\\circ}$, giving your answer in simplest surd form.<br>(b) In $\\triangle ABC$, $AB = 6\\text{ cm}$, $AC = 10\\text{ cm}$ and $\\angle BAC = 60^\\circ$. Find the exact length of $BC$ in simplest surd form.',
         solution: '(a) $\\dfrac{\\frac{\\sqrt{3}}{2} \\times \\frac{\\sqrt{3}}{3}}{\\frac{\\sqrt{2}}{2}}$ <strong>[M1]</strong> $= \\dfrac{\\frac{3}{6}}{\\frac{\\sqrt{2}}{2}} = \\dfrac{1}{2} \\times \\dfrac{2}{\\sqrt{2}} = \\dfrac{1}{\\sqrt{2}} = \\dfrac{\\sqrt{2}}{2}$ <strong>[A1]</strong>.<br>(b) $BC^2 = 6^2 + 10^2 - 2(6)(10)\\cos 60^\\circ$ <strong>[M1]</strong> $= 36 + 100 - 120\\left(\\dfrac{1}{2}\\right) = 76$ <strong>[M1]</strong><br>$BC = \\sqrt{76} = 2\\sqrt{19}\\text{ cm}$ <strong>[A1]</strong>.'
       },
@@ -234,6 +299,7 @@
         num: 14,
         strand: 'trigonometry',
         marks: 4,
+        dfm: '465a, 412d',
         prompt: 'In $\\triangle PQR$, $\\angle PQR = 30^\\circ$, $\\angle PRQ = 45^\\circ$ and $PR = 4\\sqrt{2}\\text{ cm}$.<br>Without using a calculator, find the exact length of $PQ$.',
         solution: 'Apply Sine Rule: $\\dfrac{PQ}{\\sin 45^\\circ} = \\dfrac{4\\sqrt{2}}{\\sin 30^\\circ}$ <strong>[M1]</strong><br>$PQ = \\dfrac{4\\sqrt{2} \\times \\frac{\\sqrt{2}}{2}}{\\frac{1}{2}}$ <strong>[M1]</strong><br>$PQ = \\dfrac{4}{\\frac{1}{2}}$ <strong>[M1]</strong> $= 8\\text{ cm}$ <strong>[A1]</strong>.'
       },
@@ -241,6 +307,7 @@
         num: 15,
         strand: 'transforms-vectors',
         marks: 6,
+        dfm: '279b, 376a',
         prompt: 'Triangle $A$ has vertices $(1, 1)$, $(3, 1)$ and $(1, 2)$.<br>(a) Triangle $B$ has vertices $(-1, -1)$, $(-1, -3)$ and $(-2, -1)$. Describe fully the single transformation that maps triangle $A$ onto triangle $B$.<br>(b) Triangle $A$ is enlarged by scale factor $-2$ with centre $(2, 0)$ to form triangle $C$. Find the coordinates of the three vertices of triangle $C$.',
         solution: '(a) <strong>Reflection</strong> <strong>[B1]</strong> in the line <strong>$y = -x$</strong> <strong>[B1]</strong>.<br>(b) Using $\\begin{pmatrix} 2 \\\\ 0 \\end{pmatrix} - 2\\begin{pmatrix} x - 2 \\\\ y - 0 \\end{pmatrix}$ <strong>[M1]</strong>:<br>• $(1, 1) \\to \\begin{pmatrix} 2 \\\\ 0 \\end{pmatrix} - 2\\begin{pmatrix} -1 \\\\ 1 \\end{pmatrix} = (4, -2)$ <strong>[A1]</strong>.<br>• $(3, 1) \\to \\begin{pmatrix} 2 \\\\ 0 \\end{pmatrix} - 2\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} = (0, -2)$ <strong>[A1]</strong>.<br>• $(1, 2) \\to \\begin{pmatrix} 2 \\\\ 0 \\end{pmatrix} - 2\\begin{pmatrix} -1 \\\\ 2 \\end{pmatrix} = (4, -4)$ <strong>[A1]</strong>.'
       },
@@ -248,6 +315,7 @@
         num: 16,
         strand: 'transforms-vectors',
         marks: 6,
+        dfm: '473b, 473c, 474f',
         prompt: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>$M$ is the midpoint of $OA$, and $P$ lies on $AB$ such that $AP : PB = 1 : 2$.<br>Point $Q$ lies on $BO$ extended beyond $O$ such that $\\vec{OQ} = -\\mathbf{b}$.<br>(a) Express $\\vec{AB}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.<br>(b) Express $\\vec{MP}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$ in simplest form.<br>(c) Prove that points $M, P$ and $Q$ lie on a straight line.',
         solution: '(a) $\\vec{AB} = \\mathbf{b} - \\mathbf{a}$ <strong>[B1]</strong>.<br>(b) $\\vec{MP} = \\vec{MA} + \\vec{AP} = \\dfrac{1}{2}\\mathbf{a} + \\dfrac{1}{3}(\\mathbf{b} - \\mathbf{a})$ <strong>[M1]</strong> $= \\dfrac{1}{6}\\mathbf{a} + \\dfrac{1}{3}\\mathbf{b}$ <strong>[A1]</strong>.<br>(c) $\\vec{MQ} = \\vec{MO} + \\vec{OQ} = -\\dfrac{1}{2}\\mathbf{a} - \\mathbf{b}$ <strong>[M1]</strong> $= -3\\left(\\dfrac{1}{6}\\mathbf{a} + \\dfrac{1}{3}\\mathbf{b}\\right) = -3\\vec{MP}$ <strong>[A1]</strong>.<br>Since $\\vec{MQ}$ is a scalar multiple of $\\vec{MP}$ (parallel) and they share the <strong>common point $M$</strong>, $M, P$ and $Q$ are collinear <strong>[B1]</strong>.'
       }
@@ -442,7 +510,7 @@
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex items-center gap-2">
                 <span class="font-mono text-xs font-bold text-white bg-slate-900 px-2.5 py-1 rounded">Q${q.num}</span>
-                ${!lockSchemes ? `<span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-semibold">${meta.code}: ${meta.name}</span>` : ''}
+                ${!lockSchemes ? `<span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-semibold">${meta.code}: ${meta.name}</span>` : ''}${!lockSchemes ? dfmPills(q.dfm) : ''}
               </div>
               <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
             </div>

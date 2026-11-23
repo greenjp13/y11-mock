@@ -1,0 +1,943 @@
+<!-- File 1 of 10: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIE 0580 Extended — Year 11 Mock Revision Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .modal-backdrop { background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(2px); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Top Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">CIE 0580 Extended (2025–2027)</span>
+          <span class="text-xs font-medium text-slate-500">Year 11 Mock Hub</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 mt-0.5">Mathematics Revision Dashboard</h1>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="openFormulaBtn" class="px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
+          Formula Sheet
+        </button>
+        <button id="exportJsonBtn" class="px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
+          Export JSON
+        </button>
+        <label class="px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition cursor-pointer">
+          Import JSON
+          <input type="file" id="importJsonInput" accept="application/json,.json" class="hidden" />
+        </label>
+        <button id="copyWeakSpotsBtn" class="px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">
+          Copy Weak Spots
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- Dismissible 3-Step Quick-Start Strip -->
+    <section id="quickStartBanner" class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1">
+        <div class="flex items-start gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Take a 2-Min Diagnostic</p>
+            <p class="text-xs text-slate-600">Test each strand &amp; set your Red / Amber / Green rating.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Drill Exam Practice Banks</p>
+            <p class="text-xs text-slate-600">Target high-frequency Paper 2 &amp; Paper 4 questions.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Sit Both 90-Min Mocks</p>
+            <p class="text-xs text-slate-600">75 marks each, with M1/A1/B1 self-marking &amp; +25% option.</p>
+          </div>
+        </div>
+      </div>
+      <button id="dismissQuickStart" class="text-xs font-medium text-slate-400 hover:text-slate-700 self-end sm:self-center shrink-0">Dismiss ✕</button>
+    </section>
+
+    <!-- Smart "What Should I Do Next?" Recommendation Banner -->
+    <section id="nextActionBanner" class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-indigo-700">What Should I Do Next?</p>
+        <p id="nextActionText" class="text-sm sm:text-base font-medium text-slate-900 mt-0.5"></p>
+      </div>
+      <div id="nextActionCta" class="shrink-0"></div>
+    </section>
+
+    <!-- Overall Readiness Summary Cards -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Overall Readiness</p>
+        <p id="statReadiness" class="text-2xl font-bold text-slate-900 mt-1">0%</p>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+          <div id="statReadinessBar" class="bg-emerald-600 h-1.5 rounded-full transition-all" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Syllabus Skills Ticked</p>
+        <p id="statSkills" class="text-2xl font-bold text-slate-900 mt-1">0 / 0</p>
+        <p class="text-xs text-slate-500 mt-1">Across 7 assessed strands</p>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Exam Questions Nailed</p>
+        <p id="statNailed" class="text-2xl font-bold text-emerald-700 mt-1">0 / 0</p>
+        <p id="statStuckSummary" class="text-xs text-slate-500 mt-1">0 flagged stuck</p>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Mock Exam Format</p>
+        <p class="text-lg font-bold text-slate-900 mt-1">2 × 90 mins</p>
+        <p class="text-xs text-slate-500 mt-1">75 marks each (1.2 mins/mark)</p>
+      </div>
+    </section>
+
+    <!-- Strand Checklist & Navigation -->
+    <section class="space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">Assessed Strands (E1 – E7)</h2>
+          <p class="text-xs text-slate-500">Click any strand row to expand its tickable micro-skills checklist (with Dr Frost Maths skill IDs). Click a confidence pill twice to clear it.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <button id="expandAllBtn" class="px-2.5 py-1.5 rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50">Expand All</button>
+          <button id="collapseAllBtn" class="px-2.5 py-1.5 rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50">Collapse All</button>
+        </div>
+      </div>
+
+      <div id="strandList" class="space-y-3"></div>
+    </section>
+
+    <!-- Timed Mock Exams Launchpad -->
+    <section class="space-y-3 pt-2">
+      <div>
+        <h2 class="text-lg font-bold text-slate-900">90-Minute Timed Mock Exams</h2>
+        <p class="text-xs text-slate-500">Scaled to 75 marks each (1.2 mins/mark) to match Year 11 mock slots. Includes +25% Extra Time toggle and CIE M1/A1/B1 self-marking.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Mock Paper 2 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">Non-Calculator</span>
+              <span id="mockP2Status" class="text-xs font-semibold text-slate-500">Not attempted</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mt-2">Mock Paper 2 (Extended)</h3>
+            <p class="text-sm text-slate-600 mt-1">90 minutes (113 mins with +25%) · 75 marks. Focuses on exact arithmetic, surds, exact trig values, algebraic manipulation, geometry reasoning, and vectors.</p>
+          </div>
+          <a href="mock-paper2.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+            Open Paper 2 Mock →
+          </a>
+        </div>
+
+        <!-- Mock Paper 4 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Calculator Allowed</span>
+              <span id="mockP4Status" class="text-xs font-semibold text-slate-500">Not attempted</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mt-2">Mock Paper 4 (Extended)</h3>
+            <p class="text-sm text-slate-600 mt-1">90 minutes (113 mins with +25%) · 75 marks. Multi-part structured questions covering compound interest, mensuration, sine/cosine rules, 3D trig, differentiation, and circle theorems.</p>
+          </div>
+          <a href="mock-paper4.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+            Open Paper 4 Mock →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer & Reset -->
+    <footer class="border-t border-slate-200 pt-5 pb-8 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+      <p>CIE IGCSE Mathematics 0580 Extended (2025–2027 Syllabus) · E1–E7 Mock Scope (E8 Probability &amp; E9 Statistics excluded) · Standard accuracy: 3 s.f. (1 d.p. for angles).</p>
+      <button id="resetProgressBtn" class="text-rose-600 hover:text-rose-800 font-medium underline">Reset All Saved Progress</button>
+    </footer>
+  </main>
+
+  <!-- 2-Min Diagnostic Modal -->
+  <div id="diagModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeDiagnostic()">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-slate-200">
+      <div class="sticky top-0 bg-white border-b border-slate-200 px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">2-Minute Quick Diagnostic</p>
+          <h3 id="diagTitle" class="text-lg font-bold text-slate-900"></h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="diagTimer" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm font-bold">02:00</span>
+          <button id="closeDiagBtn" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+        </div>
+      </div>
+      <div id="diagBody" class="p-5 space-y-4"></div>
+      <div class="sticky bottom-0 bg-slate-50 border-t border-slate-200 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div id="diagScoreBox" class="text-sm font-semibold text-slate-700">Solve on paper, then reveal &amp; tick what you got right.</div>
+        <div class="flex items-center gap-2">
+          <button id="revealAllDiagBtn" class="px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-100">Reveal All Answers</button>
+          <button id="saveDiagBtn" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700">Save Score &amp; Update RAG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formula Sheet Modal -->
+  <div id="formulaModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeFormulaModal()">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-slate-200">
+      <div class="sticky top-0 bg-white border-b border-slate-200 px-5 py-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">CIE 0580 Extended (2025–2027)</p>
+          <h3 class="text-lg font-bold text-slate-900">Formula Reference: Given vs. Must Memorise</h3>
+        </div>
+        <button id="closeFormulaBtn" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+      </div>
+      <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+        <!-- Given on Exam Paper -->
+        <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-emerald-900 text-sm uppercase tracking-wide">Given on Official Formula Sheet (Page 2)</h4>
+          <ul class="space-y-1.5 text-slate-800">
+            <li><strong>Area of a triangle:</strong> $A = \frac{1}{2}bh$</li>
+            <li><strong>Circle:</strong> $A = \pi r^2$, $\quad C = 2\pi r$</li>
+            <li><strong>Curved surface area of cylinder:</strong> $A = 2\pi r h$</li>
+            <li><strong>Curved surface area of cone:</strong> $A = \pi r l$</li>
+            <li><strong>Surface area of sphere:</strong> $A = 4\pi r^2$</li>
+            <li><strong>Volume of prism / cylinder:</strong> $V = Al$, $\quad V = \pi r^2 h$</li>
+            <li><strong>Volume of pyramid / cone:</strong> $V = \frac{1}{3}Ah$, $\quad V = \frac{1}{3}\pi r^2 h$</li>
+            <li><strong>Volume of sphere:</strong> $V = \frac{4}{3}\pi r^3$</li>
+            <li><strong>Quadratic formula:</strong> $x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</li>
+            <li><strong>Sine rule:</strong> $\dfrac{a}{\sin A} = \dfrac{b}{\sin B} = \dfrac{c}{\sin C}$</li>
+            <li><strong>Cosine rule:</strong> $a^2 = b^2 + c^2 - 2bc\cos A$</li>
+            <li><strong>Area of triangle (trig):</strong> $A = \frac{1}{2}ab\sin C$</li>
+          </ul>
+        </div>
+
+        <!-- Must Memorise -->
+        <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-amber-900 text-sm uppercase tracking-wide">Must Memorise (Not Given)</h4>
+          <ul class="space-y-1.5 text-slate-800">
+            <li><strong>Trapezium area:</strong> $A = \frac{1}{2}(a + b)h$</li>
+            <li><strong>Compound interest:</strong> $\text{Value} = P\left(1 + \dfrac{r}{100}\right)^n$</li>
+            <li><strong>Arc &amp; Sector:</strong> $L = \frac{\theta}{360}(2\pi r)$, $\quad A = \frac{\theta}{360}(\pi r^2)$</li>
+            <li><strong>Pythagoras &amp; SOHCAHTOA:</strong> $a^2 + b^2 = c^2$</li>
+            <li><strong>Exact trig values:</strong> $\sin, \cos, \tan$ for $0^\circ, 30^\circ, 45^\circ, 60^\circ, 90^\circ$</li>
+            <li><strong>Coordinate Geometry:</strong> $m = \frac{y_2 - y_1}{x_2 - x_1}$, Midpoint $\left(\frac{x_1+x_2}{2}, \frac{y_1+y_2}{2}\right)$, $d = \sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$, Perp: $m_1 m_2 = -1$</li>
+            <li><strong>Polygons:</strong> Interior sum $= (n-2)\times 180^\circ$; Exterior sum $= 360^\circ$</li>
+            <li><strong>Similarity:</strong> Length $k \implies$ Area $k^2 \implies$ Volume $k^3$</li>
+            <li><strong>Circle Theorems:</strong> All angle &amp; chord-symmetry theorems (incl. Alternate Segment)</li>
+            <li><strong>Vector magnitude:</strong> $\left|\begin{pmatrix}x\\y\end{pmatrix}\right| = \sqrt{x^2 + y^2}$</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-lg shadow-lg"></div>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+
+    const STRANDS = [
+      {
+        id: 'number',
+        code: 'E1',
+        title: 'Number',
+        file: 'strand-number.html',
+        plannedQuestions: 12,
+        skills: [
+          { id: 'e1_1', text: 'Prime factorisation, HCF & LCM applications', dfm: '161, 162, 164' },
+          { id: 'e1_2', text: 'Sets, Venn diagrams & set notation ($\\in, \\cup, \\cap, A\', n(A)$)', dfm: '242, 243, 333' },
+          { id: 'e1_3', text: 'Fractional, negative & zero indices (incl. non-calc)', dfm: '298, 358, 394' },
+          { id: 'e1_4', text: 'Surds: simplifying, expanding & rationalising denominators', dfm: '334–337, 392, 393' },
+          { id: 'e1_5', text: 'Standard form, estimation & recurring decimals to fractions', dfm: '188, 277, 303, 304' },
+          { id: 'e1_6', text: 'Upper & lower bounds in calculations (max/min quotients & differences)', dfm: '310, 384' },
+          { id: 'e1_7', text: 'Reverse percentages, compound interest, depreciation & ratio/FX', dfm: '177, 223, 359, 361, 464' }
+        ],
+        diagnostics: [
+          {
+            q: 'Simplify $\\sqrt{75} - \\sqrt{12}$. (Non-calc)',
+            a: '$3\\sqrt{3}$',
+            work: '$\\sqrt{75} = 5\\sqrt{3}$ and $\\sqrt{12} = 2\\sqrt{3}$, so $5\\sqrt{3} - 2\\sqrt{3} = 3\\sqrt{3}$.'
+          },
+          {
+            q: 'Evaluate $27^{-\\frac{2}{3}}$ as an exact fraction. (Non-calc)',
+            a: '$\\dfrac{1}{9}$',
+            work: '$27^{1/3} = 3$, then $3^2 = 9$, and the negative power gives $\\frac{1}{9}$.'
+          },
+          {
+            q: 'In a sale, a coat is reduced by $15\\%$ to $\\$102$. Find its original price.',
+            a: '$\\$120$',
+            work: '$0.85 \\times \\text{Original} = 102 \\implies \\text{Original} = \\frac{102}{0.85} = 120$.'
+          }
+        ]
+      },
+      {
+        id: 'algebra',
+        code: 'E2',
+        title: 'Algebra & Graphs',
+        file: 'strand-algebra.html',
+        plannedQuestions: 14,
+        skills: [
+          { id: 'e2_1', text: 'Factorising quadratics ($ax^2+bx+c$), difference of two squares & grouping', dfm: '362–365' },
+          { id: 'e2_2', text: 'Algebraic fractions: simplifying, adding/subtracting & solving equations', dfm: '387, 389, 462' },
+          { id: 'e2_3', text: 'Rearranging complex formulae (subject appearing twice, roots/fractions)', dfm: '391' },
+          { id: 'e2_4', text: 'Solving quadratics by factorising, quadratic formula & completing the square', dfm: '367, 413, 415, 417' },
+          { id: 'e2_5', text: 'Simultaneous equations (linear & linear-quadratic)', dfm: '276, 419' },
+          { id: 'e2_6', text: 'Linear inequalities & 2-variable inequality region shading on graphs', dfm: '309, 339–341, 456a–g' },
+          { id: 'e2_7', text: 'Sequences: linear, quadratic ($an^2+bn+c$), cubic & geometric $n$th terms', dfm: '205, 369, 370, 371d' },
+          { id: 'e2_8', text: 'Functions: domain, range, composite $fg(x)$ & inverse $f^{-1}(x)$', dfm: '435–437, 564g' },
+          { id: 'e2_9', text: 'Sketching curves (asymptotes), speed/distance–time graphs & differentiation', dfm: '327, 420–427, 459, 512, 517' }
+        ],
+        diagnostics: [
+          {
+            q: 'Factorise completely $2x^2 - 5x - 12$.',
+            a: '$(2x + 3)(x - 4)$',
+            work: '$2 \\times (-12) = -24$. Split $-5x = -8x + 3x \\implies 2x(x-4) + 3(x-4) = (2x+3)(x-4)$.'
+          },
+          {
+            q: 'Given $f(x) = 3x - 2$ and $g(x) = x^2 + 1$, find $fg(2)$.',
+            a: '$13$',
+            work: '$g(2) = 2^2 + 1 = 5$, then $f(5) = 3(5) - 2 = 13$.'
+          },
+          {
+            q: 'Make $r$ the subject of $V = \\dfrac{1}{3}\\pi r^2 h$ (where $r > 0$).',
+            a: '$r = \\sqrt{\\dfrac{3V}{\\pi h}}$',
+            work: '$3V = \\pi r^2 h \\implies r^2 = \\frac{3V}{\\pi h} \\implies r = \\sqrt{\\frac{3V}{\\pi h}}$.'
+          }
+        ]
+      },
+      {
+        id: 'coord-geo',
+        code: 'E3',
+        title: 'Coordinate Geometry',
+        file: 'strand-coord-geo.html',
+        plannedQuestions: 10,
+        skills: [
+          { id: 'e3_1', text: 'Gradient, midpoint & exact length of a line segment', dfm: '265, 270, 289, 338b' },
+          { id: 'e3_2', text: 'Equation of a straight line ($y = mx + c$ and $ax + by = c$)', dfm: '271, 272' },
+          { id: 'e3_3', text: 'Parallel lines ($m_1 = m_2$) and perpendicular lines ($m_1 m_2 = -1$)', dfm: '274, 445' },
+          { id: 'e3_4', text: 'Equation of a perpendicular bisector of a segment $AB$', dfm: '445l, 495e' },
+          { id: 'e3_5', text: 'Intersections of lines, collinearity & coordinate geometry area problems', dfm: '270m, 276k, 495f' }
+        ],
+        diagnostics: [
+          {
+            q: 'Find the gradient of a line perpendicular to $2y = 6x - 5$.',
+            a: '$-\\dfrac{1}{3}$',
+            work: 'Rewrite as $y = 3x - 2.5$, so $m_1 = 3$. Perpendicular gradient is $-\\frac{1}{3}$.'
+          },
+          {
+            q: 'Find the exact distance between $A(-2, 5)$ and $B(4, -3)$.',
+            a: '$10$',
+            work: '$d = \\sqrt{(4 - (-2))^2 + (-3 - 5)^2} = \\sqrt{6^2 + (-8)^2} = \\sqrt{100} = 10$.'
+          },
+          {
+            q: 'Find the equation of the line with gradient $-2$ passing through $(3, 1)$.',
+            a: '$y = -2x + 7$',
+            work: '$1 = -2(3) + c \\implies c = 7$, giving $y = -2x + 7$.'
+          }
+        ]
+      },
+      {
+        id: 'geometry',
+        code: 'E4',
+        title: 'Geometry',
+        file: 'strand-geometry.html',
+        plannedQuestions: 12,
+        skills: [
+          { id: 'e4_1', text: 'Angle properties of parallel lines, triangles & regular/irregular polygons', dfm: '261–263' },
+          { id: 'e4_2', text: 'Congruence properties, geometric constructions & 3D nets', dfm: '143, 284, 286, 290' },
+          { id: 'e4_3', text: 'Similar shapes: AA similarity reasoning, length ($k$), area ($k^2$) & volume ($k^3$)', dfm: '291, 292, 324' },
+          { id: 'e4_4', text: 'Circle theorems I (centre/circumference, semicircle, same segment, cyclic quad)', dfm: '442a–d' },
+          { id: 'e4_5', text: 'Circle theorems II: tangents, alternate segment & chord symmetry properties', dfm: '317b–d, 442e–g' },
+          { id: 'e4_6', text: 'Bearings, scale drawings & symmetry (line, rotational, planes of symmetry)', dfm: '78b, 264, 280a, 283' }
+        ],
+        diagnostics: [
+          {
+            q: 'Each interior angle of a regular polygon is $156^\\circ$. How many sides does it have?',
+            a: '$15$',
+            work: 'Exterior angle $= 180^\\circ - 156^\\circ = 24^\\circ$. Number of sides $= \\frac{360}{24} = 15$.'
+          },
+          {
+            q: 'Two similar solids have surface areas $25\\text{ cm}^2$ and $64\\text{ cm}^2$. The smaller solid has volume $50\\text{ cm}^3$. Find the volume of the larger solid.',
+            a: '$204.8\\text{ cm}^3$',
+            work: 'Length ratio $= \\sqrt{25}:\\sqrt{64} = 5:8$. Volume ratio $= 125:512$. $V = 50 \\times \\frac{512}{125} = 204.8\\text{ cm}^3$.'
+          },
+          {
+            q: '$A, B, C, D$ lie on a circle in order. Angle $ABC = 108^\\circ$. Find angle $ADC$ and give a reason.',
+            a: '$72^\\circ$',
+            work: 'Opposite angles in a cyclic quadrilateral sum to $180^\\circ$: $180^\\circ - 108^\\circ = 72^\\circ$.'
+          }
+        ]
+      },
+      {
+        id: 'mensuration',
+        code: 'E5',
+        title: 'Mensuration',
+        file: 'strand-mensuration.html',
+        plannedQuestions: 12,
+        skills: [
+          { id: 'e5_1', text: 'Arc length, sector area & shaded segment area (exact $\\pi$ & rounded)', dfm: '318, 319, 467i' },
+          { id: 'e5_2', text: 'Surface area & volume of prisms, cylinders, cones, spheres & pyramids', dfm: '231, 233, 405, 406' },
+          { id: 'e5_3', text: 'Compound solids (e.g. hemisphere on cylinder/cone) & frustums', dfm: '407, 408' },
+          { id: 'e5_4', text: 'Melting/recasting solids & equating volumes to find unknown dimensions', dfm: '405l, 405n' },
+          { id: 'e5_5', text: 'Unit conversions for area ($\\text{cm}^2 \\leftrightarrow \\text{m}^2$) and volume ($\\text{cm}^3 \\leftrightarrow \\text{litres}$)', dfm: '323, 330b' }
+        ],
+        diagnostics: [
+          {
+            q: 'A sector of radius $6\\text{ cm}$ has angle $120^\\circ$. Find its exact area in terms of $\\pi$.',
+            a: '$12\\pi\\text{ cm}^2$',
+            work: '$A = \\frac{120}{360} \\times \\pi \\times 6^2 = \\frac{1}{3} \\times 36\\pi = 12\\pi\\text{ cm}^2$.'
+          },
+          {
+            q: 'A solid cone has base radius $3\\text{ cm}$ and perpendicular height $4\\text{ cm}$. Find its total surface area in terms of $\\pi$.',
+            a: '$24\\pi\\text{ cm}^2$',
+            work: 'Slant height $l = \\sqrt{3^2+4^2} = 5$. Total SA $= \\pi r^2 + \\pi r l = 9\\pi + 15\\pi = 24\\pi\\text{ cm}^2$.'
+          },
+          {
+            q: 'A sphere has volume $36\\pi\\text{ cm}^3$. Find its radius.',
+            a: '$3\\text{ cm}$',
+            work: '$\\frac{4}{3}\\pi r^3 = 36\\pi \\implies r^3 = 27 \\implies r = 3\\text{ cm}$.'
+          }
+        ]
+      },
+      {
+        id: 'trigonometry',
+        code: 'E6',
+        title: 'Trigonometry',
+        file: 'strand-trigonometry.html',
+        plannedQuestions: 12,
+        skills: [
+          { id: 'e6_1', text: 'Pythagoras & SOHCAHTOA in 2D right-angled triangles & bearings', dfm: '288, 321, 322' },
+          { id: 'e6_2', text: 'Exact trig values ($0^\\circ, 30^\\circ, 45^\\circ, 60^\\circ, 90^\\circ$) on Paper 2', dfm: '412' },
+          { id: 'e6_3', text: 'Sine Rule (including obtuse angle / ambiguous case awareness)', dfm: '465' },
+          { id: 'e6_4', text: 'Cosine Rule, non-right triangle area ($\\frac{1}{2}ab\\sin C$) & shortest distance', dfm: '466, 467' },
+          { id: 'e6_5', text: 'Trigonometric graphs ($\\sin, \\cos, \\tan$) & equations in $0^\\circ \\le x \\le 360^\\circ$', dfm: '431, 434, 503a' },
+          { id: 'e6_6', text: '3D Trigonometry: space diagonals & angle between a line and a plane', dfm: '411, 470' }
+        ],
+        diagnostics: [
+          {
+            q: 'Find the exact value of $\\cos 30^\\circ \\times \\tan 60^\\circ$. (Non-calc)',
+            a: '$\\dfrac{3}{2}$ (or $1.5$)',
+            work: '$\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$ and $\\tan 60^\\circ = \\sqrt{3}$, so $\\frac{\\sqrt{3}}{2} \\times \\sqrt{3} = \\frac{3}{2}$.'
+          },
+          {
+            q: 'In $\\triangle ABC$, $a = 7\\text{ cm}$, $b = 10\\text{ cm}$ and angle $C = 30^\\circ$. Find the exact area of $\\triangle ABC$.',
+            a: '$17.5\\text{ cm}^2$',
+            work: '$\\text{Area} = \\frac{1}{2}(7)(10)\\sin 30^\\circ = 35 \\times 0.5 = 17.5\\text{ cm}^2$.'
+          },
+          {
+            q: 'The bearing of $B$ from $A$ is $130^\\circ$. Find the bearing of $A$ from $B$.',
+            a: '$310^\\circ$',
+            work: 'Back-bearing $= 130^\\circ + 180^\\circ = 310^\\circ$.'
+          }
+        ]
+      },
+      {
+        id: 'transforms-vectors',
+        code: 'E7',
+        title: 'Transformations & Vectors',
+        file: 'strand-transforms-vectors.html',
+        plannedQuestions: 12,
+        skills: [
+          { id: 'e7_1', text: 'Describing & performing translations, reflections, rotations & enlargements (incl. negative/fractional)', dfm: '278–282, 294–297, 374–377' },
+          { id: 'e7_2', text: 'Combined transformations and finding the single equivalent transformation', dfm: '378' },
+          { id: 'e7_3', text: 'Column vectors: addition, scalar multiplication, parallel vectors & magnitude', dfm: '372, 373, 472' },
+          { id: 'e7_4', text: 'Position vectors & vector geometry paths (ratios along line segments)', dfm: '473, 505' },
+          { id: 'e7_5', text: 'Using vectors to prove parallelism, collinearity & find intersecting line ratios', dfm: '474, 475' }
+        ],
+        diagnostics: [
+          {
+            q: 'Given $\\mathbf{a} = \\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix}$, find $|\\mathbf{a}|$.',
+            a: '$5$',
+            work: '$|\\mathbf{a}| = \\sqrt{3^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.'
+          },
+          {
+            q: 'Point $P(2, 5)$ is reflected in the line $y = x$. Write down the coordinates of $P\'$.',
+            a: '$(5, 2)$',
+            work: 'Reflection in $y = x$ swaps the $x$ and $y$ coordinates: $(2, 5) \\to (5, 2)$.'
+          },
+          {
+            q: 'In $\\triangle OAB$, $\\overrightarrow{OA} = \\mathbf{a}$ and $\\overrightarrow{OB} = \\mathbf{b}$. $M$ is the midpoint of $AB$. Express $\\overrightarrow{OM}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
+            a: '$\\dfrac{1}{2}(\\mathbf{a} + \\mathbf{b})$',
+            work: '$\\overrightarrow{AB} = \\mathbf{b} - \\mathbf{a}$, so $\\overrightarrow{OM} = \\mathbf{a} + \\frac{1}{2}(\\mathbf{b} - \\mathbf{a}) = \\frac{1}{2}\\mathbf{a} + \\frac{1}{2}\\mathbf{b}$.'
+          }
+        ]
+      }
+    ];
+
+    function defaultState() {
+      return {
+        quickStartDismissed: false,
+        rag: {},
+        skills: {},
+        questions: {},
+        diagnostics: {},
+        mocks: {
+          paper2: { score: 0, total: 75, completed: false, date: null },
+          paper4: { score: 0, total: 75, completed: false, date: null }
+        }
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        return {
+          ...defaultState(),
+          ...parsed,
+          mocks: { ...defaultState().mocks, ...(parsed.mocks || {}) }
+        };
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState(s) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+    }
+
+    let state = loadState();
+    let expandedStrands = new Set();
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.remove('hidden');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.add('hidden'), 2600);
+    }
+
+    function getMockInfo(m) {
+      if (!m) return { completed: false, score: 0, total: 75 };
+      return {
+        completed: Boolean(m.completed ?? m.submitted),
+        score: Number(m.score ?? 0),
+        total: Number(m.total ?? m.max ?? 75) || 75
+      };
+    }
+
+    function getStrandStats(strand) {
+      const qEntries = Object.entries(state.questions || {}).filter(([, v]) => v && v.strand === strand.id);
+      const nailed = qEntries.filter(([, v]) => v.status === 'nailed').length;
+      const stuck = qEntries.filter(([, v]) => v.status === 'stuck').length;
+      const skillsTicked = strand.skills.filter(s => state.skills[s.id]).length;
+      return { nailed, stuck, totalQ: strand.plannedQuestions, skillsTicked, totalSkills: strand.skills.length };
+    }
+
+    function computeNextAction() {
+      const stuckList = Object.entries(state.questions || {}).filter(([, v]) => v && v.status === 'stuck');
+      if (stuckList.length > 0) {
+        const firstStrandId = stuckList[0][1].strand;
+        const strand = STRANDS.find(s => s.id === firstStrandId) || STRANDS[0];
+        return {
+          text: `You have ${stuckList.length} question${stuckList.length > 1 ? 's' : ''} flagged as Stuck. Clear your stuck items in ${strand.code}: ${strand.title} first using the Rescue Ladder.`,
+          ctaText: `Fix Stuck in ${strand.code} →`,
+          href: strand.file
+        };
+      }
+
+      const redStrand = STRANDS.find(s => state.rag[s.id] === 'red');
+      if (redStrand) {
+        return {
+          text: `${redStrand.code}: ${redStrand.title} is rated Red. Review its Decision Tree & I Do / You Do pairs, then drill the Exam Practice Bank.`,
+          ctaText: `Practice ${redStrand.code} →`,
+          href: redStrand.file
+        };
+      }
+
+      const unratedStrand = STRANDS.find(s => !state.rag[s.id]);
+      if (unratedStrand) {
+        return {
+          text: `Start by running the 2-Min Diagnostic for ${unratedStrand.code}: ${unratedStrand.title} to map out your baseline confidence.`,
+          ctaText: `Run ${unratedStrand.code} Diagnostic`,
+          diagStrandId: unratedStrand.id
+        };
+      }
+
+      const amberStrand = STRANDS.find(s => state.rag[s.id] === 'amber');
+      if (amberStrand) {
+        return {
+          text: `${amberStrand.code}: ${amberStrand.title} is Amber. Push it to Green by completing its synoptic Exam & A* practice questions.`,
+          ctaText: `Practice ${amberStrand.code} →`,
+          href: amberStrand.file
+        };
+      }
+
+      const p2 = getMockInfo(state.mocks.paper2);
+      const p4 = getMockInfo(state.mocks.paper4);
+
+      if (!p2.completed) {
+        return {
+          text: `All strands rated Green! Put your non-calculator fluency to the test with the 90-minute Mock Paper 2.`,
+          ctaText: `Start Paper 2 Mock →`,
+          href: 'mock-paper2.html'
+        };
+      }
+
+      if (!p4.completed) {
+        return {
+          text: `Paper 2 Mock complete! Now tackle the 90-minute Calculator Mock Paper 4.`,
+          ctaText: `Start Paper 4 Mock →`,
+          href: 'mock-paper4.html'
+        };
+      }
+
+      return {
+        text: `Outstanding work—all strands are Green and both 90-minute mocks are logged. Use Exam Mode inside any strand for mixed final-week polish.`,
+        ctaText: `Review Paper 4 Mock →`,
+        href: 'mock-paper4.html'
+      };
+    }
+
+    function renderDashboard() {
+      document.getElementById('quickStartBanner').classList.toggle('hidden', !!state.quickStartDismissed);
+
+      const totalSkills = STRANDS.reduce((acc, s) => acc + s.skills.length, 0);
+      const tickedSkills = STRANDS.reduce((acc, s) => acc + s.skills.filter(sk => state.skills[sk.id]).length, 0);
+      const totalQ = STRANDS.reduce((acc, s) => acc + s.plannedQuestions, 0);
+      const validIds = new Set(STRANDS.map(s => s.id));
+      const allQ = Object.values(state.questions || {}).filter(q => q && validIds.has(q.strand));
+      const nailedQ = Math.min(totalQ, allQ.filter(q => q.status === 'nailed').length);
+      const stuckQ = allQ.filter(q => q.status === 'stuck').length;
+
+      const skillPct = totalSkills ? (tickedSkills / totalSkills) : 0;
+      const qPct = totalQ ? (nailedQ / totalQ) : 0;
+      const readiness = Math.min(100, Math.round(((skillPct * 0.4) + (qPct * 0.6)) * 100));
+
+      document.getElementById('statReadiness').textContent = `${readiness}%`;
+      document.getElementById('statReadinessBar').style.width = `${readiness}%`;
+      document.getElementById('statSkills').textContent = `${tickedSkills} / ${totalSkills}`;
+      document.getElementById('statNailed').textContent = `${nailedQ} / ${totalQ}`;
+      const stuckEl = document.getElementById('statStuckSummary');
+      stuckEl.textContent = `${stuckQ} flagged stuck`;
+      stuckEl.className = stuckQ > 0 ? 'text-xs font-semibold text-rose-600 mt-1' : 'text-xs text-slate-500 mt-1';
+
+      const p2 = getMockInfo(state.mocks.paper2);
+      const p4 = getMockInfo(state.mocks.paper4);
+      document.getElementById('mockP2Status').textContent = p2.completed ? `Last score: ${p2.score}/${p2.total} (${Math.round(p2.score / p2.total * 100)}%)` : 'Not attempted';
+      document.getElementById('mockP4Status').textContent = p4.completed ? `Last score: ${p4.score}/${p4.total} (${Math.round(p4.score / p4.total * 100)}%)` : 'Not attempted';
+
+      const next = computeNextAction();
+      document.getElementById('nextActionText').textContent = next.text;
+      const ctaBox = document.getElementById('nextActionCta');
+      if (next.diagStrandId) {
+        ctaBox.innerHTML = `<button onclick="openDiagnostic('${next.diagStrandId}')" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">${next.ctaText}</button>`;
+      } else {
+        ctaBox.innerHTML = `<a href="${next.href}" class="inline-block px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">${next.ctaText}</a>`;
+      }
+
+      const list = document.getElementById('strandList');
+      list.innerHTML = STRANDS.map(strand => {
+        const st = getStrandStats(strand);
+        const rag = state.rag[strand.id] || null;
+        const diag = state.diagnostics[strand.id];
+        const isOpen = expandedStrands.has(strand.id);
+        const pct = Math.min(100, Math.round((st.nailed / st.totalQ) * 100));
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3 cursor-pointer hover:bg-slate-50/70 transition" onclick="toggleStrand('${strand.id}')">
+              <div class="flex items-start sm:items-center gap-3 min-w-0">
+                <span class="text-slate-400 text-xs font-bold mt-1 sm:mt-0 w-4 text-center">${isOpen ? '▼' : '▶'}</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-xs font-bold shrink-0">${strand.code}</span>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-bold text-slate-900 text-base">${strand.title}</h3>
+                    ${diag ? `<span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">Diag: ${diag.score}/${diag.total}</span>` : ''}
+                    ${st.stuck > 0 ? `<span class="text-xs px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-semibold">${st.stuck} Stuck</span>` : ''}
+                  </div>
+                  <div class="flex items-center gap-3 mt-1.5">
+                    <div class="w-28 bg-slate-100 rounded-full h-1.5">
+                      <div class="bg-emerald-600 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                    </div>
+                    <span class="text-xs text-slate-500 font-medium">${st.nailed}/${st.totalQ} Nailed · ${st.skillsTicked}/${st.totalSkills} Skills</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 pl-7 lg:pl-0" onclick="event.stopPropagation()">
+                <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50" role="group" aria-label="Confidence">
+                  <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" data-active="${rag === 'red'}" onclick="toggleRag('${strand.id}', 'red')">Red</button>
+                  <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" data-active="${rag === 'amber'}" onclick="toggleRag('${strand.id}', 'amber')">Amber</button>
+                  <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" data-active="${rag === 'green'}" onclick="toggleRag('${strand.id}', 'green')">Green</button>
+                </div>
+                <button onclick="openDiagnostic('${strand.id}')" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
+                  2-Min Diag
+                </button>
+                <a href="${strand.file}" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">
+                  Practice →
+                </a>
+              </div>
+            </div>
+
+            ${isOpen ? `
+              <div class="border-t border-slate-100 bg-slate-50/60 px-5 py-3.5">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Assessed Micro-Skills Checklist</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  ${strand.skills.map(sk => `
+                    <label class="flex items-start gap-2.5 text-sm text-slate-700 cursor-pointer p-1.5 rounded hover:bg-white transition">
+                      <input type="checkbox" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                        ${state.skills[sk.id] ? 'checked' : ''}
+                        onchange="toggleSkill('${sk.id}')" />
+                      <span class="${state.skills[sk.id] ? 'line-through text-slate-400' : ''}">
+                        ${sk.text}
+                        ${sk.dfm ? `<span class="ml-1 font-mono text-[11px] text-slate-400">[DFM ${sk.dfm}]</span>` : ''}
+                      </span>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      renderMath(list);
+    }
+
+    function toggleStrand(id) {
+      if (expandedStrands.has(id)) expandedStrands.delete(id);
+      else expandedStrands.add(id);
+      renderDashboard();
+    }
+
+    function toggleRag(strandId, color) {
+      state.rag[strandId] = (state.rag[strandId] === color) ? null : color;
+      saveState(state);
+      renderDashboard();
+    }
+
+    function toggleSkill(skillId) {
+      state.skills[skillId] = !state.skills[skillId];
+      saveState(state);
+      renderDashboard();
+    }
+
+    // 2-Min Diagnostic Modal Logic
+    let activeDiagStrand = null;
+    let diagInterval = null;
+    let diagSeconds = 120;
+
+    function openDiagnostic(strandId) {
+      activeDiagStrand = STRANDS.find(s => s.id === strandId);
+      if (!activeDiagStrand) return;
+      document.getElementById('diagTitle').textContent = `${activeDiagStrand.code}: ${activeDiagStrand.title}`;
+      const body = document.getElementById('diagBody');
+      body.innerHTML = activeDiagStrand.diagnostics.map((d, idx) => `
+        <div class="border border-slate-200 rounded-xl p-4 bg-white space-y-2.5">
+          <div class="flex items-start justify-between gap-2">
+            <p class="text-sm font-semibold text-slate-900"><span class="text-indigo-600 mr-1.5">Q${idx + 1}.</span>${d.q}</p>
+            <button onclick="document.getElementById('diagAns_${idx}').classList.toggle('hidden')" class="text-xs font-semibold text-indigo-600 hover:underline shrink-0">Reveal</button>
+          </div>
+          <div id="diagAns_${idx}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm space-y-1">
+            <p class="font-bold text-emerald-700">Answer: ${d.a}</p>
+            <p class="text-xs text-slate-600">${d.work}</p>
+          </div>
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer pt-1">
+            <input type="checkbox" class="diag-check h-4 w-4 rounded border-slate-300 text-emerald-600" />
+            I got this right
+          </label>
+        </div>
+      `).join('');
+
+      renderMath(body);
+      document.getElementById('diagModal').classList.remove('hidden');
+      document.getElementById('diagModal').classList.add('flex');
+
+      clearInterval(diagInterval);
+      diagSeconds = 120;
+      updateDiagTimer();
+      diagInterval = setInterval(() => {
+        if (diagSeconds > 0) {
+          diagSeconds--;
+          updateDiagTimer();
+        } else {
+          clearInterval(diagInterval);
+        }
+      }, 1000);
+    }
+
+    function updateDiagTimer() {
+      const m = String(Math.floor(diagSeconds / 60)).padStart(2, '0');
+      const s = String(diagSeconds % 60).padStart(2, '0');
+      const el = document.getElementById('diagTimer');
+      el.textContent = `${m}:${s}`;
+      el.className = diagSeconds <= 20
+        ? 'px-2.5 py-1 rounded-md bg-rose-100 text-rose-700 font-mono text-sm font-bold'
+        : 'px-2.5 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm font-bold';
+    }
+
+    function closeDiagnostic() {
+      clearInterval(diagInterval);
+      document.getElementById('diagModal').classList.add('hidden');
+      document.getElementById('diagModal').classList.remove('flex');
+    }
+
+    function closeFormulaModal() {
+      const modal = document.getElementById('formulaModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('closeDiagBtn').addEventListener('click', closeDiagnostic);
+    document.getElementById('revealAllDiagBtn').addEventListener('click', () => {
+      document.querySelectorAll('[id^="diagAns_"]').forEach(el => el.classList.remove('hidden'));
+    });
+    document.getElementById('saveDiagBtn').addEventListener('click', () => {
+      if (!activeDiagStrand) return;
+      const checks = Array.from(document.querySelectorAll('.diag-check'));
+      const score = checks.filter(c => c.checked).length;
+      const total = checks.length;
+      state.diagnostics[activeDiagStrand.id] = { score, total, date: new Date().toLocaleDateString() };
+      state.rag[activeDiagStrand.id] = score === total ? 'green' : (score >= 2 ? 'amber' : 'red');
+      saveState(state);
+      closeDiagnostic();
+      renderDashboard();
+      showToast(`Saved ${activeDiagStrand.code} diagnostic (${score}/${total}) & updated RAG.`);
+    });
+
+    document.getElementById('openFormulaBtn').addEventListener('click', () => {
+      const modal = document.getElementById('formulaModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      renderMath(modal);
+    });
+    document.getElementById('closeFormulaBtn').addEventListener('click', closeFormulaModal);
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeDiagnostic();
+        closeFormulaModal();
+      }
+    });
+
+    document.getElementById('dismissQuickStart').addEventListener('click', () => {
+      state.quickStartDismissed = true;
+      saveState(state);
+      renderDashboard();
+    });
+
+    document.getElementById('expandAllBtn').addEventListener('click', () => {
+      STRANDS.forEach(s => expandedStrands.add(s.id));
+      renderDashboard();
+    });
+    document.getElementById('collapseAllBtn').addEventListener('click', () => {
+      expandedStrands.clear();
+      renderDashboard();
+    });
+
+    // Export / Import JSON Progress
+    document.getElementById('exportJsonBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `0580-mock-hub-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Progress exported as JSON.');
+    });
+
+    document.getElementById('importJsonInput').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!imported || typeof imported !== 'object') throw new Error('Invalid JSON');
+          state = {
+            ...defaultState(),
+            ...imported,
+            mocks: { ...defaultState().mocks, ...(imported.mocks || {}) }
+          };
+          saveState(state);
+          renderDashboard();
+          showToast('Progress imported successfully.');
+        } catch {
+          showToast('Could not import file: invalid JSON backup.');
+        } finally {
+          e.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Copy Weak Spots
+    document.getElementById('copyWeakSpotsBtn').addEventListener('click', () => {
+      const redTopics = STRANDS.filter(s => state.rag[s.id] === 'red').map(s => `${s.code} ${s.title}`);
+      const amberTopics = STRANDS.filter(s => state.rag[s.id] === 'amber').map(s => `${s.code} ${s.title}`);
+      const stuckIds = Object.entries(state.questions || {}).filter(([, v]) => v && v.status === 'stuck').map(([k]) => k);
+      const readiness = document.getElementById('statReadiness').textContent;
+      const p2 = getMockInfo(state.mocks.paper2);
+      const p4 = getMockInfo(state.mocks.paper4);
+
+      const summary = [
+        'CIE 0580 Extended — Year 11 Mock Revision Summary',
+        `Overall Readiness: ${readiness}`,
+        `Red Topics: ${redTopics.length ? redTopics.join(', ') : 'None'}`,
+        `Amber Topics: ${amberTopics.length ? amberTopics.join(', ') : 'None'}`,
+        `Stuck Question IDs: ${stuckIds.length ? stuckIds.join(', ') : 'None'}`,
+        `Mock Scores: Paper 2 (${p2.completed ? `${p2.score}/${p2.total}` : 'Not taken'}) | Paper 4 (${p4.completed ? `${p4.score}/${p4.total}` : 'Not taken'})`
+      ].join('\n');
+
+      navigator.clipboard.writeText(summary).then(() => {
+        showToast('Weak spots copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy your revision summary below:', summary);
+      });
+    });
+
+    document.getElementById('resetProgressBtn').addEventListener('click', () => {
+      if (confirm('Reset all saved confidence ratings, checklists, practice progress, and mock scores?')) {
+        state = defaultState();
+        saveState(state);
+        renderDashboard();
+        showToast('All progress reset.');
+      }
+    });
+
+    window.addEventListener('focus', () => { state = loadState(); renderDashboard(); });
+    window.addEventListener('pageshow', () => { state = loadState(); renderDashboard(); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDashboard();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

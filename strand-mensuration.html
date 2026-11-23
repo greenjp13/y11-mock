@@ -1,0 +1,668 @@
+<!-- File 8 of 10: strand-mensuration.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E5: Mensuration — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E5</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Mensuration</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 12 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="strand-trigonometry.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: E6 Trigonometry →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (12)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-1.5 flex-1">
+            <h2 class="text-base font-bold text-slate-900">E5 Decision Tree: Sectors, Cones, Spheres &amp; Compound Solids</h2>
+            <p class="text-xs text-slate-600">CIE gives cone, sphere, pyramid, and cylinder volume formulas on Page 2—but <strong>arc length, sector area, segment area, and flat base circles</strong> are NOT given.</p>
+          </div>
+          <!-- Inline SVG Visual Reference: Sector/Segment & Cone Net -->
+          <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-3 flex flex-wrap items-center justify-center gap-4">
+            <svg width="145" height="120" viewBox="0 0 145 120">
+              <path d="M 72 95 L 30 42 A 67 67 0 0 1 114 42 Z" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/>
+              <path d="M 30 42 A 67 67 0 0 1 114 42 Z" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+              <line x1="30" y1="42" x2="114" y2="42" stroke="#1e293b" stroke-width="1.5"/>
+              <text x="69" y="106" font-size="9" font-weight="bold">O</text>
+              <text x="20" y="42" font-size="9" font-weight="bold">A</text>
+              <text x="118" y="42" font-size="9" font-weight="bold">B</text>
+              <text x="69" y="76" font-size="9" font-weight="bold" fill="#4f46e5">θ</text>
+              <text x="53" y="34" font-size="8" font-weight="bold" fill="#92400e">Segment</text>
+              <text x="10" y="116" font-size="8" font-weight="bold" fill="#334155">Segment = Sector − Triangle</text>
+            </svg>
+            <svg width="145" height="120" viewBox="0 0 145 120">
+              <ellipse cx="72" cy="88" rx="36" ry="11" fill="#f1f5f9" stroke="#334155" stroke-width="1.6"/>
+              <polyline points="36,88 72,20 108,88" fill="none" stroke="#334155" stroke-width="1.8"/>
+              <line x1="72" y1="20" x2="72" y2="88" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <line x1="72" y1="88" x2="108" y2="88" stroke="#4f46e5" stroke-width="1.8"/>
+              <text x="62" y="58" font-size="9" font-weight="bold" fill="#047857">h</text>
+              <text x="88" y="84" font-size="9" font-weight="bold" fill="#4f46e5">r</text>
+              <text x="95" y="54" font-size="9" font-weight="bold" fill="#be123c">l</text>
+              <text x="26" y="116" font-size="8.5" font-weight="bold" fill="#334155">Slant height: l² = r² + h²</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Arcs, Sectors &amp; Shaded Segments</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Arc length:</strong> $L = \dfrac{\theta}{360} \times 2\pi r$</li>
+              <li><strong>Perimeter of a sector:</strong> $\text{Arc length} + 2r$ (never forget the two straight radii!).</li>
+              <li><strong>Sector area:</strong> $A_{\text{sector}} = \dfrac{\theta}{360} \times \pi r^2$</li>
+              <li><strong>Minor segment area:</strong> $A_{\text{sector}} - \frac{1}{2}r^2\sin\theta$.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Cones, Sectors Folded into Cones &amp; Frustums</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Cone slant height:</strong> $l = \sqrt{r^2 + h^2}$.</li>
+              <li><strong>Sector folded into a cone:</strong> Sector radius $R \to$ slant height $l$; Sector arc length $\to$ base circumference $2\pi r$.</li>
+              <li><strong>Frustum:</strong> $\text{Large Cone} - \text{Removed Small Cone}$ (use similar triangles $\frac{r_1}{r_2} = \frac{h_1}{h_2}$).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Compound Solids (Surface Area vs Volume)</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Volume:</strong> Simply ADD (or subtract if hollow) the volumes of the individual parts.</li>
+              <li><strong>Total Surface Area:</strong> Only count <strong>exposed outer faces</strong>—do NOT include hidden internal joins! (e.g. Hemisphere on cylinder $= 2\pi r^2 + 2\pi r h + \pi r^2$).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. Melting / Recasting &amp; Unit Conversions</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Melting/pouring liquid:</strong> Volume is conserved ($\text{Volume}_{\text{before}} = \text{Volume}_{\text{after}}$); $\pi$ usually cancels cleanly.</li>
+              <li><strong>Units:</strong> $1\text{ m}^2 = 10\,000\text{ cm}^2$; $\quad 1\text{ m}^3 = 1\,000\,000\text{ cm}^3$; $\quad 1\text{ litre} = 1000\text{ cm}^3$.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Using perpendicular height $h$ instead of slant height $l$ in $\pi r l$:</strong> The formula sheet gives curved surface area of a cone as $\pi r l$. Always use Pythagoras $l = \sqrt{r^2 + h^2}$ first if only $h$ is given.</li>
+          <li><strong>Hemisphere surface area:</strong> A solid hemisphere has curved area $\frac{1}{2}(4\pi r^2) = 2\pi r^2$, PLUS a flat circular base $\pi r^2$ ($= 3\pi r^2$ total) if it stands alone—but NOT if that base is glued onto a cylinder!</li>
+          <li><strong>Exact $\pi$ on Paper 2:</strong> When the question says <em>"Give your answer in terms of $\pi$"</em>, keep $\pi$ algebraic right through to the final line.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Study the <em>I Do</em> worked model on the left, then solve the matched <em>You Do</em> on paper before revealing the solution.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (12)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 12 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 12</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'mensuration';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Sector Perimeter & Exact Area (Paper 2)',
+        iDo: {
+          q: 'A sector of a circle has radius $9\\text{ cm}$ and sector angle $80^\\circ$. Find, in terms of $\\pi$, (a) its perimeter and (b) its area.',
+          steps: [
+            'Arc length $= \\dfrac{80}{360} \\times 2\\pi(9) = \\dfrac{2}{9} \\times 18\\pi = 4\\pi\\text{ cm}$.',
+            'Perimeter $= \\text{Arc} + 2r = (4\\pi + 18)\\text{ cm}$.',
+            'Sector area $= \\dfrac{80}{360} \\times \\pi(9^2) = \\dfrac{2}{9} \\times 81\\pi = 18\\pi\\text{ cm}^2$.'
+          ]
+        },
+        youDo: {
+          q: 'A sector of a circle has radius $12\\text{ cm}$ and sector angle $150^\\circ$. Find, in terms of $\\pi$, (a) its perimeter and (b) its area.',
+          ans: '(a) $(10\\pi + 24)\\text{ cm}$, (b) $60\\pi\\text{ cm}^2$',
+          work: 'Arc $= \\frac{150}{360} \\times 24\\pi = \\frac{5}{12} \\times 24\\pi = 10\\pi$, plus $2(12)=24$. Area $= \\frac{5}{12} \\times 144\\pi = 60\\pi$.'
+        }
+      },
+      {
+        title: 'Pair 2: Shaded Segment Area (Paper 4)',
+        iDo: {
+          q: 'In a circle of radius $8\\text{ cm}$, chord $AB$ subtends an angle of $110^\\circ$ at the centre $O$. Calculate the area of the minor segment shaded between chord $AB$ and arc $AB$ to 3 s.f.',
+          steps: [
+            'Sector area $= \\dfrac{110}{360} \\times \\pi \\times 8^2 = 61.4356\\text{ cm}^2$.',
+            'Triangle $OAB$ area $= \\dfrac{1}{2}(8)(8)\\sin 110^\\circ = 32 \\times 0.93969 = 30.0702\\text{ cm}^2$.',
+            'Segment area $= 61.4356 - 30.0702 = 31.365\\dots \\approx 31.4\\text{ cm}^2$.'
+          ]
+        },
+        youDo: {
+          q: 'In a circle of radius $10\\text{ cm}$, chord $PQ$ subtends an angle of $75^\\circ$ at the centre $O$. Calculate the area of the minor segment to 3 s.f.',
+          ans: '$17.2\\text{ cm}^2$',
+          work: 'Sector $= \\frac{75}{360}\\pi(100) = 65.4498\\text{ cm}^2$; Triangle $= \\frac{1}{2}(100)\\sin 75^\\circ = 48.2963\\text{ cm}^2$; Difference $= 17.153\\dots \\approx 17.2\\text{ cm}^2$.'
+        }
+      },
+      {
+        title: 'Pair 3: Melting & Recasting Solids (Paper 2)',
+        iDo: {
+          q: 'A solid metal sphere of radius $6\\text{ cm}$ is melted down and recast into solid cones each of base radius $3\\text{ cm}$ and height $4\\text{ cm}$. How many cones can be made?',
+          steps: [
+            'Sphere volume $= \\dfrac{4}{3}\\pi(6^3) = \\dfrac{4}{3}\\pi(216) = 288\\pi\\text{ cm}^3$.',
+            'One cone volume $= \\dfrac{1}{3}\\pi(3^2)(4) = 12\\pi\\text{ cm}^3$.',
+            'Number of cones $= \\dfrac{288\\pi}{12\\pi} = 24$.'
+          ]
+        },
+        youDo: {
+          q: 'A solid metal cylinder of radius $4\\text{ cm}$ and height $9\\text{ cm}$ is melted and recast into solid spheres of radius $2\\text{ cm}$. How many spheres are formed?',
+          ans: '$13$ complete spheres ($13.5$ exact)',
+          work: 'Cylinder $V = \\pi(16)(9) = 144\\pi$. Sphere $V = \\frac{4}{3}\\pi(8) = \\frac{32}{3}\\pi$. Count $= 144 \\div \\frac{32}{3} = 13.5 \\implies 13$ complete spheres.'
+        }
+      },
+      {
+        title: 'Pair 4: Folding a Sector into a Cone (Paper 2)',
+        iDo: {
+          q: 'A semicircular sheet of card of radius $10\\text{ cm}$ is curled so its straight edges meet to form a hollow cone. Find the base radius $r$ and perpendicular height $h$ of the cone.',
+          steps: [
+            'Sector radius becomes cone slant height: $l = 10\\text{ cm}$.',
+            'Semicircle arc length equals base circumference: $\\dfrac{180}{360}(2\\pi \\times 10) = 2\\pi r \\implies 10\\pi = 2\\pi r \\implies r = 5\\text{ cm}$.',
+            'Height: $h = \\sqrt{l^2 - r^2} = \\sqrt{10^2 - 5^2} = \\sqrt{75} = 5\\sqrt{3}\\text{ cm}$.'
+          ]
+        },
+        youDo: {
+          q: 'A sector of radius $15\\text{ cm}$ and angle $216^\\circ$ is curled into a hollow cone. Find the base radius $r$ and perpendicular height $h$ of the cone.',
+          ans: '$r = 9\\text{ cm}$, $h = 12\\text{ cm}$',
+          work: '$l = 15\\text{ cm}$. Arc $= \\frac{216}{360}(30\\pi) = 18\\pi = 2\\pi r \\implies r = 9\\text{ cm}$. $h = \\sqrt{15^2 - 9^2} = 12\\text{ cm}$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E5-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Sector Perimeter & Area (Exact π)',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$OAB$ is a sector of a circle, centre $O$, with radius $6\\text{ cm}$ and $\\angle AOB = 120^\\circ$.<br>(a) Find the exact perimeter of the sector in the form $a\\pi + b$.<br>(b) Find the exact area of the sector in terms of $\\pi$.</div><svg width="155" height="115" viewBox="0 0 155 115" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><path d="M 77 95 L 25 65 A 60 60 0 0 1 129 65 Z" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/><text x="74" y="107" font-size="9" font-weight="bold">O</text><text x="14" y="67" font-size="9" font-weight="bold">A</text><text x="133" y="67" font-size="9" font-weight="bold">B</text><text x="68" y="75" font-size="8.5" font-weight="bold" fill="#4f46e5">120°</text><text x="36" y="90" font-size="8.5" fill="#334155">6 cm</text></svg></div>',
+        hint1: 'Arc length $= \\dfrac{120}{360} \\times 2\\pi r$; do not forget to add the two straight radii $OA$ and $OB$ for the perimeter.',
+        hint2: 'Sector area $= \\dfrac{120}{360} \\times \\pi r^2$.',
+        setup: 'Perimeter $= \\dfrac{\\theta}{360}(2\\pi r) + 2r$, $\\quad \\text{Area} = \\dfrac{\\theta}{360}(\\pi r^2)$.',
+        solution: '(a) Arc length $= \\dfrac{120}{360} \\times 2\\pi(6) = 4\\pi\\text{ cm}$ <strong>[M1]</strong>.<br>Perimeter $= 4\\pi + 6 + 6 = (4\\pi + 12)\\text{ cm}$ <strong>[A1]</strong>.<br>(b) Area $= \\dfrac{120}{360} \\times \\pi(6^2)$ <strong>[M1]</strong> $= 12\\pi\\text{ cm}^2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q02',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Shaded Segment Area',
+        prompt: 'A circle has centre $O$ and radius $9.5\\text{ cm}$. Points $P$ and $Q$ lie on the circle such that $\\angle POQ = 84^\\circ$.<br>Calculate the area of the minor segment bounded by the chord $PQ$ and the minor arc $PQ$. Give your answer correct to 3 significant figures.',
+        hint1: 'Subtract the area of isosceles $\\triangle POQ$ from the area of sector $POQ$.',
+        hint2: 'Use $\\text{Area}(\\triangle POQ) = \\frac{1}{2} r^2 \\sin 84^\\circ$.',
+        setup: '$A_{\\text{segment}} = \\dfrac{84}{360}\\pi(9.5)^2 - \\dfrac{1}{2}(9.5)^2\\sin 84^\\circ$.',
+        solution: 'Sector area $= \\dfrac{84}{360} \\times \\pi \\times 9.5^2 = 66.1567\\text{ cm}^2$ <strong>[M1]</strong>.<br>Triangle area $= \\dfrac{1}{2} \\times 9.5^2 \\times \\sin 84^\\circ = 44.8778\\text{ cm}^2$ <strong>[M1]</strong>.<br>Segment area $= 66.1567 - 44.8778 = 21.2789\\dots$ <strong>[M1]</strong> $= 21.3\\text{ cm}^2$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Cone Slant Height & Total Surface Area',
+        prompt: 'A solid right circular cone has base radius $5\\text{ cm}$ and perpendicular height $12\\text{ cm}$.<br>(a) Find the slant height $l$ of the cone.<br>(b) Calculate the total surface area of the cone, giving your answer in terms of $\\pi$.',
+        hint1: 'Use Pythagoras on the right triangle formed by radius $5$, height $12$, and slant height $l$.',
+        hint2: 'A <em>solid</em> cone has both a curved surface ($\\pi r l$) and a flat circular base ($\\pi r^2$).',
+        setup: '$l = \\sqrt{r^2 + h^2}$, $\\quad \\text{Total SA} = \\pi r l + \\pi r^2$.',
+        solution: '(a) $l = \\sqrt{5^2 + 12^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13\\text{ cm}$ <strong>[M1, A1]</strong>.<br>(b) Total SA $= \\pi(5)(13) + \\pi(5^2)$ <strong>[M1]</strong> $= 65\\pi + 25\\pi = 90\\pi\\text{ cm}^2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q04',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Compound Solid: Hemisphere on Cylinder',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>A solid trophy consists of a hemisphere of radius $4\\text{ cm}$ joined flat-face to the top of a cylinder of radius $4\\text{ cm}$ and height $11\\text{ cm}$.<br>(a) Calculate the total volume of the trophy to 3 s.f.<br>(b) Calculate the total outer surface area of the trophy to 3 s.f.</div><svg width="130" height="145" viewBox="0 0 130 145" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><path d="M 35 55 A 30 30 0 0 1 95 55" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/><rect x="35" y="55" width="60" height="68" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/><ellipse cx="65" cy="123" rx="30" ry="7" fill="#e2e8f0" stroke="#334155" stroke-width="1.5"/><text x="100" y="92" font-size="8.5" fill="#334155">11 cm</text><text x="53" y="50" font-size="8.5" fill="#4f46e5">r = 4</text></svg></div>',
+        hint1: 'Volume is the cylinder plus half a sphere: $\\pi r^2 h + \\frac{2}{3}\\pi r^3$.',
+        hint2: 'For outer surface area, count the curved hemisphere ($2\\pi r^2$), curved cylinder ($2\\pi r h$), and bottom base ($\\pi r^2$).',
+        setup: '$V = \\pi r^2 h + \\dfrac{2}{3}\\pi r^3$, $\\quad \\text{SA} = 2\\pi r^2 + 2\\pi r h + \\pi r^2 = 3\\pi r^2 + 2\\pi r h$.',
+        solution: '(a) $V = \\pi(4^2)(11) + \\dfrac{2}{3}\\pi(4^3)$ <strong>[M1]</strong> $= 176\\pi + \\dfrac{128}{3}\\pi = \\dfrac{656}{3}\\pi = 686.96\\dots \\approx 687\\text{ cm}^3$ <strong>[A1]</strong>.<br>(b) $\\text{SA} = 2\\pi(4^2) + 2\\pi(4)(11) + \\pi(4^2)$ <strong>[M2: M1 for curved parts, M1 for base]</strong><br>$= 32\\pi + 88\\pi + 16\\pi = 136\\pi = 427.256\\dots \\approx 427\\text{ cm}^2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q05',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Recasting a Sphere into a Cylinder',
+        prompt: 'A solid metal sphere of radius $3\\text{ cm}$ is melted down and recast into a solid cylinder of base radius $2\\text{ cm}$.<br>Calculate the height $h$ of the cylinder.',
+        hint1: 'Equate the volume of the sphere $\\frac{4}{3}\\pi r^3$ to the volume of the cylinder $\\pi r^2 h$.',
+        hint2: 'Cancel $\\pi$ from both sides before solving for $h$.',
+        setup: '$\\dfrac{4}{3}\\pi (3)^3 = \\pi (2)^2 h$.',
+        solution: 'Volume of sphere $= \\dfrac{4}{3}\\pi(3^3) = 36\\pi\\text{ cm}^3$ <strong>[M1]</strong>.<br>Equate volumes: $\\pi(2^2)h = 36\\pi$ <strong>[M1]</strong> $\\implies 4h = 36$ <strong>[M1]</strong> $\\implies h = 9\\text{ cm}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q06',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Water Level Rise in a Cylinder',
+        prompt: 'A cylindrical tank of internal radius $15\\text{ cm}$ contains water to a depth of $20\\text{ cm}$.<br>Six solid metal spheres, each of radius $3\\text{ cm}$, are dropped into the tank and are completely submerged.<br>Calculate the rise in the water level in the tank.',
+        hint1: 'The volume of displaced water (a cylinder of radius $15\\text{ cm}$ and height $\\Delta h$) equals the total volume of the $6$ spheres.',
+        hint2: 'Set $\\pi (15)^2 \\Delta h = 6 \\times \\frac{4}{3}\\pi (3)^3$ and cancel $\\pi$.',
+        setup: '$\\pi (15)^2 \\Delta h = 6 \\times \\dfrac{4}{3}\\pi (3)^3$.',
+        solution: 'Total volume of $6$ spheres $= 6 \\times \\dfrac{4}{3}\\pi(3^3) = 216\\pi\\text{ cm}^3$ <strong>[M1]</strong>.<br>$\\pi(15^2)\\Delta h = 216\\pi$ <strong>[M1]</strong> $\\implies 225\\Delta h = 216$ <strong>[M1]</strong><br>$\\Delta h = \\dfrac{216}{225} = 0.96\\text{ cm}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q07',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Trapezium Prism & Litres Conversion',
+        prompt: 'A swimming pool has the shape of a prism of length $25\\text{ m}$ and width $10\\text{ m}$. Its vertical cross-section is a trapezium with depth $1.2\\text{ m}$ at the shallow end and $2.4\\text{ m}$ at the deep end.<br>(a) Calculate the volume of water in the pool in $\\text{m}^3$ when full.<br>(b) Water is pumped into the empty pool at $450\\text{ litres}$ per minute. Calculate the time taken to fill the pool, giving your answer in hours and minutes.',
+        hint1: 'Use the trapezium area formula $A = \\frac{1}{2}(a + b)h$ with parallel sides $1.2\\text{ m}$ and $2.4\\text{ m}$ and length $25\\text{ m}$.',
+        hint2: 'Convert $\\text{m}^3$ to litres using $1\\text{ m}^3 = 1000\\text{ litres}$.',
+        setup: '$V = \\dfrac{1}{2}(1.2 + 2.4)(25) \\times 10$, $\\quad \\text{Litres} = V \\times 1000$.',
+        solution: '(a) Cross-section area $= \\dfrac{1}{2}(1.2 + 2.4) \\times 25 = 45\\text{ m}^2$ <strong>[M1]</strong>.<br>Volume $= 45 \\times 10 = 450\\text{ m}^3$ <strong>[A1]</strong>.<br>(b) Capacity $= 450 \\times 1000 = 450\\,000\\text{ litres}$.<br>Time $= \\dfrac{450\\,000}{450} = 1000\\text{ minutes}$ <strong>[M1]</strong> $= 16\\text{ hours } 40\\text{ minutes}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q08',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Square-Based Pyramid Volume & Surface Area',
+        prompt: 'A solid square-based pyramid has base side length $10\\text{ cm}$ and perpendicular height $12\\text{ cm}$.<br>(a) Calculate the volume of the pyramid.<br>(b) Calculate the total surface area of the pyramid.',
+        hint1: 'Volume of a pyramid is $\\frac{1}{3} \\times \\text{base area} \\times \\text{height}$.',
+        hint2: 'To find the slant height of each triangular face, use Pythagoras with half the base ($5\\text{ cm}$) and height ($12\\text{ cm}$).',
+        setup: '$V = \\dfrac{1}{3}(10^2)(12)$, $\\quad l_{\\text{face}} = \\sqrt{5^2 + 12^2} = 13\\text{ cm}$.',
+        solution: '(a) $V = \\dfrac{1}{3} \\times 10^2 \\times 12 = 400\\text{ cm}^3$ <strong>[M1, A1]</strong>.<br>(b) Slant height of triangular face $= \\sqrt{5^2 + 12^2} = 13\\text{ cm}$ <strong>[M1]</strong>.<br>Total SA $= 10^2 + 4 \\times \\left(\\dfrac{1}{2} \\times 10 \\times 13\\right) = 100 + 260 = 360\\text{ cm}^2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q09',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Sector Folded into a Cone',
+        prompt: 'A sector of a circle of radius $10\\text{ cm}$ and angle $288^\\circ$ is bent so that the two straight radii meet to form a hollow cone.<br>(a) Find the base radius $r$ of the cone.<br>(b) Find the perpendicular height $h$ of the cone.',
+        hint1: 'The arc length of the $288^\\circ$ sector becomes the circumference $2\\pi r$ of the cone’s base.',
+        hint2: 'The sector’s radius ($10\\text{ cm}$) becomes the cone’s slant height $l$.',
+        setup: '$\\dfrac{288}{360}(2\\pi \\times 10) = 2\\pi r$, $\\quad h = \\sqrt{10^2 - r^2}$.',
+        solution: '(a) Arc length $= \\dfrac{288}{360} \\times 2\\pi(10) = \\dfrac{4}{5} \\times 20\\pi = 16\\pi\\text{ cm}$ <strong>[M1]</strong>.<br>$2\\pi r = 16\\pi \\implies r = 8\\text{ cm}$ <strong>[A1]</strong>.<br>(b) $h = \\sqrt{10^2 - 8^2} = \\sqrt{36}$ <strong>[M1]</strong> $= 6\\text{ cm}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q10',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 5,
+        topic: 'Frustum of a Cone',
+        prompt: 'A bucket is in the shape of a frustum of a cone. The top circular opening has radius $12\\text{ cm}$, the flat circular base has radius $8\\text{ cm}$, and the vertical height of the bucket is $15\\text{ cm}$.<br>Calculate the capacity of the bucket in litres, correct to 3 significant figures.',
+        hint1: 'Extend the bucket downwards to complete the full cone; use similar triangles $\\dfrac{8}{12} = \\dfrac{h}{h + 15}$ to find the height $h$ of the removed cone.',
+        hint2: 'Subtract the volume of the removed small cone from the volume of the large cone, then divide by $1000$ for litres.',
+        setup: '$\\dfrac{h}{h + 15} = \\dfrac{8}{12} \\implies h = 30\\text{ cm}$; $V_{\\text{frustum}} = \\dfrac{1}{3}\\pi(12^2)(45) - \\dfrac{1}{3}\\pi(8^2)(30)$.',
+        solution: 'Similar triangles: $\\dfrac{h}{h + 15} = \\dfrac{8}{12} \\implies 12h = 8h + 120 \\implies h = 30\\text{ cm}$ <strong>[M1]</strong>.<br>Large cone height $= 30 + 15 = 45\\text{ cm}$.<br>$V = \\dfrac{1}{3}\\pi(12^2)(45) - \\dfrac{1}{3}\\pi(8^2)(30)$ <strong>[M2]</strong> $= 2160\\pi - 640\\pi = 1520\\pi = 4775.22\\text{ cm}^3$ <strong>[A1]</strong>.<br>Capacity $= \\dfrac{4775.22}{1000} = 4.78\\text{ litres}$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q11',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Reverse Arc Length & Exact Sector Area',
+        prompt: 'A sector of a circle has radius $r\\text{ cm}$ and sector angle $72^\\circ$.<br>The arc length of the sector is $3\\pi\\text{ cm}$.<br>(a) Find the value of $r$.<br>(b) Find the exact area of the sector in terms of $\\pi$.',
+        hint1: 'Write $\\dfrac{72}{360} = \\dfrac{1}{5}$ and set $\\dfrac{1}{5} \\times 2\\pi r = 3\\pi$.',
+        hint2: 'Substitute your value of $r$ into $\\dfrac{1}{5} \\times \\pi r^2$.',
+        setup: '$\\dfrac{72}{360}(2\\pi r) = 3\\pi \\implies \\dfrac{2}{5}r = 3$.',
+        solution: '(a) $\\dfrac{72}{360} \\times 2\\pi r = 3\\pi \\implies \\dfrac{1}{5} \\times 2r = 3$ <strong>[M1]</strong> $\\implies r = 7.5\\text{ cm}$ (or $\\frac{15}{2}$) <strong>[A1]</strong>.<br>(b) Area $= \\dfrac{1}{5} \\times \\pi \\times (7.5)^2$ <strong>[M1]</strong> $= \\dfrac{1}{5} \\times 56.25\\pi = 11.25\\pi\\text{ cm}^2$ (or $\\frac{45}{4}\\pi$) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E5-Q12',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 5,
+        topic: 'Equating Sphere & Cylinder Surface Areas',
+        prompt: 'A solid sphere of radius $r\\text{ cm}$ and a solid cylinder of base radius $r\\text{ cm}$ and height $h\\text{ cm}$ have the <strong>same total surface area</strong>.<br>(a) Show that $h = r$.<br>(b) Find the ratio $\\text{Volume of sphere} : \\text{Volume of cylinder}$ in its simplest form.',
+        hint1: 'Total surface area of a solid cylinder is $2\\pi r^2 + 2\\pi r h$, and surface area of a sphere is $4\\pi r^2$.',
+        hint2: 'For (b), substitute $h = r$ into the cylinder volume $\\pi r^2 h$ and compare with $\\frac{4}{3}\\pi r^3$.',
+        setup: '$4\\pi r^2 = 2\\pi r^2 + 2\\pi r h$, $\\quad \\dfrac{4}{3}\\pi r^3 : \\pi r^2(r)$.',
+        solution: '(a) $2\\pi r^2 + 2\\pi r h = 4\\pi r^2$ <strong>[M1]</strong><br>$2\\pi r h = 2\\pi r^2$ <strong>[M1]</strong> $\\implies h = r$ (dividing by $2\\pi r$, $r &gt; 0$) <strong>[A1]</strong>.<br>(b) $\\text{Volume ratio} = \\dfrac{4}{3}\\pi r^3 : \\pi r^3 = \\dfrac{4}{3} : 1$ <strong>[M1]</strong> $= 4 : 3$ <strong>[A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

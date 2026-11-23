@@ -1,0 +1,647 @@
+<!-- File 6 of 10: strand-coord-geo.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E3: Coordinate Geometry — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E3</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Coordinate Geometry</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 10 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="strand-geometry.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: E4 Geometry →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (10)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-2 flex-1">
+            <h2 class="text-base font-bold text-slate-900">E3 Decision Tree: Core Coordinate Formulas (Must Memorise)</h2>
+            <p class="text-xs text-slate-600">None of the coordinate geometry formulas appear on the CIE 0580 Formula Sheet—commit these four tools to memory before the mock.</p>
+          </div>
+          <!-- Inline SVG Visual Reference -->
+          <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center justify-center">
+            <svg width="240" height="145" viewBox="0 0 240 145">
+              <defs>
+                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="240" height="145" fill="url(#grid)" rx="6"/>
+              <line x1="20" y1="125" x2="225" y2="125" stroke="#94a3b8" stroke-width="1.5"/>
+              <line x1="30" y1="15" x2="30" y2="135" stroke="#94a3b8" stroke-width="1.5"/>
+              <line x1="50" y1="105" x2="170" y2="45" stroke="#4f46e5" stroke-width="2.5"/>
+              <line x1="50" y1="105" x2="170" y2="105" stroke="#64748b" stroke-width="1.2" stroke-dasharray="3,3"/>
+              <line x1="170" y1="105" x2="170" y2="45" stroke="#64748b" stroke-width="1.2" stroke-dasharray="3,3"/>
+              <line x1="80" y1="15" x2="140" y2="135" stroke="#059669" stroke-width="2" stroke-dasharray="4,2"/>
+              <polyline points="118,71 122,79 114,83" fill="none" stroke="#059669" stroke-width="1.5"/>
+              <circle cx="50" cy="105" r="4" fill="#4f46e5"/>
+              <text x="36" y="120" font-size="10" font-weight="bold" fill="#1e293b">A(x₁,y₁)</text>
+              <circle cx="170" cy="45" r="4" fill="#4f46e5"/>
+              <text x="175" y="43" font-size="10" font-weight="bold" fill="#1e293b">B(x₂,y₂)</text>
+              <circle cx="110" cy="75" r="4" fill="#059669"/>
+              <text x="122" y="72" font-size="10" font-weight="bold" fill="#047857">M (Midpoint)</text>
+              <text x="128" y="139" font-size="9" font-weight="bold" fill="#047857">⊥ bisector: m₁·m₂ = -1</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Gradient, Midpoint &amp; Distance</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Gradient:</strong> $m = \dfrac{y_2 - y_1}{x_2 - x_1}$ (keep the order consistent top &amp; bottom).</li>
+              <li><strong>Midpoint:</strong> $M = \left(\dfrac{x_1 + x_2}{2},\; \dfrac{y_1 + y_2}{2}\right)$ (average the coordinates).</li>
+              <li><strong>Length:</strong> $d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$ (Pythagoras).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Parallel &amp; Perpendicular Lines</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>First step:</strong> Rearrange into $y = mx + c$ so you can read off $m$ safely.</li>
+              <li><strong>Parallel:</strong> $m_2 = m_1$.</li>
+              <li><strong>Perpendicular:</strong> $m_1 m_2 = -1 \implies m_2 = -\dfrac{1}{m_1}$ (negative reciprocal: flip &amp; change sign).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Perpendicular Bisector of $AB$</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Step 1:</strong> Find the <strong>midpoint $M$</strong> of $AB$.</li>
+              <li><strong>Step 2:</strong> Find $m_{AB}$, then take the negative reciprocal $m_{\perp} = -\dfrac{1}{m_{AB}}$.</li>
+              <li><strong>Step 3:</strong> Use $y - y_M = m_{\perp}(x - x_M)$ (use $M$, NOT $A$ or $B$!).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. Intersections, Collinearity &amp; Axes</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Intersection of two lines:</strong> Solve simultaneously.</li>
+              <li><strong>Axis intercepts:</strong> Crosses $x$-axis when $y = 0$; crosses $y$-axis when $x = 0$.</li>
+              <li><strong>Collinear points $A, B, C$:</strong> Show $m_{AB} = m_{BC}$ (with shared point $B$).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Reading $m$ before isolating $y$:</strong> For $2x + 4y = 9$, the gradient is NOT $2$ and NOT $-2$. Divide by $4$ first: $y = -\frac{1}{2}x + \frac{9}{4} \implies m = -\frac{1}{2}$.</li>
+          <li><strong>Using an endpoint instead of the midpoint:</strong> A perpendicular bisector must pass through the <em>midpoint</em> of $AB$, never $A$ or $B$.</li>
+          <li><strong>Required form $ax + by = c$ with integer coefficients:</strong> Multiply through by the denominator to clear fractions (e.g. $y = \frac{2}{3}x - 4 \implies 2x - 3y = 12$).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Study the <em>I Do</em> worked model on the left, then solve the matched <em>You Do</em> on paper before revealing the solution.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <!-- Sticky Filter & View Bar -->
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (10)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 10 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 10</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'coord-geo';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Midpoint, Gradient & Exact Length (Paper 2)',
+        iDo: {
+          q: 'Find the midpoint, gradient, and exact length of the line segment joining $A(-3, 4)$ and $B(5, -2)$.',
+          steps: [
+            'Midpoint: $M = \\left(\\dfrac{-3 + 5}{2},\\; \\dfrac{4 + (-2)}{2}\\right) = (1, 1)$.',
+            'Gradient: $m = \\dfrac{-2 - 4}{5 - (-3)} = \\dfrac{-6}{8} = -\\dfrac{3}{4}$.',
+            'Exact length: $AB = \\sqrt{(5 - (-3))^2 + (-2 - 4)^2} = \\sqrt{8^2 + (-6)^2} = \\sqrt{100} = 10$.'
+          ]
+        },
+        youDo: {
+          q: 'Find the midpoint, gradient, and exact length of the line segment joining $P(2, -5)$ and $Q(-4, 3)$.',
+          ans: 'Midpoint $(-1, -1)$, Gradient $-\\dfrac{4}{3}$, Length $10$',
+          work: 'Midpoint $= (\\frac{2-4}{2}, \\frac{-5+3}{2}) = (-1, -1)$; $m = \\frac{3-(-5)}{-4-2} = \\frac{8}{-6} = -\\frac{4}{3}$; $PQ = \\sqrt{(-6)^2 + 8^2} = 10$.'
+        }
+      },
+      {
+        title: 'Pair 2: Equation of a Perpendicular Line (Paper 2)',
+        iDo: {
+          q: 'Line $L_1$ has equation $2x + 3y = 12$. Find the equation of line $L_2$ perpendicular to $L_1$ passing through $(4, -1)$ in the form $y = mx + c$.',
+          steps: [
+            'Rearrange $L_1$: $3y = -2x + 12 \\implies y = -\\dfrac{2}{3}x + 4$, so $m_1 = -\\dfrac{2}{3}$.',
+            'Take negative reciprocal: $m_2 = \\dfrac{3}{2}$.',
+            'Substitute $(4, -1)$: $-1 = \\dfrac{3}{2}(4) + c \\implies -1 = 6 + c \\implies c = -7$. Equation: $y = \\dfrac{3}{2}x - 7$.'
+          ]
+        },
+        youDo: {
+          q: 'Line $L_1$ has equation $4y - x = 8$. Find the equation of line $L_2$ perpendicular to $L_1$ passing through $(2, -3)$ in the form $y = mx + c$.',
+          ans: '$y = -4x + 5$',
+          work: '$4y = x + 8 \\implies y = \\frac{1}{4}x + 2$, so $m_1 = \\frac{1}{4}$ and $m_2 = -4$. Substitute $(2, -3)$: $-3 = -4(2) + c \\implies c = 5$.'
+        }
+      },
+      {
+        title: 'Pair 3: Perpendicular Bisector of a Line Segment (Paper 2)',
+        iDo: {
+          q: 'Find the equation of the perpendicular bisector of $A(1, 2)$ and $B(5, 10)$ in the form $y = mx + c$.',
+          steps: [
+            'Midpoint $M = \\left(\\dfrac{1 + 5}{2},\\; \\dfrac{2 + 10}{2}\\right) = (3, 6)$.',
+            'Gradient $m_{AB} = \\dfrac{10 - 2}{5 - 1} = \\dfrac{8}{4} = 2 \\implies m_{\\perp} = -\\dfrac{1}{2}$.',
+            'Use $M(3, 6)$: $6 = -\\dfrac{1}{2}(3) + c \\implies c = 7.5$. Equation: $y = -0.5x + 7.5$.'
+          ]
+        },
+        youDo: {
+          q: 'Find the equation of the perpendicular bisector of $C(-2, 7)$ and $D(4, 1)$ in the form $y = mx + c$.',
+          ans: '$y = x + 3$',
+          work: 'Midpoint $M = (1, 4)$; $m_{CD} = \\frac{1 - 7}{4 - (-2)} = -1 \\implies m_{\\perp} = 1$. Substitute $(1, 4)$: $4 = 1(1) + c \\implies c = 3$.'
+        }
+      },
+      {
+        title: 'Pair 4: Finding an Endpoint from a Known Midpoint (Paper 2)',
+        iDo: {
+          q: '$M(3, -2)$ is the midpoint of $AB$. Given $A(-1, 4)$, find the coordinates of $B$.',
+          steps: [
+            'Set up $x$-coordinate equation: $\\dfrac{-1 + x_B}{2} = 3 \\implies -1 + x_B = 6 \\implies x_B = 7$.',
+            'Set up $y$-coordinate equation: $\\dfrac{4 + y_B}{2} = -2 \\implies 4 + y_B = -4 \\implies y_B = -8$.',
+            'Write as coordinates: $B(7, -8)$.'
+          ]
+        },
+        youDo: {
+          q: '$M(-2, 5)$ is the midpoint of $PQ$. Given $Q(3, 1)$, find the coordinates of $P$.',
+          ans: '$P(-7, 9)$',
+          work: '$\\frac{x_P + 3}{2} = -2 \\implies x_P = -7$; $\\frac{y_P + 1}{2} = 5 \\implies y_P = 9$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E3-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Midpoint, Gradient & Exact Surd Length',
+        prompt: 'The points $A(-1, 3)$ and $B(5, 7)$ lie on a coordinate grid.<br>(a) Find the coordinates of the midpoint of $AB$.<br>(b) Find the gradient of $AB$.<br>(c) Find the exact length of $AB$, giving your answer in the form $k\\sqrt{13}$.',
+        hint1: 'Average the $x$-coordinates and $y$-coordinates for the midpoint; use $\\frac{y_2-y_1}{x_2-x_1}$ for the gradient.',
+        hint2: 'For length, compute $\\sqrt{(5 - (-1))^2 + (7 - 3)^2} = \\sqrt{52}$, then simplify $\\sqrt{4 \\times 13}$.',
+        setup: 'Midpoint $= \\left(\\dfrac{x_1+x_2}{2}, \\dfrac{y_1+y_2}{2}\\right)$, $\\quad m = \\dfrac{y_2-y_1}{x_2-x_1}$, $\\quad d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2}$.',
+        solution: '(a) Midpoint $= \\left(\\dfrac{-1+5}{2},\\; \\dfrac{3+7}{2}\\right) = (2, 5)$ <strong>[B1]</strong>.<br>(b) $m = \\dfrac{7 - 3}{5 - (-1)} = \\dfrac{4}{6} = \\dfrac{2}{3}$ <strong>[B1]</strong>.<br>(c) $AB = \\sqrt{6^2 + 4^2} = \\sqrt{36 + 16} = \\sqrt{52}$ <strong>[M1]</strong> $= 2\\sqrt{13}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E3-Q02',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Parallel Lines in Integer Form',
+        prompt: 'Line $L$ passes through the point $(6, -2)$ and is parallel to the line $3x + 2y = 10$.<br>Find the equation of line $L$, giving your answer in the form $ax + by = c$, where $a, b$ and $c$ are integers.',
+        hint1: 'Rearrange $3x + 2y = 10$ into $y = mx + c$ to find its gradient.',
+        hint2: 'Parallel lines have identical left-hand sides $3x + 2y = c$; substitute $(6, -2)$ to find $c$.',
+        setup: '$2y = -3x + 10 \\implies m = -\\dfrac{3}{2}$, so $L$ has the form $3x + 2y = c$.',
+        solution: 'Gradient of given line: $y = -\\dfrac{3}{2}x + 5 \\implies m = -\\dfrac{3}{2}$ <strong>[M1]</strong>.<br>Substitute $(6, -2)$ into $3x + 2y = c$: $3(6) + 2(-2) = 18 - 4 = 14$ <strong>[M1]</strong>.<br>Equation: $3x + 2y = 14$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E3-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Perpendicular Lines & Axis Intercepts',
+        prompt: 'Line $L_1$ passes through $A(0, 6)$ and $B(4, 0)$. Line $L_2$ is perpendicular to $L_1$ and passes through $B(4, 0)$.<br>(a) Find the equation of $L_2$ in the form $y = mx + c$.<br>(b) Write down the coordinates of the point where $L_2$ crosses the $y$-axis.',
+        hint1: 'Find $m_1$ from $A(0,6)$ and $B(4,0)$, then take the negative reciprocal $m_2 = -\\frac{1}{m_1}$.',
+        hint2: 'Substitute $B(4,0)$ into $y = m_2 x + c$ to solve for $c$.',
+        setup: '$m_1 = \\dfrac{0 - 6}{4 - 0} = -\\dfrac{3}{2} \\implies m_2 = \\dfrac{2}{3}$.',
+        solution: '(a) $m_1 = \\dfrac{0 - 6}{4 - 0} = -\\dfrac{3}{2}$ <strong>[M1]</strong> $\\implies m_2 = \\dfrac{2}{3}$ <strong>[M1]</strong>.<br>Through $(4, 0)$: $0 = \\dfrac{2}{3}(4) + c \\implies c = -\\dfrac{8}{3}$.<br>$y = \\dfrac{2}{3}x - \\dfrac{8}{3}$ <strong>[A1]</strong>.<br>(b) Crosses $y$-axis at $\\left(0,\\; -\\dfrac{8}{3}\\right)$ (or $\\left(0, -2\\frac{2}{3}\\right)$) <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E3-Q04',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Perpendicular Bisector',
+        prompt: 'Find the equation of the perpendicular bisector of the line segment joining $P(-3, 2)$ and $Q(5, 6)$.<br>Give your answer in the form $ax + by = c$, where $a, b$ and $c$ are integers.',
+        hint1: 'Find the midpoint $M$ of $PQ$ and the gradient $m_{PQ}$.',
+        hint2: 'Use $m_{\\perp} = -\\frac{1}{m_{PQ}}$ together with the midpoint $M$, then rearrange into $ax + by = c$.',
+        setup: '$M = \\left(\\dfrac{-3+5}{2}, \\dfrac{2+6}{2}\\right) = (1, 4)$, $\\quad m_{PQ} = \\dfrac{6-2}{5-(-3)} = \\dfrac{1}{2}$.',
+        solution: 'Midpoint $M = (1, 4)$ <strong>[B1]</strong>.<br>$m_{PQ} = \\dfrac{6 - 2}{5 - (-3)} = \\dfrac{1}{2}$ <strong>[M1]</strong> $\\implies m_{\\perp} = -2$ <strong>[M1]</strong>.<br>Through $(1, 4)$: $y - 4 = -2(x - 1) \\implies y = -2x + 6 \\implies 2x + y = 6$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E3-Q05',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Intersection of Two Straight Lines',
+        prompt: 'Line $L_1$ has equation $y = 3x - 4$ and line $L_2$ has equation $2x + 5y = 14$.<br>(a) Find the coordinates of the point of intersection $P$ of $L_1$ and $L_2$.<br>(b) Show that $P$ also lies on the line $4x - y = 6$.',
+        hint1: 'Substitute $y = 3x - 4$ directly into $2x + 5y = 14$.',
+        hint2: 'For (b), plug your $(x, y)$ coordinates of $P$ into $4x - y$ and show it equals $6$.',
+        setup: '$2x + 5(3x - 4) = 14$.',
+        solution: '(a) $2x + 5(3x - 4) = 14 \\implies 2x + 15x - 20 = 14$ <strong>[M1]</strong><br>$17x = 34 \\implies x = 2$ <strong>[A1]</strong>.<br>$y = 3(2) - 4 = 2 \\implies P(2, 2)$ <strong>[A1]</strong>.<br>(b) Substitute $(2, 2)$: $4(2) - 2 = 8 - 2 = 6$, so $P$ lies on the line <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E3-Q06',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Unknown Coordinate from Segment Length',
+        prompt: 'The distance between $A(2, -1)$ and $B(k, 7)$ is $10$ units, where $k &gt; 0$.<br>(a) Find the value of $k$.<br>(b) Using your value of $k$, find the gradient of $AB$.',
+        hint1: 'Set up the distance formula squared: $(k - 2)^2 + (7 - (-1))^2 = 10^2$.',
+        hint2: 'Solve $(k - 2)^2 = 36$ taking both $+6$ and $-6$, then select $k &gt; 0$.',
+        setup: '$(k - 2)^2 + 8^2 = 100$.',
+        solution: '(a) $(k - 2)^2 + (7 - (-1))^2 = 10^2$ <strong>[M1]</strong><br>$(k - 2)^2 + 64 = 100 \\implies (k - 2)^2 = 36$ <strong>[M1]</strong><br>$k - 2 = \\pm 6 \\implies k = 8$ or $k = -4$. Since $k &gt; 0$, $k = 8$ <strong>[A1]</strong>.<br>(b) $m_{AB} = \\dfrac{7 - (-1)}{8 - 2} = \\dfrac{8}{6} = \\dfrac{4}{3}$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E3-Q07',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 6,
+        topic: 'Synoptic Lines, Intersection & Triangle Area',
+        prompt: 'Line $L_1$ has equation $y = 2x + 3$. Line $L_2$ is perpendicular to $L_1$ and passes through $A(6, 5)$.<br>(a) Find the equation of $L_2$.<br>(b) $L_1$ and $L_2$ intersect at point $B$. Find the coordinates of $B$.<br>(c) $L_2$ crosses the $y$-axis at point $C$. Calculate the area of $\\triangle ABC$.',
+        hint1: 'Since $L_1 \\perp L_2$, angle $ABC = 90^\\circ$, so $\\triangle ABC$ is a right-angled triangle at $B$!',
+        hint2: 'Find exact lengths $AB$ and $BC$ using Pythagoras, then use $\\text{Area} = \\frac{1}{2} \\times AB \\times BC$.',
+        setup: '$m_2 = -\\dfrac{1}{2}$, $\\quad 2x + 3 = -\\dfrac{1}{2}x + 8$, $\\quad \\text{Area} = \\dfrac{1}{2}(AB)(BC)$.',
+        solution: '(a) $m_2 = -\\dfrac{1}{2}$. Through $(6, 5)$: $5 = -\\dfrac{1}{2}(6) + c \\implies c = 8 \\implies y = -\\dfrac{1}{2}x + 8$ <strong>[M1, A1]</strong>.<br>(b) $2x + 3 = -\\dfrac{1}{2}x + 8 \\implies 2.5x = 5 \\implies x = 2, y = 7 \\implies B(2, 7)$ <strong>[M1, A1]</strong>.<br>(c) $C$ is $(0, 8)$. Since $L_1 \\perp L_2$, $\\angle ABC = 90^\\circ$.<br>$AB = \\sqrt{(6-2)^2 + (5-7)^2} = \\sqrt{20}$ and $BC = \\sqrt{(2-0)^2 + (7-8)^2} = \\sqrt{5}$ <strong>[M1]</strong>.<br>$\\text{Area} = \\dfrac{1}{2} \\times \\sqrt{20} \\times \\sqrt{5} = \\dfrac{1}{2}\\sqrt{100} = 5\\text{ units}^2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E3-Q08',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Quadrilateral Properties on a Grid',
+        prompt: '$A(1, 2)$, $B(5, 4)$ and $C(3, 8)$ are three vertices of a parallelogram $ABCD$.<br>(a) Find the coordinates of the midpoint $M$ of the diagonal $AC$.<br>(b) Hence find the coordinates of vertex $D$.<br>(c) Show by calculation that $ABCD$ is a rhombus.',
+        hint1: 'The diagonals of a parallelogram bisect each other, so $M$ is also the midpoint of $BD$.',
+        hint2: 'A parallelogram with two adjacent sides of equal length ($AB = BC$) is a rhombus.',
+        setup: '$M = \\left(\\dfrac{1+3}{2}, \\dfrac{2+8}{2}\\right) = (2, 5) = \\left(\\dfrac{5+x_D}{2}, \\dfrac{4+y_D}{2}\\right)$.',
+        solution: '(a) $M = \\left(\\dfrac{1+3}{2},\\; \\dfrac{2+8}{2}\\right) = (2, 5)$ <strong>[B1]</strong>.<br>(b) $\\dfrac{5 + x_D}{2} = 2 \\implies x_D = -1$; $\\dfrac{4 + y_D}{2} = 5 \\implies y_D = 6 \\implies D(-1, 6)$ <strong>[M1, A1]</strong>.<br>(c) $AB = \\sqrt{(5-1)^2 + (4-2)^2} = \\sqrt{20}$ and $BC = \\sqrt{(3-5)^2 + (8-4)^2} = \\sqrt{20}$. Since $AB = BC$, $ABCD$ is a rhombus <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E3-Q09',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 5,
+        topic: 'Collinear Points & Segment Ratios',
+        prompt: 'The points $A(-2, 1)$, $B(1, 7)$ and $C(k, 15)$ lie on the same straight line.<br>(a) Find the gradient of $AB$.<br>(b) Find the value of $k$.<br>(c) Write down the ratio $AB : BC$ in its simplest form.',
+        hint1: 'Because $A, B, C$ are collinear, the gradient of $BC$ must equal the gradient of $AB$.',
+        hint2: 'For $AB : BC$, compare the horizontal steps $(x_B - x_A) : (x_C - x_B)$ (or vertical steps).',
+        setup: '$m_{AB} = \\dfrac{7 - 1}{1 - (-2)} = 2 = \\dfrac{15 - 7}{k - 1}$.',
+        solution: '(a) $m_{AB} = \\dfrac{7 - 1}{1 - (-2)} = \\dfrac{6}{3} = 2$ <strong>[M1, A1]</strong>.<br>(b) $\\dfrac{15 - 7}{k - 1} = 2 \\implies \\dfrac{8}{k - 1} = 2$ <strong>[M1]</strong> $\\implies k - 1 = 4 \\implies k = 5$ <strong>[A1]</strong>.<br>(c) $\\Delta x_{AB} = 1 - (-2) = 3$ and $\\Delta x_{BC} = 5 - 1 = 4$, so $AB : BC = 3 : 4$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E3-Q10',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 6,
+        topic: 'Perpendicular Bisector & Equidistant Locus',
+        prompt: 'The points $P(1, 5)$ and $Q(7, -3)$ lie on a coordinate grid.<br>(a) Find the equation of the perpendicular bisector of $PQ$ in the form $y = mx + c$.<br>(b) Point $R$ lies on the $x$-axis and is equidistant from $P$ and $Q$ ($PR = QR$). Find the exact coordinates of $R$.',
+        hint1: 'Every point equidistant from $P$ and $Q$ lies on the perpendicular bisector of $PQ$.',
+        hint2: 'Set $y = 0$ in your perpendicular bisector equation to find where it intersects the $x$-axis.',
+        setup: '$M = (4, 1)$, $\\quad m_{PQ} = \\dfrac{-3 - 5}{7 - 1} = -\\dfrac{4}{3} \\implies m_{\\perp} = \\dfrac{3}{4}$.',
+        solution: '(a) Midpoint $M = \\left(\\dfrac{1+7}{2}, \\dfrac{5+(-3)}{2}\\right) = (4, 1)$ <strong>[B1]</strong>.<br>$m_{PQ} = \\dfrac{-3 - 5}{7 - 1} = -\\dfrac{4}{3}$ <strong>[M1]</strong> $\\implies m_{\\perp} = \\dfrac{3}{4}$ <strong>[M1]</strong>.<br>Through $(4, 1)$: $1 = \\dfrac{3}{4}(4) + c \\implies c = -2 \\implies y = \\dfrac{3}{4}x - 2$ <strong>[A1]</strong>.<br>(b) $R$ lies on the perpendicular bisector where $y = 0$: $0 = \\dfrac{3}{4}x - 2$ <strong>[M1]</strong> $\\implies x = \\dfrac{8}{3} \\implies R\\left(\\dfrac{8}{3},\\; 0\\right)$ <strong>[A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

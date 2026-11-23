@@ -1,0 +1,638 @@
+<!-- File 4 of 10: strand-number.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E1: Number — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E1</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Number</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 12 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="strand-algebra.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: E2 Algebra →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (12)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+        <h2 class="text-base font-bold text-slate-900">E1 Decision Tree: Picking the Right Method Fast</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Surds &amp; Rationalising (Paper 2)</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Single surd denominator</strong> $\frac{a}{\sqrt{b}}$: multiply top &amp; bottom by $\sqrt{b}$.</li>
+              <li><strong>Binomial denominator</strong> $\frac{a}{p \pm \sqrt{q}}$: multiply top &amp; bottom by the conjugate $p \mp \sqrt{q}$ so the bottom becomes $p^2 - q$.</li>
+              <li>Always pull out the <strong>largest square factor</strong> first (e.g. $\sqrt{72} = \sqrt{36 \times 2} = 6\sqrt{2}$).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Fractional &amp; Negative Indices (Paper 2)</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li>Order of attack for $\left(\frac{a}{b}\right)^{-m/n}$: <strong>1) Flip</strong> for the minus sign, <strong>2) Root</strong> ($n$th root) to keep numbers small, <strong>3) Power</strong> ($m$).</li>
+              <li>Solving $a^x = b$: rewrite both sides with the <strong>same prime base</strong> (e.g. $8 = 2^3$, $9 = 3^2$, $\frac{1}{16} = 2^{-4}$).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Upper &amp; Lower Bounds (Paper 4)</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li>Half the rounding unit: nearest $10 \implies \pm 5$; 1 d.p. $\implies \pm 0.05$.</li>
+              <li><strong>Max of $A - B$</strong> $= A_{\text{UB}} - B_{\text{LB}}$; <strong>Min of $A - B$</strong> $= A_{\text{LB}} - B_{\text{UB}}$.</li>
+              <li><strong>Max of $\frac{A}{B}$</strong> $= \frac{A_{\text{UB}}}{B_{\text{LB}}}$; <strong>Min of $\frac{A}{B}$</strong> $= \frac{A_{\text{LB}}}{B_{\text{UB}}}$.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. Sets, Percentages &amp; Recurring Decimals</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Sets:</strong> $A \cup B$ (either/both), $A \cap B$ (both), $A'$ (not in $A$), $n(A)$ (count). Fill the intersection first!</li>
+              <li><strong>Reverse percentage:</strong> Divide by the multiplier (e.g. $15\%$ off $\implies \div 0.85$).</li>
+              <li><strong>Recurring decimals:</strong> Multiply by $10^k$ to align repeating digits directly after the decimal point, then subtract.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Standard Form format:</strong> $0.4 \times 10^2$ or $32 \times 10^{-5}$ loses the final A1 mark. The coefficient $a$ MUST satisfy $1 \le a < 10$.</li>
+          <li><strong>Bounds premature rounding:</strong> Keep full calculator precision when dividing bounds, and only round to 3 s.f. on the final answer line.</li>
+          <li><strong>Compound Interest "interest earned" vs "total amount":</strong> Read carefully—if asked for the <em>interest</em>, subtract the original principal $P$ at the end.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Read the <em>I Do</em> worked model on the left, then solve the structurally matched <em>You Do</em> on paper before clicking Reveal.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (12)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 12 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 12</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'number';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Rationalising a Binomial Surd Denominator (Paper 2)',
+        iDo: {
+          q: 'Rationalise the denominator and simplify $\\dfrac{12}{3 - \\sqrt{3}}$.',
+          steps: [
+            'Multiply numerator and denominator by the conjugate $3 + \\sqrt{3}$: $\\dfrac{12(3 + \\sqrt{3})}{(3 - \\sqrt{3})(3 + \\sqrt{3})}$.',
+            'Use difference of two squares on the denominator: $3^2 - (\\sqrt{3})^2 = 9 - 3 = 6$.',
+            'Simplify: $\\dfrac{12(3 + \\sqrt{3})}{6} = 2(3 + \\sqrt{3}) = 6 + 2\\sqrt{3}$.'
+          ]
+        },
+        youDo: {
+          q: 'Rationalise the denominator and simplify $\\dfrac{10}{\\sqrt{7} - \\sqrt{2}}$.',
+          ans: '$2\\sqrt{7} + 2\\sqrt{2}$',
+          work: 'Multiply by $\\frac{\\sqrt{7}+\\sqrt{2}}{\\sqrt{7}+\\sqrt{2}}$: denominator $= 7 - 2 = 5$. $\\frac{10(\\sqrt{7}+\\sqrt{2})}{5} = 2(\\sqrt{7}+\\sqrt{2}) = 2\\sqrt{7} + 2\\sqrt{2}$.'
+        }
+      },
+      {
+        title: 'Pair 2: Negative Fractional Indices (Paper 2)',
+        iDo: {
+          q: 'Evaluate $\\left(\\dfrac{16}{81}\\right)^{-\\frac{3}{4}}$ as an exact fraction.',
+          steps: [
+            'Apply the negative index (reciprocal): $\\left(\\dfrac{81}{16}\\right)^{\\frac{3}{4}}$.',
+            'Take the 4th root first: $\\left(\\dfrac{\\sqrt[4]{81}}{\\sqrt[4]{16}}\\right)^3 = \\left(\\dfrac{3}{2}\\right)^3$.',
+            'Cube numerator and denominator: $\\dfrac{27}{8}$ (or $3\\frac{3}{8}$).'
+          ]
+        },
+        youDo: {
+          q: 'Evaluate $\\left(\\dfrac{8}{125}\\right)^{-\\frac{2}{3}}$ as an exact fraction.',
+          ans: '$\\dfrac{25}{4}$ (or $6.25$)',
+          work: 'Flip to $\\left(\\frac{125}{8}\\right)^{2/3}$. Cube root gives $\\left(\\frac{5}{2}\\right)^2 = \\frac{25}{4}$.'
+        }
+      },
+      {
+        title: 'Pair 3: Upper & Lower Bounds in a Quotient (Paper 4)',
+        iDo: {
+          q: 'Speed $v = \\dfrac{d}{t}$. $d = 240\\text{ m}$ (nearest $10\\text{ m}$) and $t = 12.4\\text{ s}$ (nearest $0.1\\text{ s}$). Find the upper bound of $v$ to 3 s.f.',
+          steps: [
+            'Find bounds: $d_{\\text{UB}} = 245$, $t_{\\text{LB}} = 12.35$.',
+            'To maximise a fraction, use $\\dfrac{\\text{UB}}{\\text{LB}}$: $v_{\\text{UB}} = \\dfrac{245}{12.35} = 19.83805\\dots$',
+            'Round to 3 s.f.: $19.8\\text{ m/s}$.'
+          ]
+        },
+        youDo: {
+          q: 'Pressure $P = \\dfrac{F}{A}$. $F = 85\\text{ N}$ (nearest integer) and $A = 4.2\\text{ m}^2$ (1 d.p.). Find the lower bound of $P$ to 3 s.f.',
+          ans: '$19.9\\text{ N/m}^2$',
+          work: '$F_{\\text{LB}} = 84.5$, $A_{\\text{UB}} = 4.25$. $P_{\\text{LB}} = \\frac{84.5}{4.25} = 19.88235\\dots \\approx 19.9\\text{ N/m}^2$.'
+        }
+      },
+      {
+        title: 'Pair 4: Reverse Percentages & Compound Growth (Paper 4)',
+        iDo: {
+          q: 'A car depreciates by $12\\%$ each year. After 1 year its value is $\\$15\\,840$. Find its original value.',
+          steps: [
+            'A $12\\%$ decrease leaves $88\\%$, so multiplier $= 0.88$.',
+            'Set up equation: $0.88 \\times P = 15\\,840$.',
+            'Divide: $P = \\dfrac{15\\,840}{0.88} = \\$18\\,000$.'
+          ]
+        },
+        youDo: {
+          q: 'An investment earns $4.5\\%$ compound interest per year. After 3 years it is worth $\\$5\\,705.83$. Find the initial investment to the nearest dollar.',
+          ans: '$\\$5\\,000$',
+          work: '$P \\times (1.045)^3 = 5705.83 \\implies P = \\frac{5705.83}{1.141166125} = 4999.999\\dots \\approx \\$5\\,000$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E1-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Prime Factorisation, HCF & LCM',
+        prompt: 'Written as products of their prime factors, $A = 2^3 \\times 3^2 \\times 5$ and $B = 2^2 \\times 3 \\times 5^2$.<br>(a) Find the highest common factor (HCF) of $A$ and $B$.<br>(b) Write the lowest common multiple (LCM) of $A$ and $B$ as a product of prime factors.<br>(c) Find the smallest positive integer $k$ such that $Ak$ is a square number.',
+        hint1: 'For HCF take the lowest power of each shared prime; for LCM take the highest power.',
+        hint2: 'For a number to be a square number, every prime factor must have an even exponent.',
+        setup: '$\\text{HCF} = 2^{\\min} \\times 3^{\\min} \\times 5^{\\min}$, $\\quad \\text{LCM} = 2^{\\max} \\times 3^{\\max} \\times 5^{\\max}$.',
+        solution: '(a) $\\text{HCF} = 2^2 \\times 3 \\times 5 = 60$ <strong>[B1]</strong><br>(b) $\\text{LCM} = 2^3 \\times 3^2 \\times 5^2$ <strong>[B1]</strong><br>(c) $A = 2^3 \\times 3^2 \\times 5^1$. To make all powers even, multiply by $2^1 \\times 5^1$, so $k = 10$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E1-Q02',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Recurring Decimals to Fractions',
+        prompt: 'Use algebra to show that $0.4\\dot{7}\\dot{2} = \\dfrac{26}{55}$.',
+        hint1: 'Let $x = 0.4727272\\dots$ and find $10x$ so the repeating block starts immediately after the decimal point.',
+        hint2: 'Also find $1000x$ (since 2 digits repeat, multiply $10x$ by $100$) and subtract $1000x - 10x$.',
+        setup: '$10x = 4.\\dot{7}\\dot{2}$, $\\quad 1000x = 472.\\dot{7}\\dot{2} \\implies 1000x - 10x = 468$.',
+        solution: 'Let $x = 0.4727272\\dots$<br>$10x = 4.727272\\dots$ and $1000x = 472.727272\\dots$ <strong>[M1]</strong><br>$990x = 468 \\implies x = \\dfrac{468}{990}$ <strong>[M1]</strong><br>Divide top and bottom by $18$: $\\dfrac{468 \\div 18}{990 \\div 18} = \\dfrac{26}{55}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Standard Form (Non-Calc)',
+        prompt: 'Given that $p = 3.2 \\times 10^{-4}$ and $q = 8 \\times 10^{-6}$, calculate the following, giving each answer in standard form:<br>(a) $p \\div q$<br>(b) $p + q$',
+        hint1: 'For division, divide the numbers ($3.2 \\div 8$) and subtract the powers of 10.',
+        hint2: 'For addition, rewrite $q$ with $10^{-4}$ so both terms have the same power of 10.',
+        setup: '$p \\div q = \\dfrac{3.2}{8} \\times 10^{-4 - (-6)}$, $\\quad p + q = (3.2 + 0.08) \\times 10^{-4}$.',
+        solution: '(a) $\\dfrac{3.2}{8} \\times 10^{-4 - (-6)} = 0.4 \\times 10^2$ <strong>[M1]</strong> $= 4 \\times 10^1$ <strong>[A1]</strong>.<br>(b) $q = 0.08 \\times 10^{-4}$, so $p + q = (3.2 + 0.08) \\times 10^{-4} = 3.28 \\times 10^{-4}$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E1-Q04',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Expanding Surds',
+        prompt: 'Expand and simplify $(3 - \\sqrt{5})(2 + 3\\sqrt{5})$, giving your answer in the form $a + b\\sqrt{5}$ where $a$ and $b$ are integers.',
+        hint1: 'Multiply out all four pairs (FOIL) carefully, remembering that $\\sqrt{5} \\times \\sqrt{5} = 5$.',
+        hint2: 'Collect the integer terms and the $\\sqrt{5}$ terms separately.',
+        setup: '$3(2) + 3(3\\sqrt{5}) - 2\\sqrt{5} - 3(\\sqrt{5})^2$.',
+        solution: '$(3 - \\sqrt{5})(2 + 3\\sqrt{5}) = 6 + 9\\sqrt{5} - 2\\sqrt{5} - 3(\\sqrt{5})^2$ <strong>[M1]</strong><br>$= 6 + 7\\sqrt{5} - 15$ <strong>[M1]</strong><br>$= -9 + 7\\sqrt{5}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q05',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Rationalising Surds',
+        prompt: 'Express $\\dfrac{4 + \\sqrt{3}}{2 - \\sqrt{3}}$ in the form $a + b\\sqrt{3}$, where $a$ and $b$ are integers.',
+        hint1: 'Multiply numerator and denominator by the conjugate of the denominator, $2 + \\sqrt{3}$.',
+        hint2: 'Expand $(4 + \\sqrt{3})(2 + \\sqrt{3})$ on top and $(2 - \\sqrt{3})(2 + \\sqrt{3})$ on the bottom.',
+        setup: '$\\dfrac{(4 + \\sqrt{3})(2 + \\sqrt{3})}{(2 - \\sqrt{3})(2 + \\sqrt{3})}$.',
+        solution: '$\\dfrac{(4 + \\sqrt{3})(2 + \\sqrt{3})}{(2 - \\sqrt{3})(2 + \\sqrt{3})}$ <strong>[M1]</strong><br>Numerator $= 8 + 4\\sqrt{3} + 2\\sqrt{3} + 3 = 11 + 6\\sqrt{3}$ <strong>[M1]</strong><br>Denominator $= 4 - 3 = 1$ <strong>[M1]</strong><br>Final answer: $11 + 6\\sqrt{3}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q06',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Index Equations',
+        prompt: 'Solve each equation:<br>(a) $9^x = 27$<br>(b) $2^{y - 1} = \\dfrac{1}{16}$',
+        hint1: 'In (a), write both $9$ and $27$ as powers of $3$.',
+        hint2: 'In (b), write $\\frac{1}{16}$ as a negative power of $2$.',
+        setup: '$(3^2)^x = 3^3$, $\\quad 2^{y - 1} = 2^{-4}$.',
+        solution: '(a) $(3^2)^x = 3^3 \\implies 3^{2x} = 3^3$ <strong>[M1]</strong> $\\implies 2x = 3 \\implies x = 1.5$ (or $\\frac{3}{2}$) <strong>[A1]</strong>.<br>(b) $2^{y-1} = 2^{-4}$ <strong>[M1]</strong> $\\implies y - 1 = -4 \\implies y = -3$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q07',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Compound Interest',
+        prompt: 'Maya invests $\\$4\\,000$ in an account paying $3.5\\%$ per year compound interest.<br>(a) Calculate the value of her investment after $5$ years, giving your answer to the nearest cent.<br>(b) Find the minimum number of complete years it takes for her investment to exceed $\\$5\\,000$.',
+        hint1: 'Use $V = P\\left(1 + \\frac{r}{100}\\right)^n$ with $r = 3.5$.',
+        hint2: 'For (b), test integer values of $n$ (e.g. $n = 6, 7$) on your calculator and show both values.',
+        setup: '$4000 \\times 1.035^5$, $\\quad 4000 \\times 1.035^n > 5000$.',
+        solution: '(a) $4000 \\times 1.035^5$ <strong>[M1]</strong> $= 4750.7452\\dots = \\$4\\,750.75$ <strong>[A1]</strong>.<br>(b) Test $n = 6$: $4000 \\times 1.035^6 = \\$4\\,917.02 < 5000$. Test $n = 7$: $4000 \\times 1.035^7 = \\$5\\,089.12 > 5000$ <strong>[M1]</strong>.<br>Minimum complete years $= 7$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q08',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Successive & Reverse Percentages',
+        prompt: 'The price of a jacket is increased by $20\\%$ and then reduced by $15\\%$ in a sale. The final sale price is $\\$153$. Calculate the original price of the jacket.',
+        hint1: 'Find the single combined multiplier for $+20\\%$ followed by $-15\\%$.',
+        hint2: 'Divide the final price $\\$153$ by your combined multiplier.',
+        setup: '$\\text{Original} \\times 1.20 \\times 0.85 = 153$.',
+        solution: 'Combined multiplier $= 1.20 \\times 0.85 = 1.02$ <strong>[M1]</strong><br>$\\text{Original} = \\dfrac{153}{1.02}$ <strong>[M1]</strong> $= \\$150$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q09',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Upper & Lower Bounds',
+        prompt: 'Given $x = \\dfrac{a - b}{c}$, where $a = 15.4$ (1 d.p.), $b = 6.2$ (1 d.p.), and $c = 2.5$ (2 s.f.), calculate the lower bound of $x$, giving your answer correct to 3 significant figures.',
+        hint1: 'To minimise a fraction, you need the smallest possible numerator and the largest possible denominator.',
+        hint2: 'Smallest numerator is $a_{\\text{LB}} - b_{\\text{UB}}$; largest denominator is $c_{\\text{UB}}$.',
+        setup: '$x_{\\text{LB}} = \\dfrac{a_{\\text{LB}} - b_{\\text{UB}}}{c_{\\text{UB}}} = \\dfrac{15.35 - 6.25}{2.55}$.',
+        solution: '$a_{\\text{LB}} = 15.35$, $b_{\\text{UB}} = 6.25$, $c_{\\text{UB}} = 2.55$ <strong>[B1 for all 3 bounds]</strong><br>$x_{\\text{LB}} = \\dfrac{15.35 - 6.25}{2.55}$ <strong>[M1]</strong> $= \\dfrac{9.10}{2.55} = 3.568627\\dots$ <strong>[M1]</strong><br>$= 3.57$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q10',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Ratio & Algebraic Proportion',
+        prompt: 'The ratio of boys to girls in a club is $3 : 5$. When $6$ more boys join the club, the ratio of boys to girls becomes $9 : 10$. Find the number of girls in the club.',
+        hint1: 'Let the original number of boys be $3x$ and girls be $5x$.',
+        hint2: 'Form the equation $\\dfrac{3x + 6}{5x} = \\dfrac{9}{10}$ and cross-multiply.',
+        setup: '$\\dfrac{3x + 6}{5x} = \\dfrac{9}{10}$.',
+        solution: '$\\dfrac{3x + 6}{5x} = \\dfrac{9}{10}$ <strong>[M1]</strong><br>$10(3x + 6) = 9(5x) \\implies 30x + 60 = 45x \\implies 15x = 60 \\implies x = 4$ <strong>[M1]</strong><br>Number of girls $= 5 \\times 4 = 20$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E1-Q11',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Sets & Venn Diagrams',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>In a group of $40$ students, $24$ study French ($F$), $19$ study Spanish ($S$), and $5$ study neither language.<br>(a) Find $n(F \\cap S)$.<br>(b) Find $n(F\' \\cap S)$.<br>(c) Find $n(F \\cup S)$.</div><svg width="165" height="105" viewBox="0 0 165 105" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><rect x="6" y="6" width="153" height="93" fill="#fff" stroke="#334155" stroke-width="1.4"/><circle cx="62" cy="54" r="32" fill="#eef2ff" fill-opacity="0.65" stroke="#4f46e5" stroke-width="1.5"/><circle cx="102" cy="54" r="32" fill="#ecfdf5" fill-opacity="0.65" stroke="#059669" stroke-width="1.5"/><text x="12" y="19" font-size="9" font-weight="bold">ℰ (40)</text><text x="34" y="24" font-size="9" font-weight="bold" fill="#4f46e5">F</text><text x="124" y="24" font-size="9" font-weight="bold" fill="#047857">S</text><text x="79" y="57" font-size="9" font-weight="bold">x</text><text x="136" y="90" font-size="9" font-weight="bold">5</text></svg></div>',
+        hint1: 'Let $x = n(F \\cap S)$. Then $F$ only is $24 - x$ and $S$ only is $19 - x$.',
+        hint2: 'Sum all four regions in the Venn diagram and set equal to $40$.',
+        setup: '$(24 - x) + x + (19 - x) + 5 = 40$.',
+        solution: '(a) $(24 - x) + x + (19 - x) + 5 = 40 \\implies 48 - x = 40$ <strong>[M1]</strong> $\\implies n(F \\cap S) = 8$ <strong>[A1]</strong>.<br>(b) $n(F\' \\cap S) = 19 - 8 = 11$ <strong>[B1]</strong>.<br>(c) $n(F \\cup S) = 40 - 5 = 35$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E1-Q12',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Synoptic Surds & Indices',
+        prompt: 'Given that $\\dfrac{8^{\\frac{1}{2}} \\times \\sqrt{18}}{2^k} = 3$, find the exact value of $k$.',
+        hint1: 'Simplify both $8^{1/2} = \\sqrt{8}$ and $\\sqrt{18}$ into $a\\sqrt{2}$ form.',
+        hint2: 'Multiply the numerator out to get a single integer, then solve for $2^k$.',
+        setup: '$8^{1/2} = 2\\sqrt{2}$, $\\quad \\sqrt{18} = 3\\sqrt{2} \\implies \\dfrac{2\\sqrt{2} \\times 3\\sqrt{2}}{2^k} = 3$.',
+        solution: '$8^{1/2} = 2\\sqrt{2}$ and $\\sqrt{18} = 3\\sqrt{2}$ <strong>[M1]</strong><br>Numerator $= 2\\sqrt{2} \\times 3\\sqrt{2} = 6 \\times 2 = 12$ <strong>[M1]</strong><br>$\\dfrac{12}{2^k} = 3 \\implies 2^k = 4$ <strong>[M1]</strong> $\\implies k = 2$ <strong>[A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

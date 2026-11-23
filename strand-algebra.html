@@ -1,0 +1,687 @@
+<!-- File 5 of 10: strand-algebra.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E2: Algebra &amp; Graphs — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E2</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Algebra &amp; Graphs</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 14 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="strand-coord-geo.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: E3 Coord Geo →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (14)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-1.5 flex-1">
+            <h2 class="text-base font-bold text-slate-900">E2 Decision Tree: Picking the Right Algebraic Method</h2>
+            <p class="text-xs text-slate-600">CIE 0580 Extended tests algebraic manipulation, functions (including domain &amp; range), linear inequality regions, curve asymptotes, and differentiation.</p>
+          </div>
+          <!-- Inline SVG Visual Reference: Reciprocal & Exponential Asymptotes -->
+          <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-3 flex flex-wrap items-center justify-center gap-4">
+            <svg width="135" height="105" viewBox="0 0 135 105">
+              <line x1="12" y1="52" x2="123" y2="52" stroke="#94a3b8" stroke-width="1.2"/>
+              <line x1="67" y1="10" x2="67" y2="95" stroke="#94a3b8" stroke-width="1.2"/>
+              <path d="M 73 14 Q 76 47 120 49" fill="none" stroke="#4f46e5" stroke-width="1.8"/>
+              <path d="M 61 91 Q 58 57 15 55" fill="none" stroke="#4f46e5" stroke-width="1.8"/>
+              <text x="16" y="102" font-size="8.5" font-weight="bold" fill="#334155">y = a/x (asymptotes x=0, y=0)</text>
+            </svg>
+            <svg width="135" height="105" viewBox="0 0 135 105">
+              <line x1="12" y1="80" x2="123" y2="80" stroke="#94a3b8" stroke-width="1.2"/>
+              <line x1="55" y1="10" x2="55" y2="95" stroke="#94a3b8" stroke-width="1.2"/>
+              <path d="M 15 78 Q 62 76 105 15" fill="none" stroke="#059669" stroke-width="1.8"/>
+              <circle cx="55" cy="64" r="2.5" fill="#e11d48"/>
+              <text x="59" y="67" font-size="8.5" font-weight="bold" fill="#be123c">(0, 1)</text>
+              <text x="18" y="102" font-size="8.5" font-weight="bold" fill="#334155">y = aˣ (asymptote y=0)</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Quadratics &amp; Linear Inequality Regions</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>"Give your answer to 2 d.p. / 3 s.f."</strong> $\implies$ Use the <strong>Quadratic Formula</strong> (Paper 4).</li>
+              <li><strong>"Write in the form $(x+p)^2 + q$"</strong> $\implies$ <strong>Complete the Square</strong>; turning point is $(-p, q)$.</li>
+              <li><strong>2D Linear Regions:</strong> Solid line for $\le$ or $\ge$; dashed line for $&lt;$ or $&gt;$. Test $(0,0)$ to check which side satisfies the inequality.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Functions, Domain &amp; Range</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Composite $fg(x)$:</strong> Work <em>right to left</em>—substitute the entire $g(x)$ into $f$'s $x$-slots.</li>
+              <li><strong>Inverse $f^{-1}(x)$:</strong> Set $y = f(x)$, rearrange to make $x$ the subject, then swap $y$ back to $x$.</li>
+              <li><strong>Range of a quadratic on $[a, b]$:</strong> Always check if the <strong>vertex</strong> lies inside $[a, b]$—the min/max often occurs at the vertex, not an endpoint!</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Differentiation &amp; Turning Points</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li>Power rule: $\frac{\mathrm{d}}{\mathrm{d}x}(ax^n) = anx^{n-1}$; constants differentiate to $0$.</li>
+              <li><strong>Stationary / turning points:</strong> Set $\frac{\mathrm{d}y}{\mathrm{d}x} = 0$, solve for $x$, then substitute back into the <strong>original $y$</strong> for coordinates.</li>
+              <li>Nature: $\frac{\mathrm{d}^2y}{\mathrm{d}x^2} &gt; 0 \implies$ minimum; $\frac{\mathrm{d}^2y}{\mathrm{d}x^2} &lt; 0 \implies$ maximum.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. Algebraic Fractions &amp; Proportion</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Expression</strong> ($\frac{a}{x} + \frac{b}{x+1}$): Keep the common denominator! Never multiply it away.</li>
+              <li><strong>Equation</strong> ($\frac{a}{x} + \frac{b}{x+1} = 1$): Multiply every term by the common denominator to clear fractions.</li>
+              <li><strong>Proportion:</strong> Direct $y = kx^n$; Inverse $y = \frac{k}{x^n}$. Always find $k$ first.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Sign error in subtraction:</strong> In $\frac{3}{x-2} - \frac{2}{x+1}$, the $-2$ multiplies <em>both</em> terms of $(x-2)$, giving $-2x + 4$, NOT $-2x - 4$.</li>
+          <li><strong>Illegal cancelling:</strong> You can NEVER cancel across a $+$ or $-$ sign (e.g. $\frac{x^2 + 3}{x^2} \ne 3$). Factorise first, then cancel entire brackets.</li>
+          <li><strong>Quadratic formula division:</strong> The denominator $2a$ divides the <em>entire</em> numerator $-b \pm \sqrt{b^2 - 4ac}$, not just the square root.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Study the <em>I Do</em> worked model on the left, then solve the matched <em>You Do</em> on paper before revealing the solution.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (14)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 14 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 14</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'algebra';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Rearranging When Subject Appears Twice (Paper 2)',
+        iDo: {
+          q: 'Make $t$ the subject of $a = \\dfrac{2t + 5}{t - 1}$.',
+          steps: [
+            'Multiply both sides by $(t - 1)$: $a(t - 1) = 2t + 5 \\implies at - a = 2t + 5$.',
+            'Collect all $t$-terms on one side: $at - 2t = a + 5$.',
+            'Factorise $t$ out and divide: $t(a - 2) = a + 5 \\implies t = \\dfrac{a + 5}{a - 2}$.'
+          ]
+        },
+        youDo: {
+          q: 'Make $m$ the subject of $k = \\dfrac{4m - 3}{m + 2}$.',
+          ans: '$m = \\dfrac{2k + 3}{4 - k}$ (or $\\dfrac{-2k - 3}{k - 4}$)',
+          work: '$k(m + 2) = 4m - 3 \\implies km + 2k = 4m - 3 \\implies 2k + 3 = 4m - km \\implies m(4 - k) = 2k + 3$.'
+        }
+      },
+      {
+        title: 'Pair 2: Quadratic Sequences — Finding the nth Term (Paper 2)',
+        iDo: {
+          q: 'Find the $n$th term of the sequence $4, 11, 22, 37, 56, \\dots$',
+          steps: [
+            '1st differences: $7, 11, 15, 19$. 2nd differences: $+4$ (constant), so coefficient of $n^2$ is $\\frac{4}{2} = 2$.',
+            'Subtract $2n^2$ ($2, 8, 18, 32, 50$) from the sequence: remainder is $2, 3, 4, 5, 6$.',
+            'The remainder is linear: $n + 1$. Combine: $u_n = 2n^2 + n + 1$.'
+          ]
+        },
+        youDo: {
+          q: 'Find the $n$th term of the sequence $5, 16, 33, 56, 85, \\dots$',
+          ans: '$u_n = 3n^2 + 2n$',
+          work: '1st diffs: $11, 17, 23, 29$. 2nd diffs: $6 \\implies 3n^2$. Subtracting $3n^2$ ($3, 12, 27, 48, 75$) leaves $2, 4, 6, 8, 10 = 2n$.'
+        }
+      },
+      {
+        title: 'Pair 3: Simultaneous Equations — Linear & Quadratic (Paper 4)',
+        iDo: {
+          q: 'Solve $y = x + 2$ and $x^2 + y^2 = 10$.',
+          steps: [
+            'Substitute $y = x + 2$ into $x^2 + y^2 = 10$: $x^2 + (x + 2)^2 = 10$.',
+            'Expand and simplify: $2x^2 + 4x - 6 = 0 \\implies x^2 + 2x - 3 = 0 \\implies (x + 3)(x - 1) = 0$.',
+            'Find paired $y$-values: $x = 1 \\implies y = 3$; $x = -3 \\implies y = -1$.'
+          ]
+        },
+        youDo: {
+          q: 'Solve $y = 3x - 1$ and $y = x^2 + x - 4$.',
+          ans: '$x = 3, y = 8$ and $x = -1, y = -4$',
+          work: '$x^2 + x - 4 = 3x - 1 \\implies x^2 - 2x - 3 = 0 \\implies (x - 3)(x + 1) = 0$.'
+        }
+      },
+      {
+        title: 'Pair 4: Differentiation & Stationary Points (Paper 4)',
+        iDo: {
+          q: 'Find the coordinates of the turning point of $y = 2x^2 - 12x + 7$ using differentiation.',
+          steps: [
+            'Differentiate: $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 4x - 12$.',
+            'Set derivative to $0$: $4x - 12 = 0 \\implies x = 3$.',
+            'Substitute $x = 3$ into original $y$: $y = 2(9) - 12(3) + 7 = -11$. Point is $(3, -11)$.'
+          ]
+        },
+        youDo: {
+          q: 'Find the $x$-coordinates of the stationary points of $y = x^3 - 12x + 4$.',
+          ans: '$x = 2$ and $x = -2$',
+          work: '$\\frac{\\mathrm{d}y}{\\mathrm{d}x} = 3x^2 - 12 = 0 \\implies x^2 = 4 \\implies x = \\pm 2$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E2-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Rearranging Formulae',
+        prompt: 'Make $x$ the subject of the formula $y = \\dfrac{3x + 2}{x - 5}$.',
+        hint1: 'Multiply both sides by $(x - 5)$ to remove the fraction, then expand the bracket.',
+        hint2: 'Group all terms containing $x$ on one side and factorise $x$ out.',
+        setup: '$y(x - 5) = 3x + 2 \\implies xy - 3x = 5y + 2$.',
+        solution: '$y(x - 5) = 3x + 2 \\implies xy - 5y = 3x + 2$ <strong>[M1]</strong><br>$xy - 3x = 5y + 2 \\implies x(y - 3) = 5y + 2$ <strong>[M1]</strong><br>$x = \\dfrac{5y + 2}{y - 3}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q02',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Algebraic Fractions',
+        prompt: 'Write $\\dfrac{3}{x - 2} - \\dfrac{2}{x + 1}$ as a single fraction in its simplest form.',
+        hint1: 'Use the common denominator $(x - 2)(x + 1)$.',
+        hint2: 'Watch the negative sign when expanding $-2(x - 2)$: it becomes $-2x + 4$.',
+        setup: '$\\dfrac{3(x + 1) - 2(x - 2)}{(x - 2)(x + 1)}$.',
+        solution: '$\\dfrac{3(x + 1) - 2(x - 2)}{(x - 2)(x + 1)}$ <strong>[M1]</strong><br>$= \\dfrac{3x + 3 - 2x + 4}{(x - 2)(x + 1)}$ <strong>[M1 for expansion, B1 for $+4$]</strong><br>$= \\dfrac{x + 7}{(x - 2)(x + 1)}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Simplifying Algebraic Fractions',
+        prompt: 'Simplify fully $\\dfrac{2x^2 - 5x - 3}{x^2 - 9}$.',
+        hint1: 'Factorise the numerator into two brackets and the denominator using the difference of two squares.',
+        hint2: 'Look for a common bracket $(x - 3)$ that cancels from numerator and denominator.',
+        setup: '$\\dfrac{(2x + 1)(x - 3)}{(x - 3)(x + 3)}$.',
+        solution: 'Numerator: $2x^2 - 5x - 3 = (2x + 1)(x - 3)$ <strong>[M2]</strong><br>Denominator: $x^2 - 9 = (x - 3)(x + 3)$ <strong>[B1]</strong><br>Cancel $(x - 3)$: $\\dfrac{2x + 1}{x + 3}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q04',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Completing the Square',
+        prompt: '(a) Write $x^2 - 6x + 13$ in the form $(x + a)^2 + b$.<br>(b) Hence write down the coordinates of the minimum point of the curve $y = x^2 - 6x + 13$.',
+        hint1: 'Halve the coefficient of $x$ ($-6 \\div 2 = -3$) to get $(x - 3)^2$, then subtract $(-3)^2$.',
+        hint2: 'For $(x + a)^2 + b$, the minimum occurs when the bracket is $0$, giving $(-a, b)$.',
+        setup: '$(x - 3)^2 - 3^2 + 13$.',
+        solution: '(a) $(x - 3)^2 - 9 + 13$ <strong>[M1]</strong> $= (x - 3)^2 + 4$ <strong>[A1]</strong>.<br>(b) Minimum point is $(3, 4)$ <strong>[B2: B1 for $3$, B1 for $4$]</strong>.'
+      },
+      {
+        id: 'E2-Q05',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Quadratic Formula',
+        prompt: 'Solve the equation $3x^2 - 7x - 5 = 0$. Show all your working and give your answers correct to 2 decimal places.',
+        hint1: 'Identify $a = 3$, $b = -7$, $c = -5$ and substitute into $x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$.',
+        hint2: 'Check the discriminant: $(-7)^2 - 4(3)(-5) = 49 + 60 = 109$.',
+        setup: '$x = \\dfrac{7 \\pm \\sqrt{(-7)^2 - 4(3)(-5)}}{6}$.',
+        solution: '$x = \\dfrac{7 \\pm \\sqrt{(-7)^2 - 4(3)(-5)}}{2(3)}$ <strong>[M1]</strong><br>$x = \\dfrac{7 \\pm \\sqrt{109}}{6}$ <strong>[M1]</strong><br>$x = 2.91$ or $x = -0.57$ (2 d.p.) <strong>[A1, A1]</strong>.'
+      },
+      {
+        id: 'E2-Q06',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: '2D Linear Inequality Regions',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>The shaded region $R$ on the coordinate grid is bounded by the lines $x = 1$, $y = 4$, and $y = x$.<br>Write down the <strong>three inequalities</strong> that define the shaded region $R$.</div><svg width="160" height="145" viewBox="0 0 160 145" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><line x1="20" y1="120" x2="150" y2="120" stroke="#94a3b8" stroke-width="1.2"/><line x1="30" y1="10" x2="30" y2="135" stroke="#94a3b8" stroke-width="1.2"/><polygon points="52,98 52,32 118,32" fill="#e0e7ff"/><line x1="52" y1="12" x2="52" y2="128" stroke="#334155" stroke-width="1.6"/><line x1="22" y1="32" x2="145" y2="32" stroke="#334155" stroke-width="1.6"/><line x1="30" y1="120" x2="140" y2="10" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="4,3"/><text x="66" y="54" font-size="11" font-weight="bold" fill="#3730a3">R</text><text x="48" y="138" font-size="8.5" fill="#334155">1</text><text x="115" y="138" font-size="8.5" fill="#334155">4</text><text x="18" y="35" font-size="8.5" fill="#334155">4</text><text x="128" y="24" font-size="8" font-weight="bold" fill="#4f46e5">y = x</text></svg></div>',
+        hint1: 'Check whether each boundary line is solid ($\\le$ or $\\ge$) or dashed ($&lt;$ or $&gt;$).',
+        hint2: 'Test a point inside $R$, such as $(2, 3)$, to confirm the direction of each inequality.',
+        setup: 'Test $(2, 3)$ against $x = 1$, $y = 4$, and $y = x$ (dashed line).',
+        solution: '• To the right of solid line $x = 1$: $x \\ge 1$ <strong>[B1]</strong>.<br>• Below solid line $y = 4$: $y \\le 4$ <strong>[B1]</strong>.<br>• Above dashed line $y = x$: $y &gt; x$ <strong>[B2: B1 for $y &gt; x$ or $y \\ge x$, B1 for strict $&gt;$]</strong>.'
+      },
+      {
+        id: 'E2-Q07',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Simultaneous Equations (Non-Linear)',
+        prompt: 'Solve the simultaneous equations:<br>$$y = 2x + 1$$<br>$$x^2 + y^2 = 13$$',
+        hint1: 'Substitute $y = 2x + 1$ into $x^2 + y^2 = 13$ and expand $(2x + 1)^2$ carefully.',
+        hint2: 'Collect terms to form $5x^2 + 4x - 12 = 0$, then factorise or use the quadratic formula.',
+        setup: '$x^2 + (2x + 1)^2 = 13 \\implies 5x^2 + 4x - 12 = 0$.',
+        solution: '$x^2 + (2x + 1)^2 = 13 \\implies x^2 + 4x^2 + 4x + 1 = 13$ <strong>[M1]</strong><br>$5x^2 + 4x - 12 = 0 \\implies (5x - 6)(x + 2) = 0$ <strong>[M1]</strong><br>$x = 1.2$ or $x = -2$ <strong>[A1]</strong><br>When $x = 1.2$, $y = 3.4$; when $x = -2$, $y = -3$ <strong>[A2: A1 per pair]</strong>.'
+      },
+      {
+        id: 'E2-Q08',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Inverse Proportion',
+        prompt: '$y$ is inversely proportional to $(x + 1)^2$. When $x = 2$, $y = 4$.<br>(a) Find $y$ in terms of $x$.<br>(b) Find the value of $y$ when $x = 5$.',
+        hint1: 'Write $y = \\dfrac{k}{(x + 1)^2}$ and substitute $x = 2, y = 4$ to find $k$.',
+        hint2: 'Remember to add $1$ before squaring: $(2 + 1)^2 = 9$.',
+        setup: '$y = \\dfrac{k}{(x + 1)^2} \\implies 4 = \\dfrac{k}{3^2}$.',
+        solution: '(a) $y = \\dfrac{k}{(x + 1)^2} \\implies 4 = \\dfrac{k}{3^2}$ <strong>[M1]</strong> $\\implies k = 36$ <strong>[A1]</strong><br>$y = \\dfrac{36}{(x + 1)^2}$ <strong>[A1]</strong>.<br>(b) When $x = 5$: $y = \\dfrac{36}{(5 + 1)^2} = \\dfrac{36}{36} = 1$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E2-Q09',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 6,
+        topic: 'Functions: Inverse, Composite & Range',
+        prompt: '$f(x) = 2x - 3$ and $g(x) = x^2 + 1$.<br>(a) Find $f^{-1}(x)$.<br>(b) Find $gf(x)$, giving your answer in its simplest expanded form.<br>(c) For the domain $-2 \\le x \\le 3$, find the range of $g(x)$.',
+        hint1: 'For $f^{-1}(x)$, write $y = 2x - 3$, rearrange for $x$, then replace $y$ with $x$.',
+        hint2: 'For (c), check the vertex $x = 0$ of $g(x) = x^2 + 1$ as well as the endpoints $x = -2$ and $x = 3$.',
+        setup: '$gf(x) = (2x - 3)^2 + 1$; $\\quad \\min g(x)$ at $x = 0$, $\\max g(x)$ at $x = 3$.',
+        solution: '(a) $y = 2x - 3 \\implies x = \\dfrac{y + 3}{2} \\implies f^{-1}(x) = \\dfrac{x + 3}{2}$ <strong>[M1, A1]</strong>.<br>(b) $gf(x) = (2x - 3)^2 + 1$ <strong>[M1]</strong> $= 4x^2 - 12x + 9 + 1 = 4x^2 - 12x + 10$ <strong>[A1]</strong>.<br>(c) Minimum of $x^2 + 1$ occurs at $x = 0$: $g(0) = 1$ <strong>[M1]</strong>. Endpoints: $g(-2) = 5$, $g(3) = 10$.<br>Range: $1 \\le g(x) \\le 10$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q10',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Quadratic Sequences',
+        prompt: 'Find an expression, in terms of $n$, for the $n$th term of the sequence:<br>$$5, \\quad 11, \\quad 21, \\quad 35, \\quad 53, \\quad \\dots$$',
+        hint1: 'Find the 1st differences ($6, 10, 14, 18$) and then the constant 2nd difference.',
+        hint2: 'Half the 2nd difference gives the coefficient of $n^2$. Subtract that from the original sequence.',
+        setup: '2nd diff $= 4 \\implies 2n^2$; compare $2n^2$ ($2, 8, 18, 32, 50$) with $5, 11, 21, 35, 53$.',
+        solution: '2nd difference $= 4 \\implies 2n^2$ <strong>[M1, A1]</strong><br>Sequence minus $2n^2$: $(5-2), (11-8), (21-18), (35-32) = 3, 3, 3, 3$ <strong>[M1]</strong><br>$n$th term $= 2n^2 + 3$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q11',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Differentiation & Stationary Points',
+        prompt: 'A curve has equation $y = x^3 - 3x^2 - 9x + 5$.<br>(a) Find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$.<br>(b) Find the coordinates of the two stationary points of the curve.',
+        hint1: 'Differentiate term by term, then set $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 0$ and divide through by $3$.',
+        hint2: 'Substitute each $x$-value back into the original equation $y = x^3 - 3x^2 - 9x + 5$ to get the $y$-coordinates.',
+        setup: '$\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3x^2 - 6x - 9 = 0 \\implies (x - 3)(x + 1) = 0$.',
+        solution: '(a) $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3x^2 - 6x - 9$ <strong>[B1]</strong>.<br>(b) $3x^2 - 6x - 9 = 0 \\implies x^2 - 2x - 3 = 0 \\implies (x - 3)(x + 1) = 0$ <strong>[M1]</strong><br>$x = 3 \\implies y = 27 - 27 - 27 + 5 = -22$, so $(3, -22)$ <strong>[A1]</strong>.<br>$x = -1 \\implies y = -1 - 3 + 9 + 5 = 10$, so $(-1, 10)$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q12',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Speed-Time Graphs',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>A train accelerates uniformly from rest to $24\\text{ m/s}$ in $15\\text{ s}$. It travels at a constant speed of $24\\text{ m/s}$ for $40\\text{ s}$, and then decelerates uniformly to rest in $20\\text{ s}$.<br>(a) Calculate the acceleration of the train during the first $15\\text{ s}$.<br>(b) Calculate the total distance travelled by the train.</div><svg width="180" height="105" viewBox="0 0 180 105" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><line x1="26" y1="84" x2="172" y2="84" stroke="#64748b" stroke-width="1.2"/><line x1="26" y1="12" x2="26" y2="84" stroke="#64748b" stroke-width="1.2"/><polygon points="26,84 54,26 129,26 166,84" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.6"/><line x1="54" y1="26" x2="54" y2="84" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/><line x1="129" y1="26" x2="129" y2="84" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/><text x="10" y="29" font-size="8.5" font-weight="bold">24</text><text x="23" y="96" font-size="8">0</text><text x="48" y="96" font-size="8">15</text><text x="123" y="96" font-size="8">55</text><text x="160" y="96" font-size="8">75</text><text x="5" y="13" font-size="8" fill="#64748b">v</text><text x="171" y="95" font-size="8" fill="#64748b">t</text></svg></div>',
+        hint1: 'Acceleration is the gradient of the speed-time graph: $\\dfrac{\\text{change in speed}}{\\text{time}}$.',
+        hint2: 'Total distance is the area under the speed-time graph (a trapezium with parallel sides $40$ and $75$, height $24$).',
+        setup: '$a = \\dfrac{24}{15}$, $\\quad \\text{Distance} = \\dfrac{1}{2}(40 + 75) \\times 24$.',
+        solution: '(a) $a = \\dfrac{24 - 0}{15} = 1.6\\text{ m/s}^2$ <strong>[M1, A1]</strong>.<br>(b) Total time $= 15 + 40 + 20 = 75\\text{ s}$.<br>Area $= \\dfrac{1}{2}(40 + 75) \\times 24$ <strong>[M1]</strong> $= 1380\\text{ m}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q13',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Exponential Functions & Equations',
+        prompt: 'Given that $f(x) = 3^x$ and $g(x) = 2x - 1$, solve the equation $fg(x) = \\dfrac{1}{27}$.',
+        hint1: 'First write an expression for $fg(x)$ by replacing $x$ in $3^x$ with $2x - 1$.',
+        hint2: 'Write $\\dfrac{1}{27}$ as a negative power of $3$, then equate the exponents.',
+        setup: '$3^{2x - 1} = 3^{-3}$.',
+        solution: '$fg(x) = 3^{2x - 1}$ <strong>[B1]</strong><br>$\\dfrac{1}{27} = 3^{-3}$ <strong>[B1]</strong><br>$3^{2x - 1} = 3^{-3} \\implies 2x - 1 = -3$ <strong>[M1]</strong><br>$2x = -2 \\implies x = -1$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E2-Q14',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 5,
+        topic: 'Algebraic Fractions to Quadratics',
+        prompt: 'Solve the equation $\\dfrac{5}{x} - \\dfrac{4}{x + 2} = 1$, giving your answers correct to 2 decimal places.',
+        hint1: 'Multiply every term in the equation by $x(x + 2)$ to clear both denominators.',
+        hint2: 'Rearrange into $x^2 + x - 10 = 0$ and apply the quadratic formula.',
+        setup: '$5(x + 2) - 4x = x(x + 2) \\implies x^2 + x - 10 = 0$.',
+        solution: '$5(x + 2) - 4x = x(x + 2)$ <strong>[M1]</strong><br>$5x + 10 - 4x = x^2 + 2x \\implies x^2 + x - 10 = 0$ <strong>[M1]</strong><br>$x = \\dfrac{-1 \\pm \\sqrt{1^2 - 4(1)(-10)}}{2(1)} = \\dfrac{-1 \\pm \\sqrt{41}}{2}$ <strong>[M1]</strong><br>$x = 2.70$ or $x = -3.70$ (2 d.p.) <strong>[A1, A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

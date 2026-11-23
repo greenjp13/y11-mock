@@ -1,0 +1,704 @@
+<!-- File 9 of 10: strand-trigonometry.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E6: Trigonometry — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E6</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Trigonometry</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 12 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="strand-transforms-vectors.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: E7 Vectors &amp; Transforms →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (12)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-1.5 flex-1">
+            <h2 class="text-base font-bold text-slate-900">E6 Decision Tree: Choosing the Right Trig Rule + Exact Values</h2>
+            <p class="text-xs text-slate-600">CIE gives Sine Rule, Cosine Rule, and $\frac{1}{2}ab\sin C$ on Page 2—but <strong>exact values for $0^\circ, 30^\circ, 45^\circ, 60^\circ, 90^\circ$</strong> and <strong>trig graph symmetries ($0^\circ \le x \le 360^\circ$)</strong> must be memorised.</p>
+          </div>
+          <!-- Inline SVG: 30-60-90 & 45-45-90 Exact Triangles -->
+          <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-3 flex flex-wrap items-center justify-center gap-4">
+            <svg width="115" height="115" viewBox="0 0 115 115">
+              <polygon points="25,98 75,98 25,12" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/>
+              <polyline points="25,88 35,88 35,98" fill="none" stroke="#4f46e5" stroke-width="1.4"/>
+              <text x="47" y="110" font-size="9" font-weight="bold">1</text>
+              <text x="8" y="58" font-size="9" font-weight="bold">√3</text>
+              <text x="54" y="52" font-size="9" font-weight="bold" fill="#4f46e5">2</text>
+              <text x="28" y="36" font-size="8" font-weight="bold" fill="#be123c">30°</text>
+              <text x="53" y="93" font-size="8" font-weight="bold" fill="#047857">60°</text>
+            </svg>
+            <svg width="125" height="115" viewBox="0 0 125 115">
+              <polygon points="25,98 100,98 25,23" fill="#ecfdf5" stroke="#059669" stroke-width="1.8"/>
+              <polyline points="25,88 35,88 35,98" fill="none" stroke="#059669" stroke-width="1.4"/>
+              <text x="58" y="110" font-size="9" font-weight="bold">1</text>
+              <text x="14" y="64" font-size="9" font-weight="bold">1</text>
+              <text x="67" y="56" font-size="9" font-weight="bold" fill="#047857">√2</text>
+              <text x="73" y="93" font-size="8" font-weight="bold" fill="#047857">45°</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Exact Values Reference Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs sm:text-sm text-center border border-slate-200 rounded-lg overflow-hidden">
+            <thead class="bg-slate-100 text-slate-700 font-bold">
+              <tr>
+                <th class="py-2 px-3 border-b border-slate-200 text-left">Ratio</th>
+                <th class="py-2 px-3 border-b border-slate-200">$0^\circ$</th>
+                <th class="py-2 px-3 border-b border-slate-200">$30^\circ$</th>
+                <th class="py-2 px-3 border-b border-slate-200">$45^\circ$</th>
+                <th class="py-2 px-3 border-b border-slate-200">$60^\circ$</th>
+                <th class="py-2 px-3 border-b border-slate-200">$90^\circ$</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white">
+              <tr>
+                <td class="py-2 px-3 font-bold text-left text-indigo-700">$\sin\theta$</td>
+                <td>$0$</td>
+                <td>$\frac{1}{2}$</td>
+                <td>$\frac{\sqrt{2}}{2}$</td>
+                <td>$\frac{\sqrt{3}}{2}$</td>
+                <td>$1$</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 font-bold text-left text-indigo-700">$\cos\theta$</td>
+                <td>$1$</td>
+                <td>$\frac{\sqrt{3}}{2}$</td>
+                <td>$\frac{\sqrt{2}}{2}$</td>
+                <td>$\frac{1}{2}$</td>
+                <td>$0$</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 font-bold text-left text-indigo-700">$\tan\theta$</td>
+                <td>$0$</td>
+                <td>$\frac{\sqrt{3}}{3}$</td>
+                <td>$1$</td>
+                <td>$\sqrt{3}$</td>
+                <td class="text-slate-400 italic">undef.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Right-Angled vs Non-Right-Angled</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Has a $90^\circ$ angle?</strong> Use <strong>Pythagoras</strong> or <strong>SOHCAHTOA</strong>.</li>
+              <li><strong>No $90^\circ$ angle &amp; know a matching pair</strong> (angle + opposite side)? Use <strong>Sine Rule</strong>.</li>
+              <li><strong>No matching pair</strong> (SAS or SSS)? Use <strong>Cosine Rule</strong>.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Trig Equations in $0^\circ \le x \le 360^\circ$ (E6.4)</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>$\sin x = k$:</strong> Second solution via $180^\circ - x_1$ (if $&lt; 0$, use $180^\circ + \alpha$ and $360^\circ - \alpha$).</li>
+              <li><strong>$\cos x = k$:</strong> Second solution via $360^\circ - x_1$ (symmetric about $180^\circ$).</li>
+              <li><strong>$\tan x = k$:</strong> Repeats every $180^\circ$, so $x_2 = x_1 + 180^\circ$.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Shortest Distance from a Point to a Line</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li>The shortest distance from vertex $C$ to line $AB$ is ALWAYS the <strong>perpendicular height $h$</strong>.</li>
+              <li>Find $\text{Area} = \frac{1}{2}ab\sin C$, then equate to $\frac{1}{2} \times AB \times h$ (or use $h = b\sin A$).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. 3D Trigonometry Strategy</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Step 1:</strong> Find the diagonal across the <strong>2D base</strong> first using Pythagoras (or Cosine Rule).</li>
+              <li><strong>Step 2:</strong> Extract the vertical right-angled triangle containing the 3D line and its base projection, then use $\tan^{-1}\left(\frac{\text{height}}{\text{base diagonal}}\right)$.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Calculator in Radians mode:</strong> Always check the top of your calculator screen shows <strong>D / DEG</strong> before Paper 4.</li>
+          <li><strong>Ambiguous case of the Sine Rule:</strong> Your calculator’s $\sin^{-1}(k)$ always returns an <em>acute</em> angle $\theta$. If the diagram or text states the angle is <strong>obtuse</strong>, you must take $180^\circ - \theta$.</li>
+          <li><strong>Rounding angles vs lengths:</strong> CIE standard accuracy is <strong>1 decimal place for angles in degrees</strong> (e.g. $42.7^\circ$) and <strong>3 significant figures for lengths/areas</strong>, unless stated otherwise.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Study the <em>I Do</em> worked model on the left, then solve the matched <em>You Do</em> on paper before revealing the solution.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (12)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 12 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 12</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'trigonometry';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Exact Trigonometric Values in Surd Form (Paper 2)',
+        iDo: {
+          q: 'In right-angled $\\triangle ABC$, $\\angle B = 90^\\circ$, $\\angle A = 60^\\circ$, and $AC = 10\\text{ cm}$. Find the exact lengths of $AB$ and $BC$ in simplest surd form.',
+          steps: [
+            '$AB = 10 \\cos 60^\\circ = 10 \\times \\dfrac{1}{2} = 5\\text{ cm}$.',
+            '$BC = 10 \\sin 60^\\circ = 10 \\times \\dfrac{\\sqrt{3}}{2} = 5\\sqrt{3}\\text{ cm}$.'
+          ]
+        },
+        youDo: {
+          q: 'In right-angled $\\triangle PQR$, $\\angle Q = 90^\\circ$, $\\angle P = 45^\\circ$, and $QR = 6\\text{ cm}$. Find the exact length of the hypotenuse $PR$ in simplest surd form.',
+          ans: '$6\\sqrt{2}\\text{ cm}$',
+          work: '$\\sin 45^\\circ = \\frac{6}{PR} \\implies PR = \\frac{6}{\\frac{\\sqrt{2}}{2}} = \\frac{12}{\\sqrt{2}} = 6\\sqrt{2}\\text{ cm}$.'
+        }
+      },
+      {
+        title: 'Pair 2: Cosine Rule for an Unknown Side & Angle (Paper 4)',
+        iDo: {
+          q: 'In $\\triangle ABC$, $AB = 8\\text{ cm}$, $AC = 11\\text{ cm}$ and $\\angle BAC = 64^\\circ$. Calculate the length of $BC$ to 3 s.f.',
+          steps: [
+            'Apply Cosine Rule: $BC^2 = 8^2 + 11^2 - 2(8)(11)\\cos 64^\\circ$.',
+            '$BC^2 = 64 + 121 - 176(0.43837) = 185 - 77.153 = 107.847$.',
+            '$BC = \\sqrt{107.847} = 10.3849\\dots \\approx 10.4\\text{ cm}$.'
+          ]
+        },
+        youDo: {
+          q: 'In $\\triangle XYZ$, $XY = 7\\text{ cm}$, $YZ = 9\\text{ cm}$ and $XZ = 12\\text{ cm}$. Calculate the largest angle of $\\triangle XYZ$ to 1 decimal place.',
+          ans: '$96.4^\\circ$',
+          work: 'Largest angle is opposite the longest side ($12\\text{ cm}$): $\\cos Y = \\frac{7^2 + 9^2 - 12^2}{2(7)(9)} = \\frac{49 + 81 - 144}{126} = -\\frac{14}{126} = -\\frac{1}{9} \\implies Y = 96.379\\dots \\approx 96.4^\\circ$.'
+        }
+      },
+      {
+        title: 'Pair 3: Ambiguous Case of the Sine Rule (Paper 4)',
+        iDo: {
+          q: 'In $\\triangle PQR$, $PQ = 9\\text{ cm}$, $PR = 6\\text{ cm}$ and $\\angle PQR = 35^\\circ$. Given that $\\angle PRQ$ is <strong>obtuse</strong>, calculate $\\angle PRQ$ to 1 d.p.',
+          steps: [
+            'Use Sine Rule: $\\dfrac{\\sin R}{9} = \\dfrac{\\sin 35^\\circ}{6} \\implies \\sin R = \\dfrac{9 \\sin 35^\\circ}{6} = 0.86036$.',
+            'Calculator acute value: $\\sin^{-1}(0.86036) = 59.357^\\circ$.',
+            'Since $\\angle PRQ$ is obtuse: $\\angle PRQ = 180^\\circ - 59.357^\\circ = 120.6^\\circ$ (1 d.p.).'
+          ]
+        },
+        youDo: {
+          q: 'In $\\triangle ABC$, $AB = 11\\text{ cm}$, $AC = 8\\text{ cm}$ and $\\angle ABC = 40^\\circ$. Given that $\\angle ACB$ is <strong>obtuse</strong>, calculate $\\angle ACB$ to 1 d.p.',
+          ans: '$117.9^\\circ$',
+          work: '$\\sin C = \\frac{11\\sin 40^\\circ}{8} = 0.88383 \\implies \\text{acute } C = 62.108^\\circ \\implies \\text{obtuse } C = 180^\\circ - 62.108^\\circ = 117.9^\\circ$.'
+        }
+      },
+      {
+        title: 'Pair 4: 3D Trigonometry in a Cuboid (Paper 4)',
+        iDo: {
+          q: 'A cuboid $ABCDEFGH$ has base $ABCD$ with $AB = 8\\text{ cm}$, $BC = 6\\text{ cm}$, and vertical height $CG = 5\\text{ cm}$. Calculate the angle that the space diagonal $AG$ makes with the horizontal base $ABCD$ to 1 d.p.',
+          steps: [
+            'Find base diagonal $AC$: $AC = \\sqrt{8^2 + 6^2} = \\sqrt{100} = 10\\text{ cm}$.',
+            'In vertical right-angled $\\triangle ACG$: $\\tan(\\angle GAC) = \\dfrac{CG}{AC} = \\dfrac{5}{10} = 0.5$.',
+            '$\\angle GAC = \\tan^{-1}(0.5) = 26.565\\dots \\approx 26.6^\\circ$.'
+          ]
+        },
+        youDo: {
+          q: 'A cuboid has base $12\\text{ cm}$ by $5\\text{ cm}$ and vertical height $9\\text{ cm}$. Calculate the angle between its space diagonal and the base to 1 d.p.',
+          ans: '$34.7^\\circ$',
+          work: 'Base diagonal $= \\sqrt{12^2 + 5^2} = 13\\text{ cm}$. Angle $= \\tan^{-1}(\\frac{9}{13}) = 34.695\\dots \\approx 34.7^\\circ$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E6-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Exact Trigonometric Values',
+        prompt: 'Without using a calculator, find the exact value of:<br>(a) $\\sin 30^\\circ + \\cos^2 45^\\circ$<br>(b) $\\dfrac{\\tan 60^\\circ}{\\cos 30^\\circ}$',
+        hint1: 'Recall $\\sin 30^\\circ = \\frac{1}{2}$, $\\cos 45^\\circ = \\frac{\\sqrt{2}}{2}$, $\\tan 60^\\circ = \\sqrt{3}$, and $\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$.',
+        hint2: 'Note that $\\cos^2 45^\\circ$ means $(\\cos 45^\\circ)^2 = \\left(\\frac{\\sqrt{2}}{2}\\right)^2 = \\frac{2}{4} = \\frac{1}{2}$.',
+        setup: '$\\sin 30^\\circ = \\dfrac{1}{2}$, $\\quad \\cos 45^\\circ = \\dfrac{\\sqrt{2}}{2}$, $\\quad \\tan 60^\\circ = \\sqrt{3}$, $\\quad \\cos 30^\\circ = \\dfrac{\\sqrt{3}}{2}$.',
+        solution: '(a) $\\dfrac{1}{2} + \\left(\\dfrac{\\sqrt{2}}{2}\\right)^2$ <strong>[M1]</strong> $= \\dfrac{1}{2} + \\dfrac{1}{2} = 1$ <strong>[A1]</strong>.<br>(b) $\\dfrac{\\sqrt{3}}{\\frac{\\sqrt{3}}{2}}$ <strong>[M1]</strong> $= \\sqrt{3} \\times \\dfrac{2}{\\sqrt{3}} = 2$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q02',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Solving Trigonometric Equations (E6.4)',
+        prompt: 'Solve the following equations for $0^\\circ \\le x \\le 360^\\circ$ without using a calculator:<br>(a) $2\\cos x + 1 = 0$<br>(b) $\\tan x = \\sqrt{3}$',
+        hint1: 'In (a), rearrange to $\\cos x = -\\frac{1}{2}$. Since cosine is negative, look in the 2nd and 3rd quadrants.',
+        hint2: 'In (b), $\\tan 60^\\circ = \\sqrt{3}$ and the period of $\\tan x$ is $180^\\circ$.',
+        setup: '$\\cos x = -\\dfrac{1}{2}$ (base angle $60^\\circ$); $\\quad \\tan x = \\sqrt{3}$ (add $180^\\circ$).',
+        solution: '(a) $\\cos x = -\\dfrac{1}{2}$ (acute angle $60^\\circ$) <strong>[M1]</strong>.<br>Quadrants 2 &amp; 3: $x = 180^\\circ - 60^\\circ = 120^\\circ$ and $x = 180^\\circ + 60^\\circ = 240^\\circ$ <strong>[A1]</strong>.<br>(b) $x = 60^\\circ$ <strong>[B1]</strong> and $x = 60^\\circ + 180^\\circ = 240^\\circ$ <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E6-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Exact Cosine Rule (Non-Calc)',
+        prompt: 'In $\\triangle ABC$, $AB = 5\\text{ cm}$, $AC = 8\\text{ cm}$ and $\\angle BAC = 60^\\circ$.<br>Show that $BC = 7\\text{ cm}$.',
+        hint1: 'Apply the Cosine Rule $BC^2 = AB^2 + AC^2 - 2(AB)(AC)\\cos 60^\\circ$.',
+        hint2: 'Substitute $\\cos 60^\\circ = \\frac{1}{2}$ and evaluate $BC^2$ before taking the square root.',
+        setup: '$BC^2 = 5^2 + 8^2 - 2(5)(8)\\cos 60^\\circ$.',
+        solution: '$BC^2 = 5^2 + 8^2 - 2(5)(8)\\cos 60^\\circ$ <strong>[M1]</strong><br>$BC^2 = 25 + 64 - 80\\left(\\dfrac{1}{2}\\right)$ <strong>[M1]</strong><br>$BC^2 = 89 - 40 = 49$ <strong>[A1]</strong><br>$BC = \\sqrt{49} = 7\\text{ cm}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q04',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Sine Rule & Obtuse Angle (Ambiguous Case)',
+        prompt: 'In $\\triangle ABC$, $AB = 14\\text{ cm}$, $AC = 9\\text{ cm}$ and $\\angle ABC = 36^\\circ$.<br>(a) Given that $\\angle ACB$ is obtuse, calculate $\\angle ACB$ correct to 1 decimal place.<br>(b) Hence calculate the length of $BC$ correct to 3 significant figures.',
+        hint1: 'Use the Sine Rule to find $\\sin C$, then subtract the acute calculator angle from $180^\\circ$ because $\\angle ACB$ is obtuse.',
+        hint2: 'Find $\\angle BAC = 180^\\circ - 36^\\circ - \\angle ACB$, then apply the Sine Rule again for $BC$.',
+        setup: '$\\dfrac{\\sin C}{14} = \\dfrac{\\sin 36^\\circ}{9}$, $\\quad BC = \\dfrac{9\\sin A}{\\sin 36^\\circ}$.',
+        solution: '(a) $\\dfrac{\\sin C}{14} = \\dfrac{\\sin 36^\\circ}{9} \\implies \\sin C = \\dfrac{14\\sin 36^\\circ}{9} = 0.91433$ <strong>[M1]</strong>.<br>Acute angle $= 66.11^\\circ \\implies \\text{Obtuse } \\angle ACB = 180^\\circ - 66.11^\\circ$ <strong>[M1]</strong> $= 113.9^\\circ$ (1 d.p.) <strong>[A1]</strong>.<br>(b) $\\angle BAC = 180^\\circ - 36^\\circ - 113.89^\\circ = 30.11^\\circ$.<br>$BC = \\dfrac{9\\sin 30.11^\\circ}{\\sin 36^\\circ}$ <strong>[M1]</strong> $= 7.68\\text{ cm}$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q05',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 6,
+        topic: 'Bearings with Cosine & Sine Rules',
+        prompt: 'A ship sails $18\\text{ km}$ from port $P$ to port $Q$ on a bearing of $055^\\circ$. It then sails $24\\text{ km}$ from port $Q$ to port $R$ on a bearing of $140^\\circ$.<br>(a) Show that $\\angle PQR = 95^\\circ$.<br>(b) Calculate the direct distance $PR$ to 3 s.f.<br>(c) Calculate the bearing of $R$ from $P$ to the nearest degree.',
+        hint1: 'At $Q$, the co-interior angle from North to $QP$ is $180^\\circ - 55^\\circ = 125^\\circ$. Use angles around point $Q$ ($360^\\circ$).',
+        hint2: 'Use the Cosine Rule for $PR$, then Sine Rule to find $\\angle QPR$, and add it to $055^\\circ$.',
+        setup: '$\\angle PQR = 360^\\circ - 125^\\circ - 140^\\circ = 95^\\circ$, $\\quad PR^2 = 18^2 + 24^2 - 2(18)(24)\\cos 95^\\circ$.',
+        solution: '(a) Co-interior angle at $Q = 180^\\circ - 55^\\circ = 125^\\circ$.<br>$\\angle PQR = 360^\\circ - 125^\\circ - 140^\\circ = 95^\\circ$ <strong>[B1]</strong>.<br>(b) $PR^2 = 18^2 + 24^2 - 2(18)(24)\\cos 95^\\circ$ <strong>[M1]</strong> $= 900 - (-75.302) = 975.302$ <strong>[M1]</strong><br>$PR = \\sqrt{975.302} = 31.2\\text{ km}$ (3 s.f.) <strong>[A1]</strong>.<br>(c) $\\dfrac{\\sin(\\angle QPR)}{24} = \\dfrac{\\sin 95^\\circ}{31.23} \\implies \\angle QPR = 50.0^\\circ$ <strong>[M1]</strong>.<br>Bearing of $R$ from $P = 055^\\circ + 50^\\circ = 105^\\circ$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q06',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 6,
+        topic: 'Cosine Rule, Area & Shortest Distance',
+        prompt: 'In $\\triangle XYZ$, $XY = 9\\text{ cm}$, $YZ = 12\\text{ cm}$ and $XZ = 16\\text{ cm}$.<br>(a) Calculate $\\angle XYZ$ correct to 1 decimal place.<br>(b) Calculate the area of $\\triangle XYZ$ correct to 3 significant figures.<br>(c) Calculate the shortest distance from $Y$ to the line $XZ$ correct to 3 significant figures.',
+        hint1: 'Use the Cosine Rule for $\\angle XYZ$ (opposite side $16\\text{ cm}$), then $\\text{Area} = \\frac{1}{2}(9)(12)\\sin(\\angle XYZ)$.',
+        hint2: 'The shortest distance from $Y$ to $XZ$ is the perpendicular height $h$, where $\\text{Area} = \\frac{1}{2} \\times 16 \\times h$.',
+        setup: '$\\cos Y = \\dfrac{9^2 + 12^2 - 16^2}{2(9)(12)}$, $\\quad \\text{Area} = \\dfrac{1}{2}(16)h$.',
+        solution: '(a) $\\cos Y = \\dfrac{9^2 + 12^2 - 16^2}{2(9)(12)}$ <strong>[M1]</strong> $= \\dfrac{81 + 144 - 256}{216} = -\\dfrac{31}{216}$<br>$\\angle XYZ = \\cos^{-1}\\left(-\\dfrac{31}{216}\\right) = 98.3^\\circ$ (1 d.p.) <strong>[A1]</strong>.<br>(b) $\\text{Area} = \\dfrac{1}{2}(9)(12)\\sin 98.25^\\circ$ <strong>[M1]</strong> $= 53.44\\dots \\approx 53.4\\text{ cm}^2$ <strong>[A1]</strong>.<br>(c) $\\dfrac{1}{2} \\times 16 \\times h = 53.44$ <strong>[M1]</strong> $\\implies h = \\dfrac{53.44}{8} = 6.68\\text{ cm}$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q07',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 6,
+        topic: '3D Trigonometry: Square-Based Pyramid',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$VABCD$ is a right pyramid with a square base $ABCD$ of side $10\\text{ cm}$. The vertex $V$ is vertically above the centre $M$ of the base, and the vertical height $VM = 12\\text{ cm}$.<br>(a) Calculate the length of the base diagonal $AC$ to 3 s.f.<br>(b) Calculate the angle between the sloping edge $VA$ and the base $ABCD$ to 1 d.p.<br>(c) Calculate the angle between the triangular face $VBC$ and the base $ABCD$ to 1 d.p.</div><svg width="150" height="130" viewBox="0 0 150 130" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,105 95,105 130,82 55,82" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/><line x1="75" y1="18" x2="20" y2="105" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="95" y2="105" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="130" y2="82" stroke="#334155" stroke-width="1.6"/><line x1="75" y1="18" x2="55" y2="82" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/><line x1="75" y1="18" x2="75" y2="93" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="3,2"/><text x="72" y="13" font-size="9" font-weight="bold">V</text><text x="10" y="112" font-size="9" font-weight="bold">A</text><text x="97" y="113" font-size="9" font-weight="bold">B</text><text x="132" y="84" font-size="9" font-weight="bold">C</text><text x="45" y="80" font-size="9" font-weight="bold">D</text><text x="64" y="96" font-size="8.5" font-weight="bold" fill="#4f46e5">M</text></svg></div>',
+        hint1: 'In (b), use right-angled $\\triangle VMA$ where $AM = \\frac{1}{2}AC$.',
+        hint2: 'In (c), the angle between face $VBC$ and the base uses the midpoint $N$ of $BC$, where $MN = 5\\text{ cm}$.',
+        setup: '$AC = \\sqrt{10^2 + 10^2}$, $\\quad \\tan(\\angle VAM) = \\dfrac{12}{\\frac{1}{2}AC}$, $\\quad \\tan(\\angle VNM) = \\dfrac{12}{5}$.',
+        solution: '(a) $AC = \\sqrt{10^2 + 10^2} = \\sqrt{200} = 14.1\\text{ cm}$ (3 s.f.) <strong>[M1, A1]</strong>.<br>(b) $AM = \\dfrac{\\sqrt{200}}{2} = 7.071\\text{ cm}$. $\\tan(\\angle VAM) = \\dfrac{12}{7.071}$ <strong>[M1]</strong> $\\implies \\angle VAM = 59.5^\\circ$ (1 d.p.) <strong>[A1]</strong>.<br>(c) Let $N$ be midpoint of $BC$; $MN = 5\\text{ cm}$. $\\tan(\\angle VNM) = \\dfrac{12}{5} = 2.4$ <strong>[M1]</strong> $\\implies \\angle VNM = 67.4^\\circ$ (1 d.p.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q08',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Two Connected Right-Angled Triangles',
+        prompt: 'From the top of a vertical cliff $80\\text{ m}$ high, the angle of depression of boat $A$ is $34^\\circ$ and the angle of depression of boat $B$ (directly behind boat $A$) is $21^\\circ$.<br>Calculate the distance $AB$ between the two boats correct to 3 significant figures.',
+        hint1: 'Angle of depression from the cliff top equals the angle of elevation from each boat (alternate angles).',
+        hint2: 'Find the horizontal distance of each boat from the foot of the cliff using $\\tan$, then subtract.',
+        setup: '$d_A = \\dfrac{80}{\\tan 34^\\circ}$, $\\quad d_B = \\dfrac{80}{\\tan 21^\\circ}$, $\\quad AB = d_B - d_A$.',
+        solution: 'Distance to boat $A$: $d_A = \\dfrac{80}{\\tan 34^\\circ} = 118.605\\text{ m}$ <strong>[M1]</strong>.<br>Distance to boat $B$: $d_B = \\dfrac{80}{\\tan 21^\\circ} = 208.407\\text{ m}$ <strong>[M1]</strong>.<br>$AB = 208.407 - 118.605 = 89.802\\dots$ <strong>[M1]</strong> $= 89.8\\text{ m}$ (3 s.f.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q09',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Exact Sine Rule (Non-Calc)',
+        prompt: 'In $\\triangle ABC$, $\\angle A = 45^\\circ$, $\\angle B = 60^\\circ$ and $BC = 6\\text{ cm}$.<br>Find the exact length of $AC$ in the form $a\\sqrt{b}$, where $a$ and $b$ are integers.',
+        hint1: 'Set up the Sine Rule $\\dfrac{AC}{\\sin 60^\\circ} = \\dfrac{6}{\\sin 45^\\circ}$.',
+        hint2: 'Substitute $\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}$ and $\\sin 45^\\circ = \\frac{\\sqrt{2}}{2}$, then rationalise the denominator.',
+        setup: '$AC = \\dfrac{6 \\sin 60^\\circ}{\\sin 45^\\circ}$.',
+        solution: '$\\dfrac{AC}{\\sin 60^\\circ} = \\dfrac{6}{\\sin 45^\\circ}$ <strong>[M1]</strong><br>$AC = \\dfrac{6 \\times \\frac{\\sqrt{3}}{2}}{\\frac{\\sqrt{2}}{2}} = \\dfrac{3\\sqrt{3}}{\\frac{\\sqrt{2}}{2}} = \\dfrac{6\\sqrt{3}}{\\sqrt{2}}$ <strong>[M1]</strong><br>Rationalise: $\\dfrac{6\\sqrt{3} \\times \\sqrt{2}}{2} = 3\\sqrt{6}\\text{ cm}$ <strong>[M1, A1]</strong>.'
+      },
+      {
+        id: 'E6-Q10',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 6,
+        topic: '3D Trigonometry: Non-Right-Angled Base',
+        prompt: 'A vertical mast $CT$ of height $15\\text{ m}$ stands at corner $C$ of a horizontal triangular field $ABC$.<br>In the horizontal field, $AC = 22\\text{ m}$, $BC = 28\\text{ m}$ and $\\angle ACB = 110^\\circ$.<br>(a) Calculate the distance $AB$ to 3 s.f.<br>(b) Point $D$ lies on $AB$ such that $CD$ is perpendicular to $AB$. Calculate the angle of elevation of the top of the mast $T$ from $D$ to 1 d.p.',
+        hint1: 'Use the Cosine Rule in horizontal $\\triangle ABC$ for $AB$, then use area $\\frac{1}{2}(22)(28)\\sin 110^\\circ = \\frac{1}{2}(AB)(CD)$ to find $CD$.',
+        hint2: 'Once you have $CD$, use $\\tan(\\angle TDC) = \\dfrac{15}{CD}$ in vertical right-angled $\\triangle TCD$.',
+        setup: '$AB^2 = 22^2 + 28^2 - 2(22)(28)\\cos 110^\\circ$, $\\quad CD = \\dfrac{22 \\times 28 \\sin 110^\\circ}{AB}$.',
+        solution: '(a) $AB^2 = 22^2 + 28^2 - 2(22)(28)\\cos 110^\\circ$ <strong>[M1]</strong> $= 1268 - (-421.37) = 1689.37$<br>$AB = \\sqrt{1689.37} = 41.102\\dots \\approx 41.1\\text{ m}$ (3 s.f.) <strong>[A1]</strong>.<br>(b) $\\text{Area}(\\triangle ABC) = \\dfrac{1}{2}(22)(28)\\sin 110^\\circ = 289.425\\text{ m}^2$ <strong>[M1]</strong>.<br>$\\dfrac{1}{2}(41.102)(CD) = 289.425 \\implies CD = 14.083\\text{ m}$ <strong>[M1]</strong>.<br>$\\tan(\\angle TDC) = \\dfrac{15}{14.083}$ <strong>[M1]</strong> $\\implies \\angle TDC = 46.8^\\circ$ (1 d.p.) <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q11',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Algebraic Cosine Rule with 120°',
+        prompt: 'In $\\triangle PQR$, $PQ = (x + 1)\\text{ cm}$, $PR = (x - 1)\\text{ cm}$, $QR = 7\\text{ cm}$ and $\\angle QPR = 120^\\circ$.<br>Given that $\\cos 120^\\circ = -\\dfrac{1}{2}$, form an equation in $x$ and solve it to find the value of $x$.',
+        hint1: 'Substitute $a = 7$, $b = x + 1$, $c = x - 1$, and $\\cos 120^\\circ = -\\frac{1}{2}$ into $a^2 = b^2 + c^2 - 2bc\\cos A$.',
+        hint2: 'Notice that $-2(x+1)(x-1)\\left(-\\frac{1}{2}\\right)$ simplifies cleanly to $+(x^2 - 1)$.',
+        setup: '$7^2 = (x + 1)^2 + (x - 1)^2 - 2(x + 1)(x - 1)\\left(-\\dfrac{1}{2}\\right)$.',
+        solution: '$49 = (x + 1)^2 + (x - 1)^2 - 2(x + 1)(x - 1)\\left(-\\dfrac{1}{2}\\right)$ <strong>[M1]</strong><br>$49 = (x^2 + 2x + 1) + (x^2 - 2x + 1) + (x^2 - 1)$ <strong>[M1]</strong><br>$49 = 3x^2 + 1 \\implies 3x^2 = 48 \\implies x^2 = 16$ <strong>[M1]</strong><br>Since side lengths are positive ($x &gt; 1$), $x = 4$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E6-Q12',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Quadrilateral Split into Two Triangles',
+        prompt: 'In quadrilateral $ABCD$, $AB = 7.4\\text{ cm}$, $BC = 9.2\\text{ cm}$, $AD = 11.5\\text{ cm}$, $\\angle ABC = 104^\\circ$ and $\\angle ACD = 42^\\circ$.<br>(a) Calculate the length of the diagonal $AC$ to 3 s.f.<br>(b) Calculate the acute angle $ADC$ to 1 d.p.',
+        hint1: 'Find diagonal $AC$ first in $\\triangle ABC$ using the Cosine Rule.',
+        hint2: 'Carry the unrounded value of $AC$ into $\\triangle ACD$ and use the Sine Rule to find $\\angle ADC$.',
+        setup: '$AC^2 = 7.4^2 + 9.2^2 - 2(7.4)(9.2)\\cos 104^\\circ$, $\\quad \\dfrac{\\sin D}{AC} = \\dfrac{\\sin 42^\\circ}{11.5}$.',
+        solution: '(a) $AC^2 = 7.4^2 + 9.2^2 - 2(7.4)(9.2)\\cos 104^\\circ$ <strong>[M1]</strong> $= 139.4 - (-32.940) = 172.340$ <strong>[M1]</strong><br>$AC = \\sqrt{172.340} = 13.128\\dots \\approx 13.1\\text{ cm}$ (3 s.f.) <strong>[A1]</strong>.<br>(b) $\\dfrac{\\sin D}{13.128} = \\dfrac{\\sin 42^\\circ}{11.5}$ <strong>[M1]</strong> $\\implies \\sin D = 0.76385 \\implies \\angle ADC = 49.8^\\circ$ (1 d.p.) <strong>[A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

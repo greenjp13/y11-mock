@@ -1,0 +1,683 @@
+<!-- File 10 of 10: strand-transforms-vectors.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E7: Transformations &amp; Vectors — CIE 0580 Extended Revision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .rag-btn[data-active="true"][data-rag="red"] { background-color: #e11d48; color: #fff; border-color: #e11d48; }
+    .rag-btn[data-active="true"][data-rag="amber"] { background-color: #d97706; color: #fff; border-color: #d97706; }
+    .rag-btn[data-active="true"][data-rag="green"] { background-color: #059669; color: #fff; border-color: #059669; }
+    .tab-btn[data-active="true"] { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+    .filter-pill[data-active="true"], .view-pill[data-active="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-bold border border-indigo-200">E7</span>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900">Transformations &amp; Vectors</h1>
+          </div>
+          <p id="strandProgressText" class="text-xs text-slate-500 mt-0.5">0 / 12 Nailed · 0 Stuck</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-rose-50 transition" data-rag="red" onclick="setRag('red')">Red</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-amber-50 transition" data-rag="amber" onclick="setRag('amber')">Amber</button>
+          <button class="rag-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:bg-emerald-50 transition" data-rag="green" onclick="setRag('green')">Green</button>
+        </div>
+        <a href="mock-paper2.html" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition">Next: Mock Paper 2 →</a>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation Tabs -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex gap-6 border-t border-slate-100 text-sm">
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="notes" data-active="false" onclick="switchTab('notes')">1. Decision Tree &amp; Traps</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="examples" data-active="false" onclick="switchTab('examples')">2. I Do / You Do Pairs</button>
+      <button class="tab-btn py-2.5 text-slate-500 hover:text-slate-800 transition" data-tab="practice" data-active="true" onclick="switchTab('practice')">3. Exam Practice Bank (12)</button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- TAB 1: DECISION TREE & EXAMINER TRAPS -->
+    <section id="tab-notes" class="hidden space-y-5">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-1.5 flex-1">
+            <h2 class="text-base font-bold text-slate-900">E7 Decision Tree: Full Transformation Descriptions &amp; Vector Geometry</h2>
+            <p class="text-xs text-slate-600">When asked to <em>"Describe fully the single transformation..."</em>, naming two transformations scores <strong>0 marks</strong>. Every transformation type has a strict checklist of required details.</p>
+          </div>
+          <!-- Inline SVG: Negative Enlargement & Vector Triangle Law -->
+          <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-3 flex flex-wrap items-center justify-center gap-4">
+            <svg width="145" height="115" viewBox="0 0 145 115">
+              <polygon points="88,20 124,20 88,46" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
+              <polygon points="56,88 38,88 56,75" fill="#fef2f2" stroke="#e11d48" stroke-width="1.6"/>
+              <line x1="88" y1="20" x2="56" y2="88" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <line x1="124" y1="20" x2="38" y2="88" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <circle cx="67" cy="65" r="2.8" fill="#0f172a"/>
+              <text x="72" y="68" font-size="8.5" font-weight="bold">C (Centre)</text>
+              <text x="95" y="16" font-size="8.5" font-weight="bold" fill="#4f46e5">Object</text>
+              <text x="24" y="100" font-size="8.5" font-weight="bold" fill="#be123c">Image (k &lt; 0)</text>
+              <text x="14" y="112" font-size="8" font-weight="bold" fill="#334155">Rays cross at Centre C</text>
+            </svg>
+            <svg width="145" height="115" viewBox="0 0 145 115">
+              <defs>
+                <marker id="arrIndigo" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/>
+                </marker>
+                <marker id="arrGreen" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#059669"/>
+                </marker>
+                <marker id="arrRed" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/>
+                </marker>
+              </defs>
+              <circle cx="22" cy="92" r="2.5" fill="#1e293b"/>
+              <text x="12" y="96" font-size="9" font-weight="bold">O</text>
+              <line x1="22" y1="92" x2="52" y2="28" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arrIndigo)"/>
+              <line x1="22" y1="92" x2="118" y2="76" stroke="#059669" stroke-width="1.8" marker-end="url(#arrGreen)"/>
+              <line x1="54" y1="24" x2="119" y2="74" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="4,2" marker-end="url(#arrRed)"/>
+              <text x="48" y="18" font-size="9" font-weight="bold">A</text>
+              <text x="125" y="79" font-size="9" font-weight="bold">B</text>
+              <text x="28" y="54" font-size="9" font-weight="bold" fill="#4f46e5">a</text>
+              <text x="72" y="94" font-size="9" font-weight="bold" fill="#047857">b</text>
+              <text x="86" y="46" font-size="8.5" font-weight="bold" fill="#be123c">AB = b − a</text>
+              <text x="16" y="112" font-size="8" font-weight="bold" fill="#334155">Tip minus Tail: OB − OA</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">1. Transformation Description Checklist</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700 text-xs sm:text-sm">
+              <li><strong>Translation</strong> + column vector $\begin{pmatrix} x \\ y \end{pmatrix}$ (2 marks).</li>
+              <li><strong>Reflection</strong> + equation of mirror line, e.g. $y = x$ or $x = -1$ (2 marks).</li>
+              <li><strong>Rotation</strong> + angle ($90^\circ / 180^\circ$) + direction (clockwise/anticlockwise, not needed for $180^\circ$) + centre $(a, b)$ (3 marks).</li>
+              <li><strong>Enlargement</strong> + scale factor $k$ + centre $(a, b)$ (3 marks).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">2. Coordinate Rules &amp; Negative Scale Factors</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>$90^\circ$ anticlockwise about $(0,0)$:</strong> $(x, y) \to (-y, x)$.</li>
+              <li><strong>$90^\circ$ clockwise about $(0,0)$:</strong> $(x, y) \to (y, -x)$.</li>
+              <li><strong>$180^\circ$ about $(0,0)$:</strong> $(x, y) \to (-x, -y)$.</li>
+              <li><strong>Enlargement centre $(a, b)$, scale factor $k$:</strong> $\text{Image} = \begin{pmatrix} a \\ b \end{pmatrix} + k\begin{pmatrix} x - a \\ y - b \end{pmatrix}$.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">3. Vector Arithmetic, Magnitude &amp; Ratios</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Position vector rule:</strong> $\vec{AB} = \vec{OB} - \vec{OA} = \mathbf{b} - \mathbf{a}$.</li>
+              <li><strong>Magnitude (length):</strong> $\left|\begin{pmatrix} x \\ y \end{pmatrix}\right| = \sqrt{x^2 + y^2}$ (always positive).</li>
+              <li><strong>Ratio division:</strong> If $AP : PB = m : n$, then $\vec{AP} = \dfrac{m}{m + n}\vec{AB}$ (denominator is $m + n$, NOT $n$!).</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+            <p class="font-bold text-indigo-700">4. Proving Parallelism &amp; Collinearity</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+              <li><strong>Parallel:</strong> Show one vector is a scalar multiple of the other ($\vec{PQ} = k\vec{RS}$).</li>
+              <li><strong>Collinear (straight line):</strong> Show $\vec{PQ} = k\vec{PR}$ (parallel) <strong>AND</strong> state that they share the <strong>common point $P$</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-5 space-y-2.5">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-rose-800">High-Frequency CIE Examiner Traps</h3>
+        <ul class="list-disc pl-5 text-sm text-rose-950 space-y-1.5">
+          <li><strong>Writing a coordinate $(x, y)$ instead of a column vector $\begin{pmatrix} x \\ y \end{pmatrix}$ for a translation:</strong> Examiners strictly penalise $(3, -2)$ for a translation—always write $\begin{pmatrix} 3 \\ -2 \end{pmatrix}$.</li>
+          <li><strong>Omitting "common point" in collinearity proofs:</strong> Showing $\vec{BC} = 2\vec{AB}$ only proves the segments are parallel. You MUST explicitly write <em>"and they share the common point $B$"</em> to earn the final mark.</li>
+          <li><strong>Vector arrows &amp; bolding:</strong> In handwritten work, always underline vector letters ($\underline{a}$ or $\mathbf{a}$) or draw an arrow ($\vec{AB}$) so they are not confused with scalar lengths.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: LINKED I DO / YOU DO EXAMPLES -->
+    <section id="tab-examples" class="hidden space-y-5">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm text-indigo-900">
+        <strong>How to use this:</strong> Study the <em>I Do</em> worked model on the left, then solve the matched <em>You Do</em> on paper before revealing the solution.
+      </div>
+      <div id="examplesContainer" class="space-y-5"></div>
+    </section>
+
+    <!-- TAB 3: EXAM PRACTICE BANK -->
+    <section id="tab-practice" class="space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterBar">
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="all" data-active="true" onclick="setFilter('all')">All (12)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P2" data-active="false" onclick="setFilter('P2')">Paper 2 (Non-Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="P4" data-active="false" onclick="setFilter('P4')">Paper 4 (Calc)</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="stuck" data-active="false" onclick="setFilter('stuck')">Stuck Only</button>
+            <button class="filter-pill px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600" data-filter="todo" data-active="false" onclick="setFilter('todo')">Unattempted</button>
+          </div>
+
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="expanded" data-active="true" onclick="setView('expanded')">Expanded</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="focus" data-active="false" onclick="setView('focus')">Focus (1-by-1)</button>
+            <button class="view-pill px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600" data-view="compact" data-active="false" onclick="setView('compact')">Compact</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+            <input type="checkbox" id="examModeToggle" class="h-4 w-4 rounded border-slate-300 text-indigo-600" onchange="toggleExamMode()" />
+            Exam Mode (shuffle &amp; hide topic tags/hints)
+          </label>
+          <span id="filterCountLabel" class="text-xs text-slate-500">Showing 12 questions</span>
+        </div>
+      </div>
+
+      <!-- Focus Mode Navigation Bar -->
+      <div id="focusNavBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <button onclick="stepFocus(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">← Previous</button>
+        <span id="focusCounter" class="text-xs font-bold text-indigo-900">Question 1 of 12</span>
+        <button onclick="stepFocus(1)" class="px-3 py-1.5 rounded-lg bg-white border border-indigo-200 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">Next →</button>
+      </div>
+
+      <div id="questionsContainer" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+    const STRAND_ID = 'transforms-vectors';
+
+    const LINKED_PAIRS = [
+      {
+        title: 'Pair 1: Describing Single Transformations Completely (Paper 2)',
+        iDo: {
+          q: 'Triangle $A$ has vertices $(2, 1), (4, 1), (2, 4)$. Triangle $B$ has vertices $(-1, -2), (-5, -2), (-1, -8)$. Describe fully the single transformation that maps triangle $A$ onto triangle $B$.',
+          steps: [
+            'Compare side lengths: horizontal side doubles from $2$ to $4$ units, and the triangle is inverted $\\implies$ scale factor $k = -2$.',
+            'Connect $(2, 1)$ to $(-1, -2)$ and $(4, 1)$ to $(-5, -2)$: the rays intersect at $(1, 0)$.',
+            'Full description: <strong>Enlargement, scale factor $-2$, centre $(1, 0)$</strong>.'
+          ]
+        },
+        youDo: {
+          q: 'Triangle $P$ has vertices $(2, 3), (4, 3), (2, 5)$. Triangle $Q$ has vertices $(-3, 2), (-3, 4), (-5, 2)$. Describe fully the single transformation that maps triangle $P$ onto triangle $Q$.',
+          ans: 'Rotation of $90^\\circ$ anticlockwise (or $270^\\circ$ clockwise) about $(0, 0)$',
+          work: 'Check rule $(x, y) \\to (-y, x)$: $(2,3)\\to(-3,2)$, $(4,3)\\to(-3,4)$, $(2,5)\\to(-5,2)$.'
+        }
+      },
+      {
+        title: 'Pair 2: Position Vectors & Exact Magnitude (Paper 2)',
+        iDo: {
+          q: 'Point $A$ has coordinates $(2, -3)$ and $\\vec{AB} = \\begin{pmatrix} 5 \\\\ -12 \\end{pmatrix}$. Find (a) the coordinates of $B$ and (b) the exact magnitude $|\\vec{AB}|$.',
+          steps: [
+            '(a) $\\vec{OB} = \\vec{OA} + \\vec{AB} = \\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix} + \\begin{pmatrix} 5 \\\\ -12 \\end{pmatrix} = \\begin{pmatrix} 7 \\\\ -15 \\end{pmatrix} \\implies B(7, -15)$.',
+            '(b) $|\\vec{AB}| = \\sqrt{5^2 + (-12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$.'
+          ]
+        },
+        youDo: {
+          q: 'Point $P$ has coordinates $(-4, 5)$ and point $Q$ has coordinates $(2, -3)$. Find (a) the column vector $\\vec{PQ}$ and (b) $|\\vec{PQ}|$.',
+          ans: '(a) $\\begin{pmatrix} 6 \\\\ -8 \\end{pmatrix}$, (b) $10$',
+          work: '$\\vec{PQ} = \\begin{pmatrix} 2 - (-4) \\\\ -3 - 5 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ -8 \\end{pmatrix}$; $|\\vec{PQ}| = \\sqrt{6^2 + (-8)^2} = \\sqrt{100} = 10$.'
+        }
+      },
+      {
+        title: 'Pair 3: Vector Paths with Ratio Divisions (Paper 2)',
+        iDo: {
+          q: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$. Point $M$ is the midpoint of $OA$, and point $P$ lies on $AB$ such that $AP : PB = 1 : 3$. Express $\\vec{MP}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
+          steps: [
+            'First find $\\vec{AB} = \\vec{OB} - \\vec{OA} = \\mathbf{b} - \\mathbf{a}$.',
+            'Since $AP : PB = 1 : 3$, $\\vec{AP} = \\dfrac{1}{4}(\\mathbf{b} - \\mathbf{a})$.',
+            '$\\vec{MP} = \\vec{MA} + \\vec{AP} = \\dfrac{1}{2}\\mathbf{a} + \\dfrac{1}{4}(\\mathbf{b} - \\mathbf{a}) = \\dfrac{1}{4}\\mathbf{a} + \\dfrac{1}{4}\\mathbf{b} = \\dfrac{1}{4}(\\mathbf{a} + \\mathbf{b})$.'
+          ]
+        },
+        youDo: {
+          q: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$. Point $N$ lies on $OB$ with $ON : NB = 2 : 1$, and point $Q$ lies on $AB$ with $AQ : QB = 2 : 1$. Express $\\vec{NQ}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
+          ans: '$\\dfrac{1}{3}\\mathbf{a}$',
+          work: '$\\vec{NQ} = \\vec{NO} + \\vec{OA} + \\vec{AQ} = -\\frac{2}{3}\\mathbf{b} + \\mathbf{a} + \\frac{2}{3}(\\mathbf{b} - \\mathbf{a}) = \\frac{1}{3}\\mathbf{a}$.'
+        }
+      },
+      {
+        title: 'Pair 4: Proving Collinearity & Finding Segment Ratios (Paper 4)',
+        iDo: {
+          q: 'Given that $\\vec{XY} = 6\\mathbf{p} - 4\\mathbf{q}$ and $\\vec{XZ} = 9\\mathbf{p} - 6\\mathbf{q}$, prove that points $X, Y$ and $Z$ are collinear.',
+          steps: [
+            'Factorise both vectors: $\\vec{XY} = 2(3\\mathbf{p} - 2\\mathbf{q})$ and $\\vec{XZ} = 3(3\\mathbf{p} - 2\\mathbf{q})$.',
+            'Thus $\\vec{XZ} = \\dfrac{3}{2}\\vec{XY}$, so $\\vec{XZ}$ and $\\vec{XY}$ are parallel.',
+            'Since they share the common point $X$, points $X, Y$ and $Z$ are collinear.'
+          ]
+        },
+        youDo: {
+          q: 'Given that $\\vec{AB} = 4\\mathbf{u} + 10\\mathbf{v}$ and $\\vec{BC} = 6\\mathbf{u} + 15\\mathbf{v}$, show that $A, B$ and $C$ are collinear and state the ratio $AB : BC$.',
+          ans: 'Collinear; $AB : BC = 2 : 3$',
+          work: '$\\vec{BC} = \\frac{3}{2}\\vec{AB}$, so they are parallel and share the common point $B$ ($\\implies$ collinear), with $AB : BC = 2 : 3$.'
+        }
+      }
+    ];
+
+    const QUESTIONS = [
+      {
+        id: 'E7-Q01',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 3,
+        topic: 'Column Vector Arithmetic & Exact Magnitude',
+        prompt: '$\\mathbf{a} = \\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix}$.<br>(a) Find $2\\mathbf{a} - \\mathbf{b}$ as a column vector.<br>(b) Find $|\\mathbf{a} + \\mathbf{b}|$, giving your answer in simplest surd form.',
+        hint1: 'Multiply every component of $\\mathbf{a}$ by $2$ before subtracting $\\mathbf{b}$ component-by-component.',
+        hint2: 'For (b), add $\\mathbf{a} + \\mathbf{b}$ first, then apply $\\sqrt{x^2 + y^2}$ and simplify $\\sqrt{8}$.',
+        setup: '$2\\mathbf{a} - \\mathbf{b} = \\begin{pmatrix} 6 - (-1) \\\\ -4 - 4 \\end{pmatrix}$, $\\quad |\\mathbf{a} + \\mathbf{b}| = \\sqrt{(3 - 1)^2 + (-2 + 4)^2}$.',
+        solution: '(a) $2\\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix} - \\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ -4 \\end{pmatrix} - \\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} 7 \\\\ -8 \\end{pmatrix}$ <strong>[B1]</strong>.<br>(b) $\\mathbf{a} + \\mathbf{b} = \\begin{pmatrix} 2 \\\\ 2 \\end{pmatrix}$ <strong>[M1]</strong>.<br>$| \\mathbf{a} + \\mathbf{b} | = \\sqrt{2^2 + 2^2} = \\sqrt{8} = 2\\sqrt{2}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q02',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Describing Single Transformations',
+        prompt: 'Triangle $T$ has vertices $A(1, 2)$, $B(4, 2)$ and $C(4, 4)$.<br>(a) Triangle $T_1$ has vertices $A_1(-2, 1)$, $B_1(-2, 4)$ and $C_1(-4, 4)$. Describe fully the single transformation that maps triangle $T$ onto triangle $T_1$.<br>(b) Triangle $T_2$ has vertices $A_2(2, 1)$, $B_2(2, 4)$ and $C_2(4, 4)$. Describe fully the single transformation that maps triangle $T$ onto triangle $T_2$.',
+        hint1: 'Compare the coordinate mapping $(x, y) \\to (-y, x)$ in (a) and $(x, y) \\to (y, x)$ in (b).',
+        hint2: 'For a rotation, include angle, direction, and centre; for a reflection, state the equation of the mirror line.',
+        setup: '(a) $(x, y) \\to (-y, x)$; $\\quad$ (b) $(x, y) \\to (y, x)$.',
+        solution: '(a) <strong>Rotation</strong> <strong>[B1]</strong> of <strong>$90^\\circ$ anticlockwise</strong> (or $270^\\circ$ clockwise) <strong>[B1]</strong> about the <strong>origin $(0, 0)$</strong> <strong>[B1]</strong>.<br>(b) <strong>Reflection</strong> <strong>[B1]</strong> in the line <strong>$y = x$</strong> <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E7-Q03',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Enlargement with Negative Fractional Scale Factor',
+        prompt: 'Triangle $T$ has vertices $(2, 4)$, $(6, 4)$ and $(2, 8)$.<br>Triangle $T$ is enlarged by scale factor $-\\dfrac{1}{2}$ with centre $(0, 2)$ to give triangle $U$.<br>Find the coordinates of the three vertices of triangle $U$.',
+        hint1: 'Find the displacement vector from the centre $(0, 2)$ to each vertex of $T$.',
+        hint2: 'Multiply each displacement vector by $-\\frac{1}{2}$, then add it back to the centre $(0, 2)$.',
+        setup: '$\\text{Image} = \\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix} - \\dfrac{1}{2}\\begin{pmatrix} x - 0 \\\\ y - 2 \\end{pmatrix}$.',
+        solution: 'From centre $(0, 2)$:<br>• $(2, 4)$: vector $\\begin{pmatrix} 2 \\\\ 2 \\end{pmatrix} \\xrightarrow{\\times -\\frac{1}{2}} \\begin{pmatrix} -1 \\\\ -1 \\end{pmatrix} + \\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix} = (-1, 1)$ <strong>[B1]</strong>.<br>• $(6, 4)$: vector $\\begin{pmatrix} 6 \\\\ 2 \\end{pmatrix} \\xrightarrow{\\times -\\frac{1}{2}} \\begin{pmatrix} -3 \\\\ -1 \\end{pmatrix} + \\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix} = (-3, 1)$ <strong>[B1]</strong>.<br>• $(2, 8)$: vector $\\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix} \\xrightarrow{\\times -\\frac{1}{2}} \\begin{pmatrix} -1 \\\\ -3 \\end{pmatrix} + \\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix} = (-1, -1)$ <strong>[B2: M1 method, A1 all 3 correct]</strong>.'
+      },
+      {
+        id: 'E7-Q04',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Combined Reflections & Equivalent Rotation',
+        prompt: 'Point $P(3, 1)$ is reflected in the line $x = 1$ to give point $P\'$.<br>Point $P\'$ is then reflected in the line $y = -1$ to give point $P\'\'$.<br>(a) Write down the coordinates of $P\'$ and $P\'\'$.<br>(b) Describe fully the <strong>single</strong> transformation that maps $P$ directly onto $P\'\'$ for any starting point $P$.',
+        hint1: 'Point $(3, 1)$ is $2$ units to the right of the vertical mirror $x = 1$, so $P\'$ is $2$ units to the left of $x = 1$.',
+        hint2: 'Two reflections in perpendicular lines intersecting at $(a, b)$ are equivalent to a $180^\\circ$ rotation about $(a, b)$.',
+        setup: 'Mirror lines $x = 1$ and $y = -1$ intersect at $(1, -1)$.',
+        solution: '(a) Reflect $(3, 1)$ in $x = 1 \\implies P\'(-1, 1)$ <strong>[B1]</strong>.<br>Reflect $(-1, 1)$ in $y = -1 \\implies P\'\'(-1, -3)$ <strong>[B1]</strong>.<br>(b) <strong>Rotation</strong> <strong>[B1]</strong> of <strong>$180^\\circ$ about $(1, -1)$</strong> <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E7-Q05',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Parallelogram & Midpoint Vector Paths',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>$OABC$ is a parallelogram with $\\vec{OA} = \\mathbf{a}$ and $\\vec{OC} = \\mathbf{c}$.<br>$M$ is the midpoint of $AB$ and $N$ is the midpoint of $BC$.<br>Express in terms of $\\mathbf{a}$ and $\\mathbf{c}$ in simplest form:<br>(a) $\\vec{OM}$<br>(b) $\\vec{MN}$</div><svg width="175" height="115" viewBox="0 0 175 115" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,92 110,92 150,26 60,26" fill="#eef2ff" stroke="#334155" stroke-width="1.6"/><circle cx="130" cy="59" r="2.5" fill="#4f46e5"/><circle cx="105" cy="26" r="2.5" fill="#4f46e5"/><line x1="130" y1="59" x2="105" y2="26" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/><text x="10" y="96" font-size="9" font-weight="bold">O</text><text x="114" y="96" font-size="9" font-weight="bold">A</text><text x="154" y="28" font-size="9" font-weight="bold">B</text><text x="48" y="25" font-size="9" font-weight="bold">C</text><text x="135" y="62" font-size="9" font-weight="bold" fill="#4f46e5">M</text><text x="102" y="19" font-size="9" font-weight="bold" fill="#4f46e5">N</text><text x="62" y="103" font-size="9" font-weight="bold" fill="#047857">a</text><text x="31" y="58" font-size="9" font-weight="bold" fill="#047857">c</text></svg></div>',
+        hint1: 'In a parallelogram, $\\vec{AB} = \\vec{OC} = \\mathbf{c}$ and $\\vec{CB} = \\vec{OA} = \\mathbf{a}$.',
+        hint2: 'To travel from $M$ to $N$, go from $M$ to $B$ ($+\\frac{1}{2}\\mathbf{c}$) and then from $B$ to $N$ ($-\\frac{1}{2}\\mathbf{a}$).',
+        setup: '$\\vec{OM} = \\vec{OA} + \\dfrac{1}{2}\\vec{AB}$, $\\quad \\vec{MN} = \\vec{MB} + \\vec{BN}$.',
+        solution: '(a) $\\vec{OM} = \\mathbf{a} + \\dfrac{1}{2}\\mathbf{c}$ <strong>[B1]</strong>.<br>(b) $\\vec{MB} = \\dfrac{1}{2}\\mathbf{c}$ and $\\vec{BN} = -\\dfrac{1}{2}\\mathbf{a}$ <strong>[M1]</strong>.<br>$\\vec{MN} = \\dfrac{1}{2}\\mathbf{c} - \\dfrac{1}{2}\\mathbf{a} = \\dfrac{1}{2}(\\mathbf{c} - \\mathbf{a})$ <strong>[M1, A1]</strong>.'
+      },
+      {
+        id: 'E7-Q06',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Solving Vector Equations for Scalars',
+        prompt: 'Given that $\\mathbf{p} = \\begin{pmatrix} 4 \\\\ -3 \\end{pmatrix}$, $\\mathbf{q} = \\begin{pmatrix} -2 \\\\ 5 \\end{pmatrix}$, and $h\\mathbf{p} + k\\mathbf{q} = \\begin{pmatrix} 14 \\\\ -7 \\end{pmatrix}$, calculate the values of the scalars $h$ and $k$.',
+        hint1: 'Equate the top components to form one linear equation in $h$ and $k$, and the bottom components to form a second equation.',
+        hint2: 'Solve the simultaneous equations $4h - 2k = 14$ and $-3h + 5k = -7$.',
+        setup: '$4h - 2k = 14$ and $-3h + 5k = -7$.',
+        solution: 'Top row: $4h - 2k = 14 \\implies 2h - k = 7 \\implies k = 2h - 7$ <strong>[M1]</strong>.<br>Bottom row: $-3h + 5k = -7$ <strong>[M1]</strong>.<br>Substitute $k$: $-3h + 5(2h - 7) = -7 \\implies 7h - 35 = -7 \\implies 7h = 28 \\implies h = 4$ <strong>[A1]</strong>.<br>$k = 2(4) - 7 = 1$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q07',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 5,
+        topic: 'Ratio Division & Collinearity Proof',
+        prompt: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>Point $P$ lies on $OA$ such that $OP : PA = 1 : 2$.<br>Point $Q$ lies on $AB$ such that $AQ : QB = 3 : 1$.<br>Point $R$ lies on $OB$ extended such that $\\vec{OR} = 3\\mathbf{b}$.<br>(a) Express $\\vec{PQ}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$ in simplest form.<br>(b) Prove that points $P, Q$ and $R$ lie on a straight line.',
+        hint1: 'Use $\\vec{PQ} = \\vec{PO} + \\vec{OA} + \\vec{AQ} = -\\frac{1}{3}\\mathbf{a} + \\mathbf{a} + \\frac{3}{4}(\\mathbf{b} - \\mathbf{a})$.',
+        hint2: 'In (b), also find $\\vec{PR} = \\vec{OR} - \\vec{OP} = 3\\mathbf{b} - \\frac{1}{3}\\mathbf{a}$ and compare it with $\\vec{PQ}$.',
+        setup: '$\\vec{PQ} = \\dfrac{1}{4}\\mathbf{a} + \\dfrac{3}{4}\\mathbf{b} - \\dfrac{1}{3}\\mathbf{a} = -\\dfrac{1}{12}\\mathbf{a} + \\dfrac{3}{4}\\mathbf{b}$, $\\quad \\vec{PR} = -\\dfrac{1}{3}\\mathbf{a} + 3\\mathbf{b}$.',
+        solution: '(a) $\\vec{PQ} = -\\dfrac{1}{3}\\mathbf{a} + \\mathbf{a} + \\dfrac{3}{4}(\\mathbf{b} - \\mathbf{a})$ <strong>[M1]</strong><br>$= \\dfrac{2}{3}\\mathbf{a} + \\dfrac{3}{4}\\mathbf{b} - \\dfrac{3}{4}\\mathbf{a} = -\\dfrac{1}{12}\\mathbf{a} + \\dfrac{3}{4}\\mathbf{b}$ <strong>[A1]</strong>.<br>(b) $\\vec{PR} = \\vec{OR} - \\vec{OP} = 3\\mathbf{b} - \\dfrac{1}{3}\\mathbf{a} = 4\\left(-\\dfrac{1}{12}\\mathbf{a} + \\dfrac{3}{4}\\mathbf{b}\\right) = 4\\vec{PQ}$ <strong>[M1, A1]</strong>.<br>Since $\\vec{PR}$ is a scalar multiple of $\\vec{PQ}$ (parallel) and they share the <strong>common point $P$</strong>, $P, Q$ and $R$ are collinear <strong>[B1]</strong>.'
+      },
+      {
+        id: 'E7-Q08',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Coordinates Along a Vector Segment',
+        prompt: 'Points $A(1, 5)$ and $B(7, -3)$ lie on a coordinate grid where $1\\text{ unit} = 1\\text{ cm}$.<br>(a) Find the column vector $\\vec{AB}$ and its length $|\\vec{AB}|$.<br>(b) Point $C$ lies on the line segment $AB$ such that $AC = 3\\text{ cm}$. Find the coordinates of $C$.',
+        hint1: 'Find $\\vec{AB} = \\vec{OB} - \\vec{OA}$ and use Pythagoras for $|\\vec{AB}|$.',
+        hint2: 'Since $AC = 3\\text{ cm}$ out of the total length $|\\vec{AB}|$, $\\vec{AC} = \\dfrac{3}{|\\vec{AB}|}\\vec{AB}$.',
+        setup: '$\\vec{AB} = \\begin{pmatrix} 6 \\\\ -8 \\end{pmatrix}$, $\\quad |\\vec{AB}| = 10$, $\\quad \\vec{OC} = \\vec{OA} + \\dfrac{3}{10}\\vec{AB}$.',
+        solution: '(a) $\\vec{AB} = \\begin{pmatrix} 7 - 1 \\\\ -3 - 5 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ -8 \\end{pmatrix}$ <strong>[B1]</strong>; $|\\vec{AB}| = \\sqrt{6^2 + (-8)^2} = 10\\text{ cm}$ <strong>[B1]</strong>.<br>(b) $\\vec{AC} = \\dfrac{3}{10}\\begin{pmatrix} 6 \\\\ -8 \\end{pmatrix} = \\begin{pmatrix} 1.8 \\\\ -2.4 \\end{pmatrix}$ <strong>[M1]</strong>.<br>$\\vec{OC} = \\begin{pmatrix} 1 \\\\ 5 \\end{pmatrix} + \\begin{pmatrix} 1.8 \\\\ -2.4 \\end{pmatrix} = \\begin{pmatrix} 2.8 \\\\ 2.6 \\end{pmatrix} \\implies C(2.8, 2.6)$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q09',
+        paper: 'P2',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Trapezium Vector Geometry',
+        prompt: '$OABC$ is a trapezium in which $OC$ is parallel to $AB$ and $AB = 2\\,OC$.<br>Given that $\\vec{OA} = \\mathbf{a}$ and $\\vec{OC} = \\mathbf{c}$, find in terms of $\\mathbf{a}$ and $\\mathbf{c}$:<br>(a) $\\vec{OB}$<br>(b) $\\vec{BC}$',
+        hint1: 'Because $AB$ is parallel to $OC$ in the same direction and twice as long, $\\vec{AB} = 2\\mathbf{c}$.',
+        hint2: 'For $\\vec{BC}$, travel from $B$ to $O$ ($-\\vec{OB}$) and then $O$ to $C$ ($+\\mathbf{c}$).',
+        setup: '$\\vec{AB} = 2\\mathbf{c}$, $\\quad \\vec{OB} = \\vec{OA} + \\vec{AB}$, $\\quad \\vec{BC} = \\vec{OC} - \\vec{OB}$.',
+        solution: '(a) $\\vec{AB} = 2\\mathbf{c}$ <strong>[B1]</strong> $\\implies \\vec{OB} = \\mathbf{a} + 2\\mathbf{c}$ <strong>[B1]</strong>.<br>(b) $\\vec{BC} = \\vec{OC} - \\vec{OB} = \\mathbf{c} - (\\mathbf{a} + 2\\mathbf{c})$ <strong>[M1]</strong> $= -\\mathbf{a} - \\mathbf{c}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q10',
+        paper: 'P4',
+        tier: 'A*',
+        marks: 6,
+        topic: 'Intersecting Vector Lines (Equating Coefficients)',
+        prompt: '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div>In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>$M$ is the midpoint of $OB$, and $N$ lies on $OA$ such that $ON : NA = 2 : 1$.<br>The line segments $AM$ and $BN$ intersect at $X$.<br>Given that $\\vec{AX} = h\\vec{AM}$ and $\\vec{BX} = k\\vec{BN}$, find the values of $h$ and $k$, and express $\\vec{OX}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.</div><svg width="165" height="125" viewBox="0 0 165 125" class="shrink-0 bg-slate-50 border border-slate-200 rounded-lg p-1"><polygon points="20,102 145,102 65,20" fill="#f8fafc" stroke="#334155" stroke-width="1.6"/><line x1="65" y1="20" x2="82.5" y2="102" stroke="#4f46e5" stroke-width="1.4"/><line x1="145" y1="102" x2="50" y2="47.3" stroke="#059669" stroke-width="1.4"/><circle cx="74" cy="61" r="2.6" fill="#e11d48"/><text x="10" y="106" font-size="9" font-weight="bold">O</text><text x="61" y="15" font-size="9" font-weight="bold">A</text><text x="148" y="106" font-size="9" font-weight="bold">B</text><text x="79" y="113" font-size="8.5" font-weight="bold" fill="#4f46e5">M</text><text x="38" y="48" font-size="8.5" font-weight="bold" fill="#047857">N</text><text x="78" y="59" font-size="9" font-weight="bold" fill="#be123c">X</text></svg></div>',
+        hint1: 'Write $\\vec{OX}$ in two different ways: $\\vec{OA} + h\\vec{AM}$ and $\\vec{OB} + k\\vec{BN}$.',
+        hint2: 'Since $\\mathbf{a}$ and $\\mathbf{b}$ are non-parallel, equate the coefficient of $\\mathbf{a}$ from both expressions and the coefficient of $\\mathbf{b}$ from both expressions.',
+        setup: '$\\vec{OX} = (1 - h)\\mathbf{a} + \\dfrac{1}{2}h\\mathbf{b} = \\dfrac{2}{3}k\\mathbf{a} + (1 - k)\\mathbf{b}$.',
+        solution: 'Route 1: $\\vec{OX} = \\mathbf{a} + h\\left(\\dfrac{1}{2}\\mathbf{b} - \\mathbf{a}\\right) = (1 - h)\\mathbf{a} + \\dfrac{1}{2}h\\mathbf{b}$ <strong>[M1]</strong>.<br>Route 2: $\\vec{OX} = \\mathbf{b} + k\\left(\\dfrac{2}{3}\\mathbf{a} - \\mathbf{b}\\right) = \\dfrac{2}{3}k\\mathbf{a} + (1 - k)\\mathbf{b}$ <strong>[M1]</strong>.<br>Equate coefficients: $\\dfrac{1}{2}h = 1 - k \\implies k = 1 - \\dfrac{1}{2}h$, and $1 - h = \\dfrac{2}{3}k$ <strong>[M1]</strong>.<br>$1 - h = \\dfrac{2}{3}\\left(1 - \\dfrac{1}{2}h\\right) = \\dfrac{2}{3} - \\dfrac{1}{3}h \\implies \\dfrac{2}{3}h = \\dfrac{1}{3} \\implies h = \\dfrac{1}{2}$ <strong>[A1]</strong>.<br>$k = 1 - \\dfrac{1}{4} = \\dfrac{3}{4}$ <strong>[A1]</strong>; $\\quad \\vec{OX} = \\dfrac{1}{2}\\mathbf{a} + \\dfrac{1}{4}\\mathbf{b}$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q11',
+        paper: 'P2',
+        tier: 'A*',
+        marks: 4,
+        topic: 'Area Ratios via Vector Ratios',
+        prompt: 'In $\\triangle OAB$, $N$ lies on $OA$ such that $ON : NA = 1 : 2$, and $M$ is the midpoint of $OB$.<br>The lines $AM$ and $BN$ intersect at $X$, dividing $BN$ in the ratio $BX : XN = 3 : 2$.<br>Find the ratio $\\text{Area}(\\triangle OXB) : \\text{Area}(\\triangle OAB)$ in its simplest form.',
+        hint1: 'Compare $\\text{Area}(\\triangle OBN)$ with $\\text{Area}(\\triangle OAB)$ using their bases $ON$ and $OA$ (they share the same perpendicular height from $B$).',
+        hint2: 'Then compare $\\text{Area}(\\triangle OXB)$ with $\\text{Area}(\\triangle OBN)$ using bases $BX$ and $BN$.',
+        setup: '$\\text{Area}(\\triangle OBN) = \\dfrac{1}{3}\\text{Area}(\\triangle OAB)$, $\\quad \\text{Area}(\\triangle OXB) = \\dfrac{3}{5}\\text{Area}(\\triangle OBN)$.',
+        solution: '$\\triangle OBN$ and $\\triangle OAB$ share the same height from $B$, and $ON = \\dfrac{1}{3}OA$:<br>$\\text{Area}(\\triangle OBN) = \\dfrac{1}{3}\\text{Area}(\\triangle OAB)$ <strong>[M1]</strong>.<br>$\\triangle OXB$ and $\\triangle OBN$ share the same height from $O$, and $BX = \\dfrac{3}{5}BN$:<br>$\\text{Area}(\\triangle OXB) = \\dfrac{3}{5} \\times \\dfrac{1}{3}\\text{Area}(\\triangle OAB)$ <strong>[M1]</strong> $= \\dfrac{1}{5}\\text{Area}(\\triangle OAB)$ <strong>[A1]</strong>.<br>Ratio $\\text{Area}(\\triangle OXB) : \\text{Area}(\\triangle OAB) = 1 : 5$ <strong>[A1]</strong>.'
+      },
+      {
+        id: 'E7-Q12',
+        paper: 'P4',
+        tier: 'Extended',
+        marks: 4,
+        topic: 'Finding Centre of Enlargement & Area Scale Factor',
+        prompt: 'Triangle $P$ has vertices $(1, 1)$, $(3, 1)$ and $(1, 2)$.<br>Triangle $Q$ has vertices $(5, 3)$, $(11, 3)$ and $(5, 6)$.<br>(a) Describe fully the single transformation that maps triangle $P$ onto triangle $Q$.<br>(b) Given that the area of triangle $P$ is $1\\text{ cm}^2$, write down the area of triangle $Q$.',
+        hint1: 'Find the scale factor by dividing a side length of $Q$ by the corresponding side length of $P$.',
+        hint2: 'Find the intersection of the lines joining $(5, 3)$ to $(1, 1)$ and $(5, 6)$ to $(1, 2)$ for the centre of enlargement.',
+        setup: '$k = \\dfrac{11 - 5}{3 - 1} = 3$, $\\quad \\text{Area}(Q) = k^2 \\times \\text{Area}(P)$.',
+        solution: '(a) <strong>Enlargement</strong> <strong>[B1]</strong>, <strong>scale factor $3$</strong> <strong>[B1]</strong>, <strong>centre $(-1, 0)$</strong> <strong>[B1]</strong>.<br>(b) $\\text{Area}(Q) = 3^2 \\times 1 = 9\\text{ cm}^2$ <strong>[B1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let currentFilter = 'all';
+    let currentView = 'expanded';
+    let focusIndex = 0;
+    let examMode = false;
+    let shuffledOrder = QUESTIONS.map((_, i) => i);
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateHeader() {
+      const rag = state.rag?.[STRAND_ID] || null;
+      document.querySelectorAll('.rag-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.rag === rag ? 'true' : 'false');
+      });
+      const nailed = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'nailed').length;
+      const stuck = QUESTIONS.filter(q => state.questions?.[q.id]?.status === 'stuck').length;
+      document.getElementById('strandProgressText').textContent = `${nailed} / ${QUESTIONS.length} Nailed · ${stuck} Stuck`;
+    }
+
+    function setRag(color) {
+      if (!state.rag) state.rag = {};
+      state.rag[STRAND_ID] = (state.rag[STRAND_ID] === color) ? null : color;
+      saveState(state);
+      updateHeader();
+    }
+
+    function switchTab(tabName) {
+      ['notes', 'examples', 'practice'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.setAttribute('data-active', btn.dataset.tab === tabName ? 'true' : 'false');
+      });
+      renderMath(document.getElementById(`tab-${tabName}`));
+    }
+
+    function renderExamples() {
+      const box = document.getElementById('examplesContainer');
+      box.innerHTML = LINKED_PAIRS.map((p, i) => `
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 font-bold text-sm text-slate-900">${p.title}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+            <div class="p-5 space-y-2.5">
+              <span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-bold uppercase">I Do (Model)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.iDo.q}</p>
+              <ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-700">
+                ${p.iDo.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div class="p-5 space-y-3 bg-slate-50/40">
+              <span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold uppercase">You Do (Try It)</span>
+              <p class="text-sm font-semibold text-slate-900">${p.youDo.q}</p>
+              <button onclick="document.getElementById('yd_${i}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">Reveal Solution</button>
+              <div id="yd_${i}" class="hidden bg-white border border-emerald-200 rounded-lg p-3 text-sm space-y-1">
+                <p class="font-bold text-emerald-700">Answer: ${p.youDo.ans}</p>
+                <p class="text-xs text-slate-600">${p.youDo.work}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      focusIndex = 0;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.filter === f ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function setView(v) {
+      currentView = v;
+      focusIndex = 0;
+      document.querySelectorAll('.view-pill').forEach(p => {
+        p.setAttribute('data-active', p.dataset.view === v ? 'true' : 'false');
+      });
+      renderQuestions();
+    }
+
+    function stepFocus(delta) {
+      const list = getFilteredQuestions();
+      if (!list.length) return;
+      focusIndex = (focusIndex + delta + list.length) % list.length;
+      renderQuestions();
+    }
+
+    function toggleExamMode() {
+      examMode = document.getElementById('examModeToggle').checked;
+      shuffledOrder = examMode
+        ? QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5)
+        : QUESTIONS.map((_, i) => i);
+      focusIndex = 0;
+      renderQuestions();
+    }
+
+    function setQuestionStatus(qId, status) {
+      if (!state.questions) state.questions = {};
+      if (state.questions[qId]?.status === status) {
+        delete state.questions[qId];
+      } else {
+        state.questions[qId] = { strand: STRAND_ID, status };
+      }
+      saveState(state);
+      updateHeader();
+      renderQuestions();
+    }
+
+    function resetCard(qId) {
+      if (state.questions?.[qId]) {
+        delete state.questions[qId];
+        saveState(state);
+        updateHeader();
+      }
+      ['h1_', 'h2_', 'setup_', 'sol_'].forEach(prefix => {
+        const el = document.getElementById(prefix + qId);
+        if (el) el.classList.add('hidden');
+      });
+      renderQuestions();
+    }
+
+    function getFilteredQuestions() {
+      const ordered = shuffledOrder.map(i => QUESTIONS[i]);
+      return ordered.filter(q => {
+        const st = state.questions?.[q.id]?.status;
+        if (currentFilter === 'P2') return q.paper === 'P2';
+        if (currentFilter === 'P4') return q.paper === 'P4';
+        if (currentFilter === 'stuck') return st === 'stuck';
+        if (currentFilter === 'todo') return !st;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const filtered = getFilteredQuestions();
+      document.getElementById('filterCountLabel').textContent = `Showing ${filtered.length} question${filtered.length === 1 ? '' : 's'}`;
+
+      const focusNav = document.getElementById('focusNavBar');
+      if (currentView === 'focus' && filtered.length > 0) {
+        focusNav.classList.remove('hidden');
+        if (focusIndex >= filtered.length) focusIndex = 0;
+        document.getElementById('focusCounter').textContent = `Question ${focusIndex + 1} of ${filtered.length}`;
+      } else {
+        focusNav.classList.add('hidden');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-white border border-slate-200 rounded-xl p-8 text-center text-sm text-slate-500">No questions match this filter.</div>`;
+        return;
+      }
+
+      const toRender = currentView === 'focus' ? [filtered[focusIndex]] : filtered;
+
+      if (currentView === 'compact') {
+        container.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 shadow-sm overflow-hidden">
+            ${toRender.map((q, idx) => {
+              const st = state.questions?.[q.id]?.status || null;
+              return `
+                <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>
+                    <span class="text-xs text-slate-500">[${q.marks}m]</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="setView('focus'); focusIndex=${idx}; renderQuestions();" class="px-2.5 py-1 rounded border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100">Open</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'}">✓</button>
+                    <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-2.5 py-1 rounded text-xs font-semibold border ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200'}">⚑</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        renderMath(container);
+        return;
+      }
+
+      container.innerHTML = toRender.map(q => {
+        const st = state.questions?.[q.id]?.status || null;
+        const paperBadge = q.paper === 'P2'
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+        const tierBadge = q.tier === 'A*'
+          ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
+          : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';
+
+        return `
+          <article class="bg-white border ${st === 'stuck' ? 'border-rose-300' : (st === 'nailed' ? 'border-emerald-300' : 'border-slate-200')} rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
+                ${paperBadge}
+                ${!examMode ? tierBadge : ''}
+                ${!examMode ? `<span class="text-xs font-medium text-slate-500">${q.topic}</span>` : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${!examMode ? `
+                  <button onclick="document.getElementById('h1_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">1. Hint 1</button>
+                  <button onclick="document.getElementById('h2_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">2. Hint 2</button>
+                  <button onclick="document.getElementById('setup_${q.id}').classList.toggle('hidden')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">3. Key Setup</button>
+                ` : ''}
+                <button onclick="document.getElementById('sol_${q.id}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">4. Mark Scheme</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setQuestionStatus('${q.id}', 'nailed')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'nailed' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-400'}">✓ Nailed</button>
+                <button onclick="setQuestionStatus('${q.id}', 'stuck')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${st === 'stuck' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-slate-600 border-slate-200 hover:border-rose-400'}">⚑ Stuck</button>
+                <button onclick="resetCard('${q.id}')" title="Reset card" class="px-2 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100">↺</button>
+              </div>
+            </div>
+
+            <div id="h1_${q.id}" class="hidden bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 1 — First Hint:</strong> ${q.hint1}
+            </div>
+            <div id="h2_${q.id}" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs sm:text-sm text-amber-950">
+              <strong>Step 2 — Deeper Hint:</strong> ${q.hint2}
+            </div>
+            <div id="setup_${q.id}" class="hidden bg-indigo-50/70 border border-indigo-200 rounded-lg p-3 text-xs sm:text-sm text-indigo-950">
+              <strong>Step 3 — Key Formula / Setup:</strong> ${q.setup}
+            </div>
+            <div id="sol_${q.id}" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Step 4 — CIE Mark Scheme Breakdown</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeader();
+      renderExamples();
+      renderQuestions();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

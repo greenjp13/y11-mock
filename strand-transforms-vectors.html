@@ -209,7 +209,7 @@
       questions: {}, // e.g. { 'E2-Q01': 'E2-Q99' }
       skills: {},    // e.g. { 'e1_1': 'e1_1_new' }
       strands: {},   // e.g. { 'number': 'num' }
-      mockNums: { paper2: {}, paper4: {} } // e.g. { paper2: { '3': '5' } }
+      mockNums: { paper2: {}, paper4: {}, paper2b: {}, paper4b: {} } // e.g. { paper2: { '3': '5' } }
     };
 
     function migrateSavedState(s) {
@@ -238,7 +238,7 @@
         });
       }
       if (s.mocks) {
-        ['paper2', 'paper4'].forEach(p => {
+        ['paper2', 'paper4', 'paper2b', 'paper4b'].forEach(p => {
           const map = (ID_MIGRATIONS.mockNums || {})[p] || {};
           const mq = s.mocks[p];
           if (mq && mq.perQuestion && Object.keys(map).length) {

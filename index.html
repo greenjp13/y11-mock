@@ -135,7 +135,7 @@
     <section class="space-y-3 pt-2">
       <div>
         <h2 class="text-lg font-bold text-slate-900">90-Minute Timed Mock Exams</h2>
-        <p class="text-xs text-slate-500">Scaled to 75 marks each (1.2 mins/mark) to match Year 11 mock slots. Includes +25% Extra Time toggle and CIE M1/A1/B1 self-marking.</p>
+        <p class="text-xs text-slate-500">Scaled to 75 marks each (1.2 mins/mark) to match Year 11 mock slots. Includes +25% Extra Time toggle and CIE M1/A1/B1 self-marking. A fresh <strong>Set B</strong> of each paper is coming soon for second sittings.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -167,6 +167,38 @@
           <a href="mock-paper4.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
             Open Paper 4 Mock →
           </a>
+        </div>
+
+        <!-- Mock Paper 2B (Set B — coming soon) -->
+        <div class="bg-white border border-dashed border-slate-300 rounded-xl p-5 flex flex-col justify-between gap-4 opacity-80">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">Non-Calculator</span>
+              <span id="mockP2BStatus" class="text-xs font-semibold text-slate-400">Coming soon — Set B</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mt-2">Mock Paper 2B (Extended)</h3>
+            <p class="text-sm text-slate-600 mt-1">90 minutes (113 mins with +25%) · 75 marks. A fresh Set B of the non-calculator paper — same format and strand coverage, brand-new questions — for a second timed sitting after reviewing Set A.</p>
+          </div>
+          <div class="mock-b-cta hidden">
+            <a href="mock-paper2b.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">Open Paper 2B Mock →</a>
+          </div>
+          <button disabled class="mock-b-soon inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-slate-200 text-slate-500 text-sm font-semibold cursor-not-allowed">Coming Soon</button>
+        </div>
+
+        <!-- Mock Paper 4B (Set B — coming soon) -->
+        <div class="bg-white border border-dashed border-slate-300 rounded-xl p-5 flex flex-col justify-between gap-4 opacity-80">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Calculator Allowed</span>
+              <span id="mockP4BStatus" class="text-xs font-semibold text-slate-400">Coming soon — Set B</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mt-2">Mock Paper 4B (Extended)</h3>
+            <p class="text-sm text-slate-600 mt-1">90 minutes (113 mins with +25%) · 75 marks. A fresh Set B of the calculator paper — same format and strand coverage, brand-new questions — for a second timed sitting after reviewing Set A.</p>
+          </div>
+          <div class="mock-b-cta hidden">
+            <a href="mock-paper4b.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">Open Paper 4B Mock →</a>
+          </div>
+          <button disabled class="mock-b-soon inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-slate-200 text-slate-500 text-sm font-semibold cursor-not-allowed">Coming Soon</button>
         </div>
       </div>
     </section>
@@ -266,7 +298,7 @@
       questions: {}, // e.g. { 'E2-Q01': 'E2-Q99' }
       skills: {},    // e.g. { 'e1_1': 'e1_1_new' }
       strands: {},   // e.g. { 'number': 'num' }
-      mockNums: { paper2: {}, paper4: {} } // e.g. { paper2: { '3': '5' } }
+      mockNums: { paper2: {}, paper4: {}, paper2b: {}, paper4b: {} } // e.g. { paper2: { '3': '5' } }
     };
 
     function migrateSavedState(s) {
@@ -295,7 +327,7 @@
         });
       }
       if (s.mocks) {
-        ['paper2', 'paper4'].forEach(p => {
+        ['paper2', 'paper4', 'paper2b', 'paper4b'].forEach(p => {
           const map = (ID_MIGRATIONS.mockNums || {})[p] || {};
           const mq = s.mocks[p];
           if (mq && mq.perQuestion && Object.keys(map).length) {
@@ -346,6 +378,11 @@
       }).join(' ');
     }
 
+
+    // Mock Set B: flip to true once mock-paper2b.html and mock-paper4b.html exist.
+    // The "Coming soon" cards above then become live links with score tracking.
+    // See _maintenance/SET-B-GUIDE.md for the full recipe.
+    const MOCK_SET_B_AVAILABLE = false;
 
     const STRANDS = [
       {
@@ -626,7 +663,9 @@
         diagnostics: {},
         mocks: {
           paper2: { score: 0, total: 75, completed: false, date: null },
-          paper4: { score: 0, total: 75, completed: false, date: null }
+          paper4: { score: 0, total: 75, completed: false, date: null },
+          paper2b: { score: 0, total: 75, completed: false, date: null },
+          paper4b: { score: 0, total: 75, completed: false, date: null }
         }
       };
     }
@@ -788,6 +827,16 @@
       const p4 = getMockInfo(state.mocks.paper4);
       document.getElementById('mockP2Status').textContent = p2.completed ? `Last score: ${p2.score}/${p2.total} (${Math.round(p2.score / p2.total * 100)}%)` : 'Not attempted';
       document.getElementById('mockP4Status').textContent = p4.completed ? `Last score: ${p4.score}/${p4.total} (${Math.round(p4.score / p4.total * 100)}%)` : 'Not attempted';
+      const p2b = getMockInfo(state.mocks.paper2b);
+      const p4b = getMockInfo(state.mocks.paper4b);
+      document.getElementById('mockP2BStatus').textContent = MOCK_SET_B_AVAILABLE
+        ? (p2b.completed ? `Last score: ${p2b.score}/${p2b.total} (${Math.round(p2b.score / p2b.total * 100)}%)` : 'Not attempted')
+        : 'Coming soon — Set B';
+      document.getElementById('mockP4BStatus').textContent = MOCK_SET_B_AVAILABLE
+        ? (p4b.completed ? `Last score: ${p4b.score}/${p4b.total} (${Math.round(p4b.score / p4b.total * 100)}%)` : 'Not attempted')
+        : 'Coming soon — Set B';
+      document.querySelectorAll('.mock-b-cta').forEach(el => el.classList.toggle('hidden', !MOCK_SET_B_AVAILABLE));
+      document.querySelectorAll('.mock-b-soon').forEach(el => el.classList.toggle('hidden', MOCK_SET_B_AVAILABLE));
 
       const next = computeNextAction();
       document.getElementById('nextActionText').textContent = next.text;
@@ -1053,6 +1102,9 @@
         `Amber Topics: ${amberTopics.length ? amberTopics.join(', ') : 'None'}`,
         `Stuck Question IDs: ${stuckIds.length ? stuckIds.join(', ') : 'None'}`,
         `Mock Scores: Paper 2 (${p2.completed ? `${p2.score}/${p2.total}` : 'Not taken'}) | Paper 4 (${p4.completed ? `${p4.score}/${p4.total}` : 'Not taken'})`
+          + (MOCK_SET_B_AVAILABLE
+            ? ` | Paper 2B (${getMockInfo(state.mocks.paper2b).completed ? `${getMockInfo(state.mocks.paper2b).score}/${getMockInfo(state.mocks.paper2b).total}` : 'Not taken'}) | Paper 4B (${getMockInfo(state.mocks.paper4b).completed ? `${getMockInfo(state.mocks.paper4b).score}/${getMockInfo(state.mocks.paper4b).total}` : 'Not taken'})`
+            : '')
       ].join('\n');
 
       navigator.clipboard.writeText(summary).then(() => {

@@ -251,7 +251,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Rationalising a Binomial Surd Denominator (Paper 2)',
+        title: 'Pair 1: Rationalising a Binomial Surd Denominator (Paper 2 — Non-Calc)',
         dfm: '393a, 393c',
         iDo: {
           q: 'Rationalise the denominator and simplify $\\dfrac{12}{3 - \\sqrt{3}}$.',
@@ -268,7 +268,7 @@
         }
       },
       {
-        title: 'Pair 2: Negative Fractional Indices (Paper 2)',
+        title: 'Pair 2: Negative Fractional Indices (Paper 2 — Non-Calc)',
         dfm: '394i',
         iDo: {
           q: 'Evaluate $\\left(\\dfrac{16}{81}\\right)^{-\\frac{3}{4}}$ as an exact fraction.',
@@ -285,7 +285,7 @@
         }
       },
       {
-        title: 'Pair 3: Upper & Lower Bounds in a Quotient (Paper 4)',
+        title: 'Pair 3: Upper & Lower Bounds in a Quotient (Paper 4 — Calculator)',
         dfm: '310a, 384d',
         iDo: {
           q: 'Speed $v = \\dfrac{d}{t}$. $d = 240\\text{ m}$ (nearest $10\\text{ m}$) and $t = 12.4\\text{ s}$ (nearest $0.1\\text{ s}$). Find the upper bound of $v$ to 3 s.f.',
@@ -302,7 +302,7 @@
         }
       },
       {
-        title: 'Pair 4: Reverse Percentages & Compound Growth (Paper 4)',
+        title: 'Pair 4: Reverse Percentages & Compound Growth (Paper 4 — Calculator)',
         dfm: '223c, 361c',
         iDo: {
           q: 'A car depreciates by $12\\%$ each year. After 1 year its value is $\\$15\\,840$. Find its original value.',
@@ -660,7 +660,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -681,8 +681,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

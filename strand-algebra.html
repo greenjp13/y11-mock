@@ -273,7 +273,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Rearranging When Subject Appears Twice (Paper 2)',
+        title: 'Pair 1: Rearranging When Subject Appears Twice (Paper 2 — Non-Calc)',
         dfm: '391d',
         iDo: {
           q: 'Make $t$ the subject of $a = \\dfrac{2t + 5}{t - 1}$.',
@@ -290,7 +290,7 @@
         }
       },
       {
-        title: 'Pair 2: Quadratic Sequences — Finding the nth Term (Paper 2)',
+        title: 'Pair 2: Quadratic Sequences — Finding the nth Term (Paper 2 — Non-Calc)',
         dfm: '369h',
         iDo: {
           q: 'Find the $n$th term of the sequence $4, 11, 22, 37, 56, \\dots$',
@@ -307,7 +307,7 @@
         }
       },
       {
-        title: 'Pair 3: Simultaneous Equations — Linear & Quadratic (Paper 4)',
+        title: 'Pair 3: Simultaneous Equations — Linear & Quadratic (Paper 4 — Calculator)',
         dfm: '419b',
         iDo: {
           q: 'Solve $y = x + 2$ and $x^2 + y^2 = 10$.',
@@ -324,7 +324,7 @@
         }
       },
       {
-        title: 'Pair 4: Differentiation & Stationary Points (Paper 4)',
+        title: 'Pair 4: Differentiation & Stationary Points (Paper 4 — Calculator)',
         dfm: '517a, 517b',
         iDo: {
           q: 'Find the coordinates of the turning point of $y = 2x^2 - 12x + 7$ using differentiation.',
@@ -708,7 +708,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -729,8 +729,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

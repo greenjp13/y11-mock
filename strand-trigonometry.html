@@ -316,7 +316,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Exact Trigonometric Values in Surd Form (Paper 2)',
+        title: 'Pair 1: Exact Trigonometric Values in Surd Form (Paper 2 — Non-Calc)',
         dfm: '412c',
         iDo: {
           q: 'In right-angled $\\triangle ABC$, $\\angle B = 90^\\circ$, $\\angle A = 60^\\circ$, and $AC = 10\\text{ cm}$. Find the exact lengths of $AB$ and $BC$ in simplest surd form.',
@@ -332,7 +332,7 @@
         }
       },
       {
-        title: 'Pair 2: Cosine Rule for an Unknown Side & Angle (Paper 4)',
+        title: 'Pair 2: Cosine Rule for an Unknown Side & Angle (Paper 4 — Calculator)',
         dfm: '466a, 466c',
         iDo: {
           q: 'In $\\triangle ABC$, $AB = 8\\text{ cm}$, $AC = 11\\text{ cm}$ and $\\angle BAC = 64^\\circ$. Calculate the length of $BC$ to 3 s.f.',
@@ -349,7 +349,7 @@
         }
       },
       {
-        title: 'Pair 3: Ambiguous Case of the Sine Rule (Paper 4)',
+        title: 'Pair 3: Ambiguous Case of the Sine Rule (Paper 4 — Calculator)',
         dfm: '465c',
         iDo: {
           q: 'In $\\triangle PQR$, $PQ = 9\\text{ cm}$, $PR = 6\\text{ cm}$ and $\\angle PQR = 35^\\circ$. Given that $\\angle PRQ$ is <strong>obtuse</strong>, calculate $\\angle PRQ$ to 1 d.p.',
@@ -366,7 +366,7 @@
         }
       },
       {
-        title: 'Pair 4: 3D Trigonometry in a Cuboid (Paper 4)',
+        title: 'Pair 4: 3D Trigonometry in a Cuboid (Paper 4 — Calculator)',
         dfm: '410a, 411a',
         iDo: {
           q: 'A cuboid $ABCDEFGH$ has base $ABCD$ with $AB = 8\\text{ cm}$, $BC = 6\\text{ cm}$, and vertical height $CG = 5\\text{ cm}$. Calculate the angle that the space diagonal $AG$ makes with the horizontal base $ABCD$ to 1 d.p.',
@@ -724,7 +724,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -745,8 +745,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

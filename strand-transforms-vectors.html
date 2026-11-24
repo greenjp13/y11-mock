@@ -294,7 +294,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Describing Single Transformations Completely (Paper 2)',
+        title: 'Pair 1: Describing Single Transformations Completely (Paper 2 — Non-Calc)',
         dfm: '377a, 282a',
         iDo: {
           q: 'Triangle $A$ has vertices $(2, 1), (4, 1), (2, 4)$. Triangle $B$ has vertices $(-1, -2), (-5, -2), (-1, -8)$. Describe fully the single transformation that maps triangle $A$ onto triangle $B$.',
@@ -311,7 +311,7 @@
         }
       },
       {
-        title: 'Pair 2: Position Vectors & Exact Magnitude (Paper 2)',
+        title: 'Pair 2: Position Vectors & Exact Magnitude (Paper 2 — Non-Calc)',
         dfm: '505a, 505c, 505g',
         iDo: {
           q: 'Point $A$ has coordinates $(2, -3)$ and $\\vec{AB} = \\begin{pmatrix} 5 \\\\ -12 \\end{pmatrix}$. Find (a) the coordinates of $B$ and (b) the exact magnitude $|\\vec{AB}|$.',
@@ -327,7 +327,7 @@
         }
       },
       {
-        title: 'Pair 3: Vector Paths with Ratio Divisions (Paper 2)',
+        title: 'Pair 3: Vector Paths with Ratio Divisions (Paper 2 — Non-Calc)',
         dfm: '473b, 473c',
         iDo: {
           q: 'In $\\triangle OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$. Point $M$ is the midpoint of $OA$, and point $P$ lies on $AB$ such that $AP : PB = 1 : 3$. Express $\\vec{MP}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$.',
@@ -344,7 +344,7 @@
         }
       },
       {
-        title: 'Pair 4: Proving Collinearity & Finding Segment Ratios (Paper 4)',
+        title: 'Pair 4: Proving Collinearity & Finding Segment Ratios (Paper 4 — Calculator)',
         dfm: '474f, 474c',
         iDo: {
           q: 'Given that $\\vec{XY} = 6\\mathbf{p} - 4\\mathbf{q}$ and $\\vec{XZ} = 9\\mathbf{p} - 6\\mathbf{q}$, prove that points $X, Y$ and $Z$ are collinear.',
@@ -702,7 +702,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -723,8 +723,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

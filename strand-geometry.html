@@ -281,7 +281,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Regular Polygons via Exterior Angles (Paper 2)',
+        title: 'Pair 1: Regular Polygons via Exterior Angles (Paper 2 — Non-Calc)',
         dfm: '261h, 261i',
         iDo: {
           q: 'Each exterior angle of a regular polygon is $18^\\circ$. Find the number of sides and the sum of its interior angles.',
@@ -297,7 +297,7 @@
         }
       },
       {
-        title: 'Pair 2: Similar Solids — Bridging Area and Volume (Paper 4)',
+        title: 'Pair 2: Similar Solids — Bridging Area and Volume (Paper 4 — Calculator)',
         dfm: '324a, 324h',
         iDo: {
           q: 'Two similar cylinders have heights $6\\text{ cm}$ and $9\\text{ cm}$. The smaller cylinder has surface area $48\\text{ cm}^2$ and volume $80\\text{ cm}^3$. Find the surface area and volume of the larger cylinder.',
@@ -314,7 +314,7 @@
         }
       },
       {
-        title: 'Pair 3: Alternate Segment Theorem (Paper 2)',
+        title: 'Pair 3: Alternate Segment Theorem (Paper 2 — Non-Calc)',
         dfm: '442f',
         iDo: {
           q: '$TA$ is a tangent to a circle at $A$. Points $B$ and $C$ lie on the circle (with $C$ in the alternate segment to $\\angle TAB$) such that $\\angle TAB = 58^\\circ$ and $\\angle ABC = 74^\\circ$. Find $\\angle ACB$ and $\\angle BAC$.',
@@ -330,7 +330,7 @@
         }
       },
       {
-        title: 'Pair 4: Bearings & Parallel North Lines (Paper 2)',
+        title: 'Pair 4: Bearings & Parallel North Lines (Paper 2 — Non-Calc)',
         dfm: '264e',
         iDo: {
           q: 'The bearing of $B$ from $A$ is $065^\\circ$. Find the bearing of $A$ from $B$.',
@@ -687,7 +687,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -708,8 +708,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

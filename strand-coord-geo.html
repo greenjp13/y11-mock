@@ -273,7 +273,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Midpoint, Gradient & Exact Length (Paper 2)',
+        title: 'Pair 1: Midpoint, Gradient & Exact Length (Paper 2 — Non-Calc)',
         dfm: '265b, 270i, 289a',
         iDo: {
           q: 'Find the midpoint, gradient, and exact length of the line segment joining $A(-3, 4)$ and $B(5, -2)$.',
@@ -290,7 +290,7 @@
         }
       },
       {
-        title: 'Pair 2: Equation of a Perpendicular Line (Paper 2)',
+        title: 'Pair 2: Equation of a Perpendicular Line (Paper 2 — Non-Calc)',
         dfm: '445f',
         iDo: {
           q: 'Line $L_1$ has equation $2x + 3y = 12$. Find the equation of line $L_2$ perpendicular to $L_1$ passing through $(4, -1)$ in the form $y = mx + c$.',
@@ -307,7 +307,7 @@
         }
       },
       {
-        title: 'Pair 3: Perpendicular Bisector of a Line Segment (Paper 2)',
+        title: 'Pair 3: Perpendicular Bisector of a Line Segment (Paper 2 — Non-Calc)',
         dfm: '445l',
         iDo: {
           q: 'Find the equation of the perpendicular bisector of $A(1, 2)$ and $B(5, 10)$ in the form $y = mx + c$.',
@@ -324,7 +324,7 @@
         }
       },
       {
-        title: 'Pair 4: Finding an Endpoint from a Known Midpoint (Paper 2)',
+        title: 'Pair 4: Finding an Endpoint from a Known Midpoint (Paper 2 — Non-Calc)',
         dfm: '265c',
         iDo: {
           q: '$M(3, -2)$ is the midpoint of $AB$. Given $A(-1, 4)$, find the coordinates of $B$.',
@@ -656,7 +656,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -677,8 +677,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

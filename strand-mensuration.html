@@ -276,7 +276,7 @@
 
     const LINKED_PAIRS = [
       {
-        title: 'Pair 1: Sector Perimeter & Exact Area (Paper 2)',
+        title: 'Pair 1: Sector Perimeter & Exact Area (Paper 2 — Non-Calc)',
         dfm: '318b, 319a',
         iDo: {
           q: 'A sector of a circle has radius $9\\text{ cm}$ and sector angle $80^\\circ$. Find, in terms of $\\pi$, (a) its perimeter and (b) its area.',
@@ -293,7 +293,7 @@
         }
       },
       {
-        title: 'Pair 2: Shaded Segment Area (Paper 4)',
+        title: 'Pair 2: Shaded Segment Area (Paper 4 — Calculator)',
         dfm: '467i',
         iDo: {
           q: 'In a circle of radius $8\\text{ cm}$, chord $AB$ subtends an angle of $110^\\circ$ at the centre $O$. Calculate the area of the minor segment shaded between chord $AB$ and arc $AB$ to 3 s.f.',
@@ -310,7 +310,7 @@
         }
       },
       {
-        title: 'Pair 3: Melting & Recasting Solids (Paper 2)',
+        title: 'Pair 3: Melting & Recasting Solids (Paper 2 — Non-Calc)',
         dfm: '405l',
         iDo: {
           q: 'A solid metal sphere of radius $6\\text{ cm}$ is melted down and recast into solid cones each of base radius $3\\text{ cm}$ and height $4\\text{ cm}$. How many cones can be made?',
@@ -327,7 +327,7 @@
         }
       },
       {
-        title: 'Pair 4: Folding a Sector into a Cone (Paper 2)',
+        title: 'Pair 4: Folding a Sector into a Cone (Paper 2 — Non-Calc)',
         dfm: '318a, 288a',
         iDo: {
           q: 'A semicircular sheet of card of radius $10\\text{ cm}$ is curled so its straight edges meet to form a hollow cone. Find the base radius $r$ and perpendicular height $h$ of the cone.',
@@ -685,7 +685,7 @@
                 <div class="p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${q.id}</span>
-                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}">${q.paper}</span>
+                    <span class="text-xs font-semibold ${q.paper === 'P2' ? 'text-rose-700' : 'text-emerald-700'}" title="${q.paper === 'P2' ? 'Paper 2 — No Calculator' : 'Paper 4 — Calculator Allowed'}">${q.paper === 'P2' ? 'P2 · No Calc' : 'P4 · Calc'}</span>
                     <span class="text-sm font-medium text-slate-900 truncate">${examMode ? 'Hidden in Exam Mode' : q.topic}</span>${!examMode ? dfmPills(q.dfm) : ''}
                     <span class="text-xs text-slate-500">[${q.marks}m]</span>
                   </div>
@@ -706,8 +706,8 @@
       container.innerHTML = toRender.map(q => {
         const st = state.questions?.[q.id]?.status || null;
         const paperBadge = q.paper === 'P2'
-          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · Non-Calc</span>'
-          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calc</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold">Paper 2 · No Calculator</span>'
+          : '<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">Paper 4 · Calculator Allowed</span>';
         const tierBadge = q.tier === 'A*'
           ? '<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">A* Target</span>'
           : '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-medium">Extended</span>';

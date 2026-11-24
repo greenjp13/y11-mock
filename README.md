@@ -11,6 +11,8 @@ Static revision site for Year 11 IGCSE Maths (CIE 0580 Extended, 2025–2027 syl
 | `index.html` | Dashboard: RAG strand ratings, micro-skill checklists, 2-min diagnostics, formula sheet, readiness stats, mock launchpad |
 | `strand-*.html` (7) | Decision trees & examiner traps, I Do / You Do pairs, exam practice banks with CIE-style mark schemes |
 | `mock-paper2.html` / `mock-paper4.html` | 90-minute timed mocks (75 marks) with +25% extra time, mark-scheme lock, self-marking, strand breakdown |
+| `mock-paper2b.html` | Set B non-calculator mock (75 marks) — fresh parallel questions, same timed format and strand coverage |
+| `mock-paper4b.html` | Set B calculator mock (75 marks) — fresh parallel questions, same timed format and strand coverage |
 
 All student progress is stored **in the browser** (localStorage key
 `hub_0580_y11mock_2026_v1`), with JSON export/import for moving devices.
@@ -26,11 +28,12 @@ All student progress is stored **in the browser** (localStorage key
 - Calculator rules are labelled explicitly everywhere: Paper 2 items are
   non-calculator, Paper 4 items allow a scientific calculator.
 
-## Planned: Mock Set B
+## Mock Set B
 
-Paper 2B and Paper 4B (fresh parallel papers for second sittings) are marked
-"Coming soon" on the dashboard. When the files are ready, follow
-`_maintenance/SET-B-GUIDE.md` and flip `MOCK_SET_B_AVAILABLE` in `index.html`.
+Papers 2B and 4B (fresh parallel papers for second sittings) are live on the
+dashboard. Each is controlled by its own flag in `index.html`
+(`MOCK_SET_B2_AVAILABLE` / `MOCK_SET_B4_AVAILABLE`); see
+`_maintenance/SET-B-GUIDE.md` for the recipe used to build them.
 The `_maintenance/` folder holds the DFM skill index and Set A label mapping;
 it is **not** published to the site (GitHub Pages skips `_` folders).
 

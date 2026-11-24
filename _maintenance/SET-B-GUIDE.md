@@ -13,9 +13,11 @@ risk to students' saved progress.
 The site was pre-wired on 24 Nov 2026 so that Set B slots in without touching
 existing behaviour:
 
-- Dashboard has two **"Coming soon — Set B"** cards (Paper 2B, Paper 4B).
-  They switch to live links the moment `MOCK_SET_B_AVAILABLE` is set to `true`
-  in `index.html`; score status and "Copy Weak Spots" then track B automatically.
+- Dashboard has two **Set B** cards (Paper 2B, Paper 4B). Both are live.
+  Each card switches independently when its flag
+  (`MOCK_SET_B2_AVAILABLE` / `MOCK_SET_B4_AVAILABLE`) is set to `true`
+  in `index.html`; score status and "Copy Weak Spots" then track that paper
+  automatically.
 - `defaultState()` in `index.html` already contains `paper2b` / `paper4b`
   placeholders, and every page's migration hook (`ID_MIGRATIONS.mockNums`)
   already knows the `paper2b` / `paper4b` state keys.
@@ -73,20 +75,21 @@ Swap in new questions keeping the existing object shape:
 In `index.html`:
 
 ```js
-const MOCK_SET_B_AVAILABLE = false;   // ← set to true
+const MOCK_SET_B2_AVAILABLE = true;   // set true when mock-paper2b.html exists
+const MOCK_SET_B4_AVAILABLE = true;   // set true when mock-paper4b.html exists
 ```
 
-That is the **only** index.html change needed. The coming-soon cards become
-live links to `mock-paper2b.html` / `mock-paper4b.html`, status text starts
-tracking scores, and the revision summary includes B scores.
+That is the **only** index.html change needed. Each card becomes a live link
+independently, status text starts tracking its scores, and the revision summary
+includes that paper's B score.
 
 Optionally also update the "What Should I Do Next?" recommender to suggest a
 Set B re-sit after both Set A papers are complete.
 
 ### 5. Test before pushing
 
-- Open both B pages: timer, +25% toggle, mark-scheme lock, submit, per-strand
-  breakdown, DFM pills, calculator banner.
+- Open each B page you added: timer, +25% toggle, mark-scheme lock, submit,
+  per-strand breakdown, DFM pills, calculator banner.
 - Refresh mid-timer: clock resumes (the copied exam-clock code just works with
   the new `_p2bclock` key).
 - Confirm Set A pages and student scores are untouched (they must be — Set A

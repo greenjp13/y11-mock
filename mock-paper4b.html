@@ -1,0 +1,643 @@
+<!-- File 4B: mock-paper4b.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Paper 4B (Calculator) — CIE 0580 Extended</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .mark-btn[data-selected="true"] { background-color: #4f46e5; color: #fff; border-color: #4f46e5; font-weight: 700; }
+    .dfm-pill { display: inline-block; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; font-weight: 700; line-height: 1; padding: 2.5px 6px; border-radius: 9999px; white-space: nowrap; cursor: help; vertical-align: middle; margin-left: 3px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Sticky Exam Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">← Dashboard</a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-mono text-xs font-bold border border-emerald-200">PAPER 4B · CALC</span>
+            <h1 class="text-base sm:text-lg font-bold text-slate-900">CIE 0580 Extended Full Mock</h1>
+          </div>
+          <p class="text-xs text-slate-500">90 mins (113 mins w/ +25%) · 14 Structured Questions · 75 Marks · Scientific Calculator Allowed</p>
+        </div>
+      </div>
+
+      <!-- Timer & Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+          <input type="checkbox" id="extraTimeToggle" class="h-3.5 w-3.5 rounded border-slate-300 text-indigo-600" onchange="toggleExtraTime()" />
+          +25% (113m)
+        </label>
+        <div class="flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1.5 rounded-lg font-mono text-sm font-bold">
+          <span id="timerDisplay">90:00</span>
+        </div>
+        <button id="timerToggleBtn" onclick="toggleTimer()" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition">Start</button>
+        <button onclick="resetTimer()" class="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">Reset</button>
+        <a href="mock-paper2b.html" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">← Paper 2B</a>
+      </div>
+    </div>
+
+    <!-- Sub-Bar: Formula Sheet & Exam Lock -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex flex-wrap items-center gap-3">
+        <button onclick="document.getElementById('formulaDrawer').classList.toggle('hidden')" class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-semibold border border-indigo-200 hover:bg-indigo-100">📄 CIE Page 2 Formula Sheet</button>
+        <label class="inline-flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer select-none">
+          <input type="checkbox" id="strictExamCheck" checked class="h-3.5 w-3.5 rounded border-slate-300 text-indigo-600" onchange="renderPaper()" />
+          Lock mark schemes until submitted
+        </label>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="liveScorePill" class="font-bold text-slate-800">Marked: 0/14 Qs · 0 / 75</span>
+        <button onclick="submitPaper()" class="px-3 py-1 rounded-md bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition">Submit &amp; Grade Paper</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- Collapsible CIE Page 2 Formula Reference -->
+    <section id="formulaDrawer" class="hidden bg-white border border-indigo-200 rounded-xl p-5 shadow-sm space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-indigo-900 uppercase tracking-wider">CIE 0580 Extended — Official Formula Sheet (Page 2)</h2>
+        <button onclick="document.getElementById('formulaDrawer').classList.add('hidden')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">Close ✕</button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+          <p><strong>Area of Triangle:</strong> $A = \frac{1}{2}bh$ $\quad$ <strong>Circle:</strong> $A = \pi r^2$, $C = 2\pi r$</p>
+          <p><strong>Quadratic Equation:</strong> For $ax^2 + bx + c = 0$, $x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</p>
+          <p><strong>Area of Triangle (Trig):</strong> $\frac{1}{2}ab\sin C$</p>
+          <p><strong>Sine Rule:</strong> $\dfrac{a}{\sin A} = \dfrac{b}{\sin B} = \dfrac{c}{\sin C}$</p>
+          <p><strong>Cosine Rule:</strong> $a^2 = b^2 + c^2 - 2bc\cos A$</p>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+          <p><strong>Curved Surface Area of Cone:</strong> $\pi r l$ $\quad$ <strong>Volume:</strong> $\frac{1}{3}\pi r^2 h$</p>
+          <p><strong>Surface Area of Sphere:</strong> $4\pi r^2$ $\quad$ <strong>Volume:</strong> $\frac{4}{3}\pi r^3$</p>
+          <p><strong>Volume of Prism:</strong> $A \times l$ $\quad$ <strong>Volume of Pyramid:</strong> $\frac{1}{3}Ah$</p>
+          <p><strong>Curved Surface Area of Cylinder:</strong> $2\pi r h$ $\quad$ <strong>Volume:</strong> $\pi r^2 h$</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diagnostic Results Panel -->
+    <section id="resultsPanel" class="hidden bg-white border-2 border-indigo-600 rounded-xl p-5 shadow-sm space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Mock Paper 4B Diagnostic Report</span>
+          <h2 id="finalScoreHeading" class="text-2xl font-extrabold text-slate-900 mt-0.5">0 / 75 (0%)</h2>
+          <p id="gradeEstimateText" class="text-xs text-slate-600 mt-1">Select your marks on each question below to compute your grade boundary and strand breakdown.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="resetAllMarks()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Clear All Marks</button>
+          <a href="index.html" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700">Save &amp; Return to Hub</a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Performance by Syllabus Strand (Click any weak strand below 70% to revise)</h3>
+        <div id="strandBreakdownGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5"></div>
+      </div>
+    </section>
+
+    <!-- Exam Instructions Banner -->
+    <div class="bg-emerald-50/80 border border-emerald-200 rounded-xl p-4 text-xs sm:text-sm text-emerald-950">
+      <strong>Instructions:</strong> A scientific calculator <strong>is allowed</strong> for this paper. Ensure it is set to <strong>Degrees (D / DEG)</strong>. Answer all 14 structured questions on paper. Give non-exact numerical answers correct to <strong>3 significant figures</strong>, or <strong>1 decimal place</strong> for angles in degrees, unless a different level of accuracy is specified.
+    </div>
+
+    <!-- Questions List -->
+    <div id="paperContainer" class="space-y-4"></div>
+
+    <!-- Bottom Submit Bar -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+      <div>
+        <p class="text-sm font-bold text-slate-900">End of Paper 4B (75 Marks)</p>
+        <p class="text-xs text-slate-500">Finished writing on paper? Submit to unlock all mark schemes and record your score.</p>
+        <p class="text-xs text-slate-400 mt-1">This is <strong>Set B</strong> — a fresh parallel paper. Set A remains available for a first timed sitting.</p>
+      </div>
+      <button onclick="submitPaper()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition">Submit &amp; Unlock All Mark Schemes</button>
+    </div>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
+
+    // --- Progress migration hook (update-safety) ---
+    // If question, skill or strand IDs are ever renamed in a future update, add
+    // entries to these maps. Students' saved browser progress is then remapped
+    // on their next visit instead of being lost. Append entries; never remove old ones.
+    const ID_MIGRATIONS = {
+      questions: {}, // e.g. { 'E2-Q01': 'E2-Q99' }
+      skills: {},    // e.g. { 'e1_1': 'e1_1_new' }
+      strands: {},   // e.g. { 'number': 'num' }
+      mockNums: { paper2: {}, paper4: {}, paper2b: {}, paper4b: {} } // e.g. { paper2: { '3': '5' } }
+    };
+
+    function migrateSavedState(s) {
+      if (!s || typeof s !== 'object') return s;
+      let changed = false;
+      const remapKeys = (obj, map) => {
+        if (!obj || typeof obj !== 'object') return;
+        Object.keys(map).forEach(oldId => {
+          if (oldId in obj && map[oldId] !== oldId) {
+            obj[map[oldId]] = obj[oldId];
+            delete obj[oldId];
+            changed = true;
+          }
+        });
+      };
+      remapKeys(s.questions, ID_MIGRATIONS.questions);
+      remapKeys(s.skills, ID_MIGRATIONS.skills);
+      remapKeys(s.rag, ID_MIGRATIONS.strands);
+      remapKeys(s.diagnostics, ID_MIGRATIONS.strands);
+      if (s.questions && Object.keys(ID_MIGRATIONS.strands).length) {
+        Object.values(s.questions).forEach(q => {
+          if (q && ID_MIGRATIONS.strands[q.strand]) {
+            q.strand = ID_MIGRATIONS.strands[q.strand];
+            changed = true;
+          }
+        });
+      }
+      if (s.mocks) {
+        ['paper2', 'paper4', 'paper2b', 'paper4b'].forEach(p => {
+          const map = (ID_MIGRATIONS.mockNums || {})[p] || {};
+          const mq = s.mocks[p];
+          if (mq && mq.perQuestion && Object.keys(map).length) {
+            const next = {};
+            Object.keys(mq.perQuestion).forEach(n => { next[map[n] || n] = mq.perQuestion[n]; });
+            mq.perQuestion = next;
+            changed = true;
+          }
+        });
+      }
+      if (changed && typeof saveState === 'function') {
+        try { saveState(s); } catch (e) { /* storage unavailable */ }
+      }
+      return s;
+    }
+
+
+    const STRAND_META = {
+      'number': { code: 'E1', name: 'Number', url: 'strand-number.html' },
+      'algebra': { code: 'E2', name: 'Algebra & Graphs', url: 'strand-algebra.html' },
+      'coord-geo': { code: 'E3', name: 'Coordinate Geometry', url: 'strand-coord-geo.html' },
+      'geometry': { code: 'E4', name: 'Geometry', url: 'strand-geometry.html' },
+      'mensuration': { code: 'E5', name: 'Mensuration', url: 'strand-mensuration.html' },
+      'trigonometry': { code: 'E6', name: 'Trigonometry', url: 'strand-trigonometry.html' },
+      'transforms-vectors': { code: 'E7', name: 'Transformations & Vectors', url: 'strand-transforms-vectors.html' }
+    };
+
+
+    const DFM_INFO = {
+      "177a": "Use an exchange rate to calculate an amount by multiplying.",
+      "221b": "Increase or decrease an amount by a percentage with a calculator.",
+      "223c": "Calculate the original value before a percentage decrease using decimal multipliers.",
+      "384f": "Calculate a further bound for a formula involving multiple arithmetic operations.",
+      "359c": "Calculate a value after a compound percentage decrease.",
+      "361a": "Determine the time before a value reaches a given value under compound percentage change.",
+      "462d": "Solve an equation of the form \\frac{a}{bx+c} \\pm \\frac{d}{ex+f} = g",
+      "417b": "Solve a quadratic equation using the quadratic formula to get numeric solutions.",
+      "419c": "Solve non-linear simultaneous equations where x or y is the subject of the linear equation.",
+      "435a": "Calculate the numeric output of a composite function.",
+      "436f": "Determine the inverse function for f(x) = \\frac{ax+b}{cx+d}",
+      "432i": "Solve equations given in the form f(...) = k for more general algebraic inputs.",
+      "289a": "Use Pythagoras' theorem to find the distance between two points.",
+      "445l": "Determine the equation of the perpendicular bisector of two points.",
+      "324f": "Determine an unknown length of a solid, given the volumes of two similar solids and one of their side lengths.",
+      "324g": "Determine the surface area of a similar solid when the volumes are given.",
+      "442f": "Know that the angle between the tangent and a chord equals the angle in the alternate segment.",
+      "442q": "Use the theorems: angle at the centre is double the angle at the circumference and the alternate segment theorem.",
+      "442j": "Use the theorems: angle at the centre is double the angle at the circumference and radii of a circle are equal in length.",
+      "442a": "Know that the angle at the centre is twice the angle at the circumference.",
+      "466a": "Use the cosine rule to determine an unknown side in a non-right-angled triangle.",
+      "319b": "Determine the angle of a sector given its area and radius.",
+      "318b": "Calculate the perimeter of a sector of a circle.",
+      "405f": "Calculate the volume of a sphere.",
+      "405c": "Calculate the volume of a cone.",
+      "465c": "Use the sine rule to determine an obtuse angle in a non-right-angled triangle.",
+      "467a": "Calculate the area of a triangle using two sides and the included angle.",
+      "410g": "Determine the length of a sloped edge of a square or rectangular based pyramid.",
+      "411l": "Determine the angle between a sloped face and the base of a pyramid.",
+      "376b": "Enlarge a shape by a negative and fractional scale factor.",
+      "324a": "Determine the scale factor of area for two similar shapes given the scale factor of length.",
+      "505f": "Determine the position vector of a point that divides the vector between two positions in a given ratio.",
+      "474f": "Prove that three points are collinear using vector variables."
+    };
+
+    function dfmPills(codes) {
+      if (!codes) return '';
+      return String(codes).split(',').map(function (c) { return c.trim(); }).filter(Boolean).map(function (c) {
+        var info = (typeof DFM_INFO !== 'undefined' && DFM_INFO[c]) ? DFM_INFO[c] : '';
+        var tip = info ? ('Dr Frost Maths skill ' + c + ' \u2014 ' + info) : ('Dr Frost Maths skill ' + c);
+        return '<span class="dfm-pill" title="' + tip.replace(/"/g, '&quot;') + '">' + c + '</span>';
+      }).join(' ');
+    }
+
+    const PAPER4B_QUESTIONS = [
+      {
+        num: 1,
+        strand: 'number',
+        marks: 5,
+        dfm: '177a, 221b, 223c',
+        prompt: '(a) Maya exchanges $\\$850$ into Euros ($\\text{EUR}$) when the exchange rate is $1\\text{ USD} = 0.92\\text{ EUR}$.<br>The bank charges a $2.5\\%$ commission on the $\\text{EUR}$ amount.<br>Calculate how many $\\text{EUR}$ Maya receives.<br>(b) In a sale, all prices are reduced by $20\\%$.<br>Maya buys a jacket for $140\\text{ EUR}$.<br>Calculate the original price of the jacket before the sale.',
+        solution: '(a) $850 \\times 0.92 = 782$ <strong>[M1]</strong>; $782 \\times (1 - 0.025)$ <strong>[M1]</strong> $= \\mathbf{762.45\\text{ EUR}}$ <strong>[A1]</strong>.<br>(b) $140 \\div 0.8$ <strong>[M1]</strong> $= \\mathbf{175\\text{ EUR}}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 2,
+        strand: 'number',
+        marks: 4,
+        dfm: '384f',
+        prompt: '$W = \\dfrac{a - b}{c}$<br>$a = 14.6$, correct to 1 decimal place.<br>$b = 6.2$, correct to 1 decimal place.<br>$c = 2.5$, correct to 2 significant figures.<br>Calculate the lower bound of $W$, giving your answer correct to 3 significant figures.',
+        solution: '$a_{\\text{LB}} = 14.55$, $b_{\\text{UB}} = 6.25$, $c_{\\text{UB}} = 2.55$ <strong>[B2]</strong> (B1 for two correct).<br>$W_{\\text{LB}} = \\dfrac{14.55 - 6.25}{2.55}$ <strong>[M1]</strong> $= 3.2549\\dots \\implies \\mathbf{3.25}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 3,
+        strand: 'number',
+        marks: 3,
+        dfm: '359c, 361a',
+        prompt: 'The value, $\\$V$, of a car $t$ years after it is bought is modelled by $V = 24\\,000 \\times 0.86^t$.<br>(a) Calculate the value of the car after 3 years, giving your answer to the nearest dollar.<br>(b) Find the smallest integer number of years, $t$, after which the value of the car first drops below $\\$10\\,000$.',
+        solution: '(a) $24\\,000 \\times 0.86^3 = 15\\,265.34\\dots \\implies \\mathbf{\\$15\\,265}$ <strong>[B1]</strong>.<br>(b) Trials: $t = 5 \\implies \\$11\\,290$; $t = 6 \\implies \\$9\\,710$ <strong>[M1]</strong> (or $t = \\dfrac{\\log(10/24)}{\\log 0.86} = 5.80\\dots$) $\\implies \\mathbf{t = 6}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 4,
+        strand: 'algebra',
+        marks: 6,
+        dfm: '462d, 417b',
+        prompt: 'Solve the equation:<br>$$\\frac{3}{x - 1} + \\frac{2}{x + 4} = 1$$<br>Show all your working and give your answers correct to 2 decimal places.',
+        solution: '$3(x + 4) + 2(x - 1) = (x - 1)(x + 4)$ <strong>[M1]</strong>.<br>Expand: $5x + 10 = x^2 + 3x - 4$ <strong>[M1]</strong> $\\implies x^2 - 2x - 14 = 0$ <strong>[A1]</strong>.<br>Quadratic formula: $x = \\dfrac{2 \\pm \\sqrt{(-2)^2 - 4(1)(-14)}}{2}$ <strong>[M1]</strong> $= 1 \\pm \\sqrt{15}$<br>$\\implies \\mathbf{x = 4.87}$ <strong>[A1]</strong> or $\\mathbf{x = -2.87}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 5,
+        strand: 'algebra',
+        marks: 6,
+        dfm: '419c',
+        prompt: 'Solve the simultaneous equations:<br>$y = 2x - 1$<br>$x^2 + y^2 = 17$<br>Give your answers correct to 2 decimal places.',
+        solution: '$x^2 + (2x - 1)^2 = 17$ <strong>[M1]</strong> $\\implies 5x^2 - 4x - 16 = 0$ <strong>[A1]</strong>.<br>Quadratic formula: $x = \\dfrac{4 \\pm \\sqrt{16 - 4(5)(-16)}}{10}$ <strong>[M1]</strong> $\\implies x = 2.233\\dots$ or $x = -1.433\\dots$ <strong>[A1]</strong>.<br>Substitute into $y = 2x - 1$: $\\mathbf{(2.23,\\ 3.47)}$ <strong>[A1]</strong> and $\\mathbf{(-1.43,\\ -3.87)}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 6,
+        strand: 'algebra',
+        marks: 6,
+        dfm: '435a, 436f, 432i',
+        prompt: '$f(x) = 3x - 4$ and $g(x) = \\dfrac{10}{x + 2}$, $x \\ne -2$.<br>(a) Find $fg(3)$.<br>(b) Find $g^{-1}(x)$.<br>(c) Solve $gf(x) = 2$.',
+        solution: '(a) $g(3) = \\dfrac{10}{5} = 2$ <strong>[M1]</strong>; $f(2) = 3(2) - 4 = \\mathbf{2}$ <strong>[A1]</strong>.<br>(b) $y = \\dfrac{10}{x + 2} \\implies x + 2 = \\dfrac{10}{y}$ <strong>[M1]</strong> $\\implies \\mathbf{g^{-1}(x) = \\dfrac{10}{x} - 2}$ <strong>[A1]</strong> (or $\\dfrac{10 - 2x}{x}$).<br>(c) $\\dfrac{10}{(3x - 4) + 2} = 2 \\implies 3x - 2 = 5$ <strong>[M1]</strong> $\\implies \\mathbf{x = \\dfrac{7}{3}}$ <strong>[A1]</strong> (or $2.33$).'
+      },
+      {
+        num: 7,
+        strand: 'coord-geo',
+        marks: 6,
+        dfm: '289a, 445l',
+        prompt: '$A$ is the point $(-2, 3)$ and $B$ is the point $(6, 7)$.<br>(a) Calculate the length of $AB$, giving your answer to 3 significant figures.<br>(b) Find the equation of the perpendicular bisector of $AB$, giving your answer in the form $y = mx + c$.',
+        solution: '(a) $AB = \\sqrt{(6 - (-2))^2 + (7 - 3)^2} = \\sqrt{80}$ <strong>[M1]</strong> $= \\mathbf{8.94}$ <strong>[A1]</strong>.<br>(b) Midpoint $M = (2, 5)$ <strong>[B1]</strong>; $m_{AB} = \\dfrac{7 - 3}{6 - (-2)} = \\dfrac{1}{2}$ <strong>[B1]</strong>; $m_{\\perp} = -2$ <strong>[M1]</strong>.<br>$y - 5 = -2(x - 2) \\implies \\mathbf{y = -2x + 9}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 8,
+        strand: 'geometry',
+        marks: 5,
+        dfm: '324f, 324g',
+        prompt: 'Two mathematically similar bottles have capacities of $250\\text{ ml}$ and $686\\text{ ml}$.<br>(a) The height of the smaller bottle is $15\\text{ cm}$. Calculate the height of the larger bottle.<br>(b) The surface area of the larger bottle is $490\\text{ cm}^2$. Calculate the surface area of the smaller bottle.',
+        solution: '(a) Volume ratio $= \\dfrac{250}{686} = \\dfrac{125}{343}$ <strong>[M1]</strong>; length scale factor $k = \\sqrt[3]{\\dfrac{343}{125}} = \\dfrac{7}{5}$ <strong>[M1]</strong>.<br>Height $= 15 \\times 1.4 = \\mathbf{21\\text{ cm}}$ <strong>[A1]</strong>.<br>(b) Area scale factor $= \\left(\\dfrac{5}{7}\\right)^2 = \\dfrac{25}{49}$ <strong>[M1]</strong>; area $= 490 \\times \\dfrac{25}{49} = \\mathbf{250\\text{ cm}^2}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 9,
+        strand: 'geometry',
+        marks: 6,
+        dfm: '442f, 442q, 442j, 442a, 466a',
+        prompt: 'Points $A$, $B$ and $C$ lie on a circle with centre $O$ and radius $8\\text{ cm}$.<br>The line $TA$ is a tangent to the circle at $A$.<br>$\\angle TAB = 54^\\circ$ and $AB = BC$.<br>(a) Write down the size of $\\angle ACB$, giving a geometrical reason.<br>(b) Calculate the size of $\\angle ABC$.<br>(c) Calculate the length of the chord $AC$, giving your answer to 3 significant figures.',
+        solution: '(a) $\\mathbf{54^\\circ}$ <strong>[B1]</strong>; alternate segment theorem <strong>[B1]</strong>.<br>(b) $\\angle BAC = 54^\\circ$ (isosceles triangle $ABC$, $AB = BC$) <strong>[M1]</strong> $\\implies \\angle ABC = 180^\\circ - 108^\\circ = \\mathbf{72^\\circ}$ <strong>[A1]</strong>.<br>(c) $\\angle AOC = 2 \\times 72^\\circ = 144^\\circ$; $AC = 2 \\times 8\\sin 72^\\circ$ (or Cosine Rule) <strong>[M1]</strong> $= \\mathbf{15.2\\text{ cm}}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 10,
+        strand: 'mensuration',
+        marks: 5,
+        dfm: '319b, 318b',
+        prompt: 'A sector of a circle of radius $9\\text{ cm}$ has an area of $63\\text{ cm}^2$.<br>(a) Calculate the angle of the sector, $\\theta$, giving your answer to 1 decimal place.<br>(b) Calculate the perimeter of the sector.',
+        solution: '(a) $\\dfrac{\\theta}{360} \\times \\pi \\times 9^2 = 63$ <strong>[M1]</strong> $\\implies \\theta = \\dfrac{63 \\times 360}{81\\pi}$ <strong>[M1]</strong> $= 89.126\\dots \\implies \\mathbf{89.1^\\circ}$ <strong>[A1]</strong>.<br>(b) Arc length $= \\dfrac{89.126\\dots}{360} \\times 2\\pi(9) = 14\\text{ cm}$ <strong>[M1]</strong>; perimeter $= 14 + 9 + 9 = \\mathbf{32\\text{ cm}}$ <strong>[A1]</strong> (accept $32.0\\text{ cm}$).'
+      },
+      {
+        num: 11,
+        strand: 'mensuration',
+        marks: 5,
+        dfm: '405f, 405c',
+        prompt: 'A solid metal sphere of radius $12\\text{ cm}$ is melted down and recast into identical solid cones.<br>Each cone has a base radius of $3\\text{ cm}$ and a vertical height of $7\\text{ cm}$.<br>(a) Calculate the volume of the sphere.<br>(b) Calculate the maximum number of complete cones that can be made.',
+        solution: '(a) $V_{\\text{sphere}} = \\dfrac{4}{3}\\pi(12^3)$ <strong>[M1]</strong> $= 2304\\pi = \\mathbf{7240\\text{ cm}^3}$ <strong>[A1]</strong> (accept $7238$).<br>(b) $V_{\\text{cone}} = \\dfrac{1}{3}\\pi(3^2)(7) = 21\\pi$ <strong>[M1]</strong>; $2304\\pi \\div 21\\pi = 109.71\\dots$ <strong>[M1]</strong> $\\implies \\mathbf{109}$ complete cones <strong>[A1]</strong>.'
+      },
+      {
+        num: 12,
+        strand: 'trigonometry',
+        marks: 6,
+        dfm: '465c, 467a',
+        prompt: 'In triangle $XYZ$, $XY = 11\\text{ cm}$, $YZ = 8\\text{ cm}$ and $\\angle YXZ = 36^\\circ$.<br>(a) Given that $\\angle XZY$ is obtuse, calculate $\\angle XZY$, giving your answer to 1 decimal place.<br>(b) Calculate the area of triangle $XYZ$, giving your answer to 3 significant figures.',
+        solution: '(a) $\\dfrac{\\sin Z}{11} = \\dfrac{\\sin 36^\\circ}{8} \\implies \\sin Z = 0.8082\\dots$ <strong>[M1]</strong>; acute $Z = 53.92^\\circ$ <strong>[M1]</strong>.<br>Obtuse $Z = 180^\\circ - 53.92^\\circ = \\mathbf{126.1^\\circ}$ <strong>[A1]</strong>.<br>(b) $\\angle XYZ = 180^\\circ - 36^\\circ - 126.08^\\circ = 17.92^\\circ$ <strong>[B1]</strong>; area $= \\dfrac{1}{2}(11)(8)\\sin 17.92^\\circ$ <strong>[M1]</strong> $= \\mathbf{13.5\\text{ cm}^2}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 13,
+        strand: 'trigonometry',
+        marks: 5,
+        dfm: '410g, 411l',
+        prompt: '$VABCD$ is a right pyramid with a horizontal square base $ABCD$ of side length $10\\text{ cm}$.<br>The vertex $V$ is vertically above the centre $M$ of the base, and $VM = 12\\text{ cm}$.<br>(a) Calculate the length of the slant edge $VA$, giving your answer to 3 significant figures.<br>(b) Calculate the angle between the slant face $VAB$ and the base $ABCD$, giving your answer to 1 decimal place.',
+        solution: '(a) $AC = \\sqrt{10^2 + 10^2} = \\sqrt{200} \\implies AM = \\sqrt{50}$ <strong>[M1]</strong>; $VA = \\sqrt{12^2 + 50} = \\sqrt{194}$ <strong>[M1]</strong> $= \\mathbf{13.9\\text{ cm}}$ <strong>[A1]</strong>.<br>(b) $\\tan\\theta = \\dfrac{12}{5}$ <strong>[M1]</strong> $\\implies \\theta = \\mathbf{67.4^\\circ}$ <strong>[A1]</strong>.'
+      },
+      {
+        num: 14,
+        strand: 'transforms-vectors',
+        marks: 7,
+        dfm: '376b, 324a, 505f, 474f',
+        prompt: '(a) Shape $P$ is enlarged by scale factor $-\\dfrac{1}{2}$, centre $(0, 0)$, to give shape $Q$.<br>Write down the ratio $\\text{Area of } P : \\text{Area of } Q$ in its simplest form.<br>(b) In triangle $OAB$, $\\vec{OA} = \\mathbf{a}$ and $\\vec{OB} = \\mathbf{b}$.<br>Point $P$ lies on $AB$ such that $AP : PB = 1 : 2$.<br>Point $R$ lies on $OA$ such that $\\vec{OR} = \\dfrac{4}{5}\\mathbf{a}$, and point $Q$ lies on $OB$ extended such that $\\vec{OQ} = 2\\mathbf{b}$.<br>(i) Find $\\vec{OP}$ in terms of $\\mathbf{a}$ and $\\mathbf{b}$, simplifying your answer.<br>(ii) Use vectors to prove that points $R$, $P$ and $Q$ lie on a straight line.',
+        solution: '(a) Area scale factor $= \\left(-\\dfrac{1}{2}\\right)^2 = \\dfrac{1}{4}$ <strong>[M1]</strong> $\\implies$ ratio $\\mathbf{4 : 1}$ <strong>[A1]</strong>.<br>(b)(i) $\\vec{OP} = \\mathbf{a} + \\dfrac{1}{3}(\\mathbf{b} - \\mathbf{a})$ <strong>[M1]</strong> $= \\mathbf{\\dfrac{2}{3}\\mathbf{a} + \\dfrac{1}{3}\\mathbf{b}}$ <strong>[A1]</strong>.<br>(b)(ii) $\\vec{RP} = \\vec{OP} - \\vec{OR} = -\\dfrac{2}{15}\\mathbf{a} + \\dfrac{1}{3}\\mathbf{b}$ <strong>[B1]</strong>; $\\vec{RQ} = \\vec{OQ} - \\vec{OR} = -\\dfrac{4}{5}\\mathbf{a} + 2\\mathbf{b}$ <strong>[B1]</strong>.<br>$\\vec{RQ} = 6\\vec{RP}$ and they share the point $R$, therefore $R$, $P$ and $Q$ are collinear <strong>[A1]</strong>.'
+      }
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? migrateSavedState(JSON.parse(raw)) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      } catch {
+        return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+      }
+    }
+    function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+    let state = loadState();
+    let paperMarks = state.mocks?.paper4b?.perQuestion ? { ...state.mocks.paper4b.perQuestion } : {};
+    let isSubmitted = Boolean(state.mocks?.paper4b?.completed ?? state.mocks?.paper4b?.submitted);
+    let extraTime = Boolean(state.mocks?.paper4b?.extraTime);
+
+    // --- Persistent exam clock: survives reloads and closed tabs ---
+    // A running clock stores an absolute start timestamp, so exam time keeps
+    // ticking even while the page is closed. Pausing stores remaining time.
+    const CLOCK_KEY = STORAGE_KEY + '_p4bclock';
+    function loadExamClock() {
+      try { const raw = localStorage.getItem(CLOCK_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; }
+    }
+    function saveExamClock(c) {
+      try { if (c) localStorage.setItem(CLOCK_KEY, JSON.stringify(c)); else localStorage.removeItem(CLOCK_KEY); } catch { }
+    }
+    let examClock = loadExamClock();
+    let remainingSeconds;
+    if (examClock) {
+      extraTime = Boolean(examClock.extraTime);
+      if (examClock.running) {
+        const elapsedWhileAway = Math.floor((Date.now() - examClock.startedAt) / 1000);
+        remainingSeconds = Math.max(0, examClock.remaining - elapsedWhileAway);
+      } else {
+        remainingSeconds = examClock.remaining;
+      }
+    } else {
+      remainingSeconds = (extraTime ? 113 : 90) * 60;
+    }
+    let timerInterval = null;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function toggleExtraTime() {
+      if (timerInterval) return;
+      extraTime = document.getElementById('extraTimeToggle').checked;
+      remainingSeconds = (extraTime ? 113 : 90) * 60;
+      document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+      examClock = null;
+      saveExamClock(null);
+      persistMockProgress();
+    }
+
+    function startExamInterval() {
+      const btn = document.getElementById('timerToggleBtn');
+      document.getElementById('extraTimeToggle').disabled = true;
+      timerInterval = setInterval(() => {
+        if (remainingSeconds > 0) {
+          remainingSeconds--;
+          document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          btn.textContent = 'Time Up';
+          examClock = { running: false, startedAt: null, remaining: 0, extraTime };
+          saveExamClock(examClock);
+          submitPaper();
+        }
+      }, 1000);
+      btn.textContent = 'Pause';
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerToggleBtn');
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = 'Resume';
+        examClock = { running: false, startedAt: null, remaining: remainingSeconds, extraTime };
+        saveExamClock(examClock);
+      } else {
+        examClock = { running: true, startedAt: Date.now(), remaining: remainingSeconds, extraTime };
+        saveExamClock(examClock);
+        startExamInterval();
+      }
+    }
+
+    function resetTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      document.getElementById('extraTimeToggle').disabled = false;
+      remainingSeconds = (extraTime ? 113 : 90) * 60;
+      document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+      document.getElementById('timerToggleBtn').textContent = 'Start';
+      examClock = null;
+      saveExamClock(null);
+    }
+
+    function renderMath(el = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+          throwOnError: false
+        });
+      }
+    }
+
+    function setQuestionMark(qNum, val) {
+      paperMarks[qNum] = val;
+      persistMockProgress();
+      renderPaper();
+      if (isSubmitted) updateDiagnosticPanel();
+    }
+
+    function persistMockProgress() {
+      if (!state.mocks) state.mocks = {};
+      let totalScore = 0;
+      let markedCount = 0;
+      const byStrand = {};
+      Object.keys(STRAND_META).forEach(s => { byStrand[s] = { earned: 0, max: 0 }; });
+
+      PAPER4B_QUESTIONS.forEach(q => {
+        byStrand[q.strand].max += q.marks;
+        if (paperMarks[q.num] !== undefined) markedCount++;
+        const earned = Number(paperMarks[q.num] ?? 0);
+        byStrand[q.strand].earned += earned;
+        totalScore += earned;
+      });
+
+      state.mocks.paper4b = {
+        score: totalScore,
+        total: 75,
+        max: 75,
+        completed: isSubmitted,
+        submitted: isSubmitted,
+        extraTime,
+        perQuestion: paperMarks,
+        byStrand,
+        date: new Date().toLocaleDateString(),
+        updatedAt: new Date().toISOString()
+      };
+      saveState(state);
+      document.getElementById('liveScorePill').textContent = `Marked: ${markedCount}/${PAPER4B_QUESTIONS.length} Qs · ${totalScore} / 75`;
+    }
+
+    function submitPaper() {
+      isSubmitted = true;
+      document.getElementById('strictExamCheck').checked = false;
+      persistMockProgress();
+      renderPaper();
+      updateDiagnosticPanel();
+      document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetAllMarks() {
+      paperMarks = {};
+      isSubmitted = false;
+      if (state.mocks?.paper4b) delete state.mocks.paper4b;
+      saveState(state);
+      document.getElementById('strictExamCheck').checked = true;
+      document.getElementById('resultsPanel').classList.add('hidden');
+      persistMockProgress();
+      renderPaper();
+    }
+
+    function estimateGrade(score) {
+      const pct = Math.round((score / 75) * 100);
+      if (score >= 64) return { grade: 'A*', pct, note: 'Outstanding Paper 4B mastery (≥ 85%).' };
+      if (score >= 54) return { grade: 'A', pct, note: 'Strong Extended performance (≥ 72%). Target A* structured questions to reach A*.' };
+      if (score >= 44) return { grade: 'B', pct, note: 'Solid core fluency (≥ 59%). Drill weak strands below 70%.' };
+      if (score >= 34) return { grade: 'C', pct, note: 'Passing Extended threshold (≥ 45%). Focus on multi-step trig and mensuration setups.' };
+      return { grade: 'D / Below', pct, note: 'Review strand Decision Trees & I Do / You Do pairs before re-attempting.' };
+    }
+
+    function updateDiagnosticPanel() {
+      const panel = document.getElementById('resultsPanel');
+      panel.classList.remove('hidden');
+      const mockData = state.mocks?.paper4b;
+      if (!mockData) return;
+
+      const { grade, pct, note } = estimateGrade(mockData.score);
+      document.getElementById('finalScoreHeading').textContent = `${mockData.score} / 75 (${pct}%) · Est. Grade ${grade}`;
+      document.getElementById('gradeEstimateText').textContent = note;
+
+      const grid = document.getElementById('strandBreakdownGrid');
+      grid.innerHTML = Object.entries(STRAND_META).map(([sId, meta]) => {
+        const stat = (mockData.byStrand || {})[sId] || { earned: 0, max: 1 };
+        const sPct = Math.round((stat.earned / stat.max) * 100);
+        const weak = sPct < 70;
+        return `
+          <a href="${meta.url}" class="block p-3 rounded-lg border ${weak ? 'bg-rose-50/70 border-rose-200 hover:border-rose-400' : 'bg-emerald-50/60 border-emerald-200 hover:border-emerald-400'} transition">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="${weak ? 'text-rose-800' : 'text-emerald-800'}">${meta.code}: ${meta.name}</span>
+              <span>${stat.earned}/${stat.max} (${sPct}%)</span>
+            </div>
+            <div class="w-full h-1.5 bg-white rounded-full overflow-hidden mt-2">
+              <div class="h-full ${weak ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${sPct}%"></div>
+            </div>
+            <p class="text-[11px] mt-1.5 font-semibold ${weak ? 'text-rose-700' : 'text-emerald-700'}">${weak ? 'Priority Revision →' : 'On Track ✓'}</p>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function renderPaper() {
+      const container = document.getElementById('paperContainer');
+      const lockSchemes = document.getElementById('strictExamCheck').checked;
+
+      container.innerHTML = PAPER4B_QUESTIONS.map(q => {
+        const meta = STRAND_META[q.strand];
+        const currentScore = paperMarks[q.num];
+        const markButtons = Array.from({ length: q.marks + 1 }, (_, m) => `
+          <button onclick="setQuestionMark(${q.num}, ${m})" data-selected="${currentScore === m ? 'true' : 'false'}" class="mark-btn w-7 h-7 rounded-md border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">${m}</button>
+        `).join('');
+
+        return `
+          <article class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-bold text-white bg-slate-900 px-2.5 py-1 rounded">Q${q.num}</span>
+                ${!lockSchemes ? `<span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-xs font-semibold">${meta.code}: ${meta.name}</span>` : ''}${!lockSchemes ? dfmPills(q.dfm) : ''}
+              </div>
+              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">[${q.marks} marks]</span>
+            </div>
+
+            <div class="text-sm sm:text-base text-slate-900 leading-relaxed">${q.prompt}</div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-100">
+              <div>
+                ${!lockSchemes ? `
+                  <button onclick="document.getElementById('ms_${q.num}').classList.toggle('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">Toggle Mark Scheme</button>
+                ` : `
+                  <span class="text-xs text-slate-400 italic">Mark scheme locked during timed attempt</span>
+                `}
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-semibold text-slate-500 mr-1">Your score:</span>
+                ${markButtons}
+              </div>
+            </div>
+
+            <div id="ms_${q.num}" class="${isSubmitted && !lockSchemes ? '' : 'hidden'} bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-800 space-y-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Mark Scheme — Q${q.num} [${q.marks} marks]</p>
+              <div class="leading-relaxed">${q.solution}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderMath(container);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('extraTimeToggle').checked = extraTime;
+      document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+      if (examClock && examClock.running) {
+        document.getElementById('extraTimeToggle').disabled = true;
+        if (remainingSeconds > 0) {
+          startExamInterval();
+        } else {
+          document.getElementById('timerToggleBtn').textContent = 'Time Up';
+          examClock = { running: false, startedAt: null, remaining: 0, extraTime };
+          saveExamClock(examClock);
+          submitPaper();
+        }
+      } else if (examClock) {
+        document.getElementById('timerToggleBtn').textContent = 'Resume';
+      }
+      if (isSubmitted) {
+        document.getElementById('strictExamCheck').checked = false;
+        updateDiagnosticPanel();
+      }
+      persistMockProgress();
+      renderPaper();
+      renderMath();
+    });
+  </script>
+</body>
+</html>

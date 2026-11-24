@@ -129,6 +129,61 @@
   <script>
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
 
+    // --- Progress migration hook (update-safety) ---
+    // If question, skill or strand IDs are ever renamed in a future update, add
+    // entries to these maps. Students' saved browser progress is then remapped
+    // on their next visit instead of being lost. Append entries; never remove old ones.
+    const ID_MIGRATIONS = {
+      questions: {}, // e.g. { 'E2-Q01': 'E2-Q99' }
+      skills: {},    // e.g. { 'e1_1': 'e1_1_new' }
+      strands: {},   // e.g. { 'number': 'num' }
+      mockNums: { paper2: {}, paper4: {} } // e.g. { paper2: { '3': '5' } }
+    };
+
+    function migrateSavedState(s) {
+      if (!s || typeof s !== 'object') return s;
+      let changed = false;
+      const remapKeys = (obj, map) => {
+        if (!obj || typeof obj !== 'object') return;
+        Object.keys(map).forEach(oldId => {
+          if (oldId in obj && map[oldId] !== oldId) {
+            obj[map[oldId]] = obj[oldId];
+            delete obj[oldId];
+            changed = true;
+          }
+        });
+      };
+      remapKeys(s.questions, ID_MIGRATIONS.questions);
+      remapKeys(s.skills, ID_MIGRATIONS.skills);
+      remapKeys(s.rag, ID_MIGRATIONS.strands);
+      remapKeys(s.diagnostics, ID_MIGRATIONS.strands);
+      if (s.questions && Object.keys(ID_MIGRATIONS.strands).length) {
+        Object.values(s.questions).forEach(q => {
+          if (q && ID_MIGRATIONS.strands[q.strand]) {
+            q.strand = ID_MIGRATIONS.strands[q.strand];
+            changed = true;
+          }
+        });
+      }
+      if (s.mocks) {
+        ['paper2', 'paper4'].forEach(p => {
+          const map = (ID_MIGRATIONS.mockNums || {})[p] || {};
+          const mq = s.mocks[p];
+          if (mq && mq.perQuestion && Object.keys(map).length) {
+            const next = {};
+            Object.keys(mq.perQuestion).forEach(n => { next[map[n] || n] = mq.perQuestion[n]; });
+            mq.perQuestion = next;
+            changed = true;
+          }
+        });
+      }
+      if (changed && typeof saveState === 'function') {
+        try { saveState(s); } catch (e) { /* storage unavailable */ }
+      }
+      return s;
+    }
+
+
     const STRAND_META = {
       'number': { code: 'E1', name: 'Number', url: 'strand-number.html' },
       'algebra': { code: 'E2', name: 'Algebra & Graphs', url: 'strand-algebra.html' },
@@ -324,7 +379,7 @@
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
+        return raw ? migrateSavedState(JSON.parse(raw)) : { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
       } catch {
         return { rag: {}, skills: {}, questions: {}, diagnostics: {}, mocks: {} };
       }
@@ -336,7 +391,29 @@
     let isSubmitted = Boolean(state.mocks?.paper2?.completed ?? state.mocks?.paper2?.submitted);
     let extraTime = Boolean(state.mocks?.paper2?.extraTime);
 
-    let remainingSeconds = (extraTime ? 113 : 90) * 60;
+    // --- Persistent exam clock: survives reloads and closed tabs ---
+    // A running clock stores an absolute start timestamp, so exam time keeps
+    // ticking even while the page is closed. Pausing stores remaining time.
+    const CLOCK_KEY = STORAGE_KEY + '_p2clock';
+    function loadExamClock() {
+      try { const raw = localStorage.getItem(CLOCK_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; }
+    }
+    function saveExamClock(c) {
+      try { if (c) localStorage.setItem(CLOCK_KEY, JSON.stringify(c)); else localStorage.removeItem(CLOCK_KEY); } catch { }
+    }
+    let examClock = loadExamClock();
+    let remainingSeconds;
+    if (examClock) {
+      extraTime = Boolean(examClock.extraTime);
+      if (examClock.running) {
+        const elapsedWhileAway = Math.floor((Date.now() - examClock.startedAt) / 1000);
+        remainingSeconds = Math.max(0, examClock.remaining - elapsedWhileAway);
+      } else {
+        remainingSeconds = examClock.remaining;
+      }
+    } else {
+      remainingSeconds = (extraTime ? 113 : 90) * 60;
+    }
     let timerInterval = null;
 
     function formatTime(sec) {
@@ -350,30 +427,42 @@
       extraTime = document.getElementById('extraTimeToggle').checked;
       remainingSeconds = (extraTime ? 113 : 90) * 60;
       document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+      examClock = null;
+      saveExamClock(null);
       persistMockProgress();
+    }
+
+    function startExamInterval() {
+      const btn = document.getElementById('timerToggleBtn');
+      document.getElementById('extraTimeToggle').disabled = true;
+      timerInterval = setInterval(() => {
+        if (remainingSeconds > 0) {
+          remainingSeconds--;
+          document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          btn.textContent = 'Time Up';
+          examClock = { running: false, startedAt: null, remaining: 0, extraTime };
+          saveExamClock(examClock);
+          submitPaper();
+        }
+      }, 1000);
+      btn.textContent = 'Pause';
     }
 
     function toggleTimer() {
       const btn = document.getElementById('timerToggleBtn');
-      const etBox = document.getElementById('extraTimeToggle');
       if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
         btn.textContent = 'Resume';
+        examClock = { running: false, startedAt: null, remaining: remainingSeconds, extraTime };
+        saveExamClock(examClock);
       } else {
-        etBox.disabled = true;
-        timerInterval = setInterval(() => {
-          if (remainingSeconds > 0) {
-            remainingSeconds--;
-            document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
-          } else {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            btn.textContent = 'Time Up';
-            submitPaper();
-          }
-        }, 1000);
-        btn.textContent = 'Pause';
+        examClock = { running: true, startedAt: Date.now(), remaining: remainingSeconds, extraTime };
+        saveExamClock(examClock);
+        startExamInterval();
       }
     }
 
@@ -386,6 +475,8 @@
       remainingSeconds = (extraTime ? 113 : 90) * 60;
       document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
       document.getElementById('timerToggleBtn').textContent = 'Start';
+      examClock = null;
+      saveExamClock(null);
     }
 
     function renderMath(el = document.body) {
@@ -476,7 +567,7 @@
 
       const grid = document.getElementById('strandBreakdownGrid');
       grid.innerHTML = Object.entries(STRAND_META).map(([sId, meta]) => {
-        const stat = mockData.byStrand[sId] || { earned: 0, max: 1 };
+        const stat = (mockData.byStrand || {})[sId] || { earned: 0, max: 1 };
         const sPct = Math.round((stat.earned / stat.max) * 100);
         const weak = sPct < 70;
         return `
@@ -546,6 +637,19 @@
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('extraTimeToggle').checked = extraTime;
       document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+      if (examClock && examClock.running) {
+        document.getElementById('extraTimeToggle').disabled = true;
+        if (remainingSeconds > 0) {
+          startExamInterval();
+        } else {
+          document.getElementById('timerToggleBtn').textContent = 'Time Up';
+          examClock = { running: false, startedAt: null, remaining: 0, extraTime };
+          saveExamClock(examClock);
+          submitPaper();
+        }
+      } else if (examClock) {
+        document.getElementById('timerToggleBtn').textContent = 'Resume';
+      }
       if (isSubmitted) {
         document.getElementById('strictExamCheck').checked = false;
         updateDiagnosticPanel();

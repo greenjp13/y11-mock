@@ -256,6 +256,61 @@
   <script>
     const STORAGE_KEY = 'hub_0580_y11mock_2026_v1';
 
+    // --- Progress migration hook (update-safety) ---
+    // If question, skill or strand IDs are ever renamed in a future update, add
+    // entries to these maps. Students' saved browser progress is then remapped
+    // on their next visit instead of being lost. Append entries; never remove old ones.
+    const ID_MIGRATIONS = {
+      questions: {}, // e.g. { 'E2-Q01': 'E2-Q99' }
+      skills: {},    // e.g. { 'e1_1': 'e1_1_new' }
+      strands: {},   // e.g. { 'number': 'num' }
+      mockNums: { paper2: {}, paper4: {} } // e.g. { paper2: { '3': '5' } }
+    };
+
+    function migrateSavedState(s) {
+      if (!s || typeof s !== 'object') return s;
+      let changed = false;
+      const remapKeys = (obj, map) => {
+        if (!obj || typeof obj !== 'object') return;
+        Object.keys(map).forEach(oldId => {
+          if (oldId in obj && map[oldId] !== oldId) {
+            obj[map[oldId]] = obj[oldId];
+            delete obj[oldId];
+            changed = true;
+          }
+        });
+      };
+      remapKeys(s.questions, ID_MIGRATIONS.questions);
+      remapKeys(s.skills, ID_MIGRATIONS.skills);
+      remapKeys(s.rag, ID_MIGRATIONS.strands);
+      remapKeys(s.diagnostics, ID_MIGRATIONS.strands);
+      if (s.questions && Object.keys(ID_MIGRATIONS.strands).length) {
+        Object.values(s.questions).forEach(q => {
+          if (q && ID_MIGRATIONS.strands[q.strand]) {
+            q.strand = ID_MIGRATIONS.strands[q.strand];
+            changed = true;
+          }
+        });
+      }
+      if (s.mocks) {
+        ['paper2', 'paper4'].forEach(p => {
+          const map = (ID_MIGRATIONS.mockNums || {})[p] || {};
+          const mq = s.mocks[p];
+          if (mq && mq.perQuestion && Object.keys(map).length) {
+            const next = {};
+            Object.keys(mq.perQuestion).forEach(n => { next[map[n] || n] = mq.perQuestion[n]; });
+            mq.perQuestion = next;
+            changed = true;
+          }
+        });
+      }
+      if (changed && typeof saveState === 'function') {
+        try { saveState(s); } catch (e) { /* storage unavailable */ }
+      }
+      return s;
+    }
+
+
     const DFM_INFO = {
       "336b": "Add or subtract surds that require simplifying.",
       "394h": "Raise a number to the power of a negative fraction.",
@@ -557,7 +612,7 @@
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return defaultState();
-        const parsed = JSON.parse(raw);
+        const parsed = migrateSavedState(JSON.parse(raw));
         return {
           ...defaultState(),
           ...parsed,

@@ -199,9 +199,7 @@
     const DFM_INFO = {
       "303d": "Add or subtract large numbers in standard form by using equivalent powers of 10.",
       "304g": "Divide numbers in standard form where the second power is negative.",
-      "243f": "List elements using set notation.",
-      "243c": "Combine multiple set notation operators for a Venn diagram with two sets.",
-      "243g": "Determine the number of elements in a set given a list.",
+      "277d": "Convert from a recurring decimal to a fraction where some digits do not recur.",
       "393g": "Rationalise the denominator of a fraction in the form (a + b√c)/(d + e√c).",
       "358d": "Solve equations by transforming to the same base, leading to a linear equation.",
       "391d": "Change the subject of a formula where the subject appears twice in a fraction.",
@@ -258,9 +256,9 @@
         num: 2,
         strand: 'number',
         marks: 4,
-        dfm: '243f, 243c, 243g',
-        prompt: '$\\mathcal{E} = \\{x : x \\text{ is an integer and } 1 \\le x \\le 12\\}$<br>$A = \\{\\text{factors of } 12\\}$<br>$B = \\{\\text{prime numbers}\\}$<br>(a) List the elements of $A \\cap B$.<br>(b) Find $n(A \\cup B\\prime)$.<br>(c) Use set notation to describe the subset $\\{5, 7, 11\\}$.',
-        solution: '$A = \\{1, 2, 3, 4, 6, 12\\}$, $B = \\{2, 3, 5, 7, 11\\}$.<br>(a) $A \\cap B = \\{2, 3\\}$ <strong>[B1]</strong>.<br>(b) $B\\prime = \\{1, 4, 6, 8, 9, 10, 12\\}$ <strong>[M1]</strong>, so $A \\cup B\\prime = \\{1, 2, 3, 4, 6, 8, 9, 10, 12\\}$ and $n(A \\cup B\\prime) = 9$ <strong>[A1]</strong>.<br>(c) $A\\prime \\cap B$ (or $B \\cap A\\prime$) <strong>[B1]</strong>.'
+        dfm: '277d',
+        prompt: 'Express the recurring decimal $0.5\\dot{2}\\dot{4}$ as a fraction in its simplest form.',
+        solution: 'Let $x = 0.5242424\\dots$<br>$10x = 5.242424\\dots$ and $1000x = 524.242424\\dots$ <strong>[M1]</strong><br>Subtract: $990x = 519 \\implies x = \\dfrac{519}{990}$ <strong>[M1]</strong><br>Divide numerator and denominator by $3$: $x = \\dfrac{173}{330}$ <strong>[M1, A1]</strong>.'
       },
       {
         num: 3,
